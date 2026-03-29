@@ -1,4 +1,4 @@
-/* 存档管理面板 */
+/* 存档面板 */
 .save-slots {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

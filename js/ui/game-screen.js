@@ -49,7 +49,7 @@ const elements = {
     eventDescription: document.getElementById('event-description'),
     historyList: document.getElementById('event-history-list'),
 
-    // 属性详情面板元素。
+    // 属性面板元素。
     intelligenceDetail: document.getElementById('intelligence-detail'),
     staminaDetail: document.getElementById('stamina-detail'),
     charmDetail: document.getElementById('charm-detail'),
@@ -59,7 +59,7 @@ const elements = {
     bassDetail: document.getElementById('bass-detail'),
     drumDetail: document.getElementById('drum-detail'),
 
-    // 存档管理面板元素。
+    // 存档面板元素。
     saveSlots: document.getElementById('save-slots'),
 
     // 社交面板元素。
@@ -109,7 +109,7 @@ function toggleSidebar() {
     if (elements.sidebar) elements.sidebar.classList.toggle('active');
 }
 
-// 切换属性详情面板。
+// 切换属性面板。
 function toggleAttributePanel() {
     elements.attributePanel.classList.toggle('active');
 }
@@ -120,7 +120,7 @@ function toggleSocialPanel() {
     if (elements.socialPanel.classList.contains('active')) updateSocialPanel();
 }
 
-// 切换存档管理面板。
+// 切换存档面板。
 function toggleSavePanel() {
     elements.savePanel.classList.toggle('active');
     if (elements.savePanel.classList.contains('active')) updateSavePanel();
@@ -244,7 +244,7 @@ function updateNextEventButton() {
     span.textContent = text;
 }
 
-// 更新属性详情面板。
+// 更新属性面板。
 function updateAttributeDetails() {
     if (!gameManager.player) return;
     const attributes = gameManager.player.attributes;
@@ -291,7 +291,7 @@ function updateSocialPanel() {
     }
 }
 
-// 更新存档管理面板。
+// 更新存档面板。
 function updateSavePanel() {
     const saves = saveManager.getAllSave();
     const saveSlots = elements.saveSlots;
