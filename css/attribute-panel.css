@@ -1,0 +1,110 @@
+/* 属性详情面板 */
+.attribute-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.attribute-details-content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.attribute-details h4 {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--light-gray);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.attribute-details h4::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+    background: var(--gradient-2);
+    border-radius: 1px;
+}
+
+.attribute-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+    padding: 20px;
+    background: rgba(245, 245, 245, 0.7);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.attribute-detail:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.attribute-detail .detail-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-light);
+}
+
+.attribute-detail .detail-value {
+    display: block;
+    margin-bottom: 10px;
+    background: var(--gradient-2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.attribute-detail .attribute-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-light);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .attribute-details-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .attribute-details h4 {
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        font-size: 1.1rem;
+    }
+
+    .attribute-detail {
+        min-height: 100px;
+        padding: 15px;
+    }
+
+    .attribute-detail .detail-label {
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+    }
+
+    .attribute-detail .detail-value {
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+    }
+
+    .attribute-detail .attribute-description {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+}

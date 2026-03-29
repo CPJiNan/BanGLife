@@ -1,0 +1,298 @@
+/* 事件区域 */
+.main-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    box-shadow: -2px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.main-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-image: repeating-linear-gradient(
+            165deg,
+            transparent,
+            transparent 30px,
+            var(--light-gray) 30px,
+            var(--light-gray) 32px
+    );
+    opacity: 0.2;
+}
+
+/* 当前事件 */
+.current-event-section {
+    position: relative;
+    padding: 25px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.current-event-section h2,
+.event-history-section h2 {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.current-event-section h2::after,
+.event-history-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gradient-1);
+    border-radius: 2px;
+}
+
+.event-card {
+    position: relative;
+    z-index: 1;
+    padding: 25px;
+    border: 1px solid var(--light-gray);
+    border-left: 4px solid transparent;
+    border-image: var(--gradient-1) 1;
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: var(--shadow);
+}
+
+.event-history-container {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: var(--shadow);
+}
+
+#event-title {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+#event-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-light);
+}
+
+/* 事件历史 */
+.event-history-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 25px;
+    overflow: hidden;
+}
+
+.event-history-section h2 {
+    align-self: flex-start;
+}
+
+.event-author {
+    display: none;
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 5px;
+    font-style: italic;
+}
+
+#event-history-list li:hover .event-author {
+    display: block;
+}
+
+#event-history-list {
+    list-style-type: none;
+}
+
+#event-history-list li {
+    margin: 12px 0;
+    padding: 15px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    background: rgba(245, 245, 245, 0.7);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+#event-history-list li p {
+    margin: 8px 0 0 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--text-light);
+}
+
+#event-history-list li:hover {
+    transform: translateX(5px);
+    border-left: 3px solid transparent;
+    border-image: var(--gradient-1) 1;
+    background: rgba(233, 233, 233, 0.7);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 操作按钮 */
+.action-buttons {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 25px;
+    border-top: 1px solid var(--light-gray);
+}
+
+.action-button {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 40px;
+    overflow: hidden;
+    border: 2px solid var(--text-color);
+    border-radius: var(--border-radius);
+    background: transparent;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    transition: left 0.5s ease;
+}
+
+.action-button:hover::before {
+    left: 100%;
+    transition: left 0.5s ease-out;
+}
+
+.action-button .square-decoration {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    border: 2px solid transparent;
+    border-image: var(--gradient-1) 1;
+    background: transparent;
+    transform: rotate(45deg);
+    font-size: 0;
+    line-height: 0;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+.action-button:hover .square-decoration {
+    width: 20px;
+    height: 20px;
+    transform: rotate(90deg);
+}
+
+.action-button:active {
+    transform: scale(0.95);
+}
+
+.action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: var(--light-gray);
+    color: var(--text-light);
+}
+
+.action-button:disabled .square-decoration {
+    border-image: none;
+    border-color: var(--light-gray);
+}
+
+.action-button:disabled:hover::before {
+    left: -100%;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .current-event-section,
+    .event-history-section,
+    .event-history-container,
+    .action-buttons {
+        padding: 15px;
+    }
+
+    .current-event-section h2,
+    .event-history-section h2 {
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+    }
+
+    .event-card {
+        padding: 20px;
+    }
+
+    #event-title {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    #event-description {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    #event-history-list li {
+        margin: 10px 0;
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+
+    #event-history-list li p {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+
+    .action-button {
+        min-width: 200px;
+        padding: 18px 40px;
+        font-size: 1.1rem;
+    }
+
+    .action-button .square-decoration {
+        width: 18px;
+        height: 18px;
+        transform: rotate(45deg);
+        transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+    }
+
+    .action-button:hover .square-decoration {
+        width: 22px;
+        height: 22px;
+        transform: rotate(90deg);
+    }
+}

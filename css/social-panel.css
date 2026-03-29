@@ -1,0 +1,99 @@
+/* 社交面板样式 */
+.affection-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.affection-details-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.affection-details h4 {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--light-gray);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.affection-details h4::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+    background: var(--gradient-2);
+    border-radius: 1px;
+}
+
+.affection-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 150px;
+    padding: 20px;
+    background: rgba(245, 245, 245, 0.7);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.affection-detail:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.affection-detail .character-name {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-light);
+}
+
+.affection-detail .affection-value {
+    display: block;
+    margin-bottom: 10px;
+    background: var(--gradient-2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .affection-details-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .affection-details h4 {
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        font-size: 1.1rem;
+    }
+
+    .affection-detail {
+        min-height: 90px;
+        padding: 15px;
+    }
+
+    .affection-detail .character-name {
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+    }
+
+    .affection-detail .affection-value {
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+    }
+}

@@ -1,0 +1,268 @@
+/* 游戏布局 */
+.game-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* 侧边栏 */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    overflow-y: auto;
+    background: #FCFCFC;
+    backdrop-filter: blur(10px);
+    border-right: 1px solid var(--light-gray);
+    box-shadow: var(--shadow);
+}
+
+.sidebar-header {
+    position: relative;
+    padding: 25px;
+    text-align: center;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.sidebar-header h1 {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.sidebar-toggle {
+    position: fixed;
+    top: 75%;
+    left: 15px;
+    z-index: 1001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.95);
+    font-size: 1.2rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-icon {
+    display: block;
+    line-height: 1;
+}
+
+.player-name-text {
+    margin-bottom: 15px;
+    background: var(--gradient-2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-light);
+}
+
+/* 游戏状态 */
+.game-status {
+    margin: 0 15px 15px;
+    padding: 20px;
+    border-bottom: 1px solid var(--light-gray);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+.status-item .status-label {
+    font-weight: bold;
+    color: var(--text-light);
+}
+
+.status-item .status-value {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* 玩家属性 */
+.player-attributes {
+    flex: 1;
+    padding: 20px;
+}
+
+.player-attributes h3 {
+    position: relative;
+    margin: 20px 0 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--light-gray);
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.player-attributes h3::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--gradient-2);
+    border-radius: 1px;
+}
+
+.attribute-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px 15px;
+    background: rgba(245, 245, 245, 0.7);
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.attribute-item:hover {
+    transform: translateY(-2px);
+    background: rgba(233, 233, 233, 0.7);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.attribute-item .attribute-label {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.attribute-item .attribute-value {
+    background: var(--gradient-2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    color: var(--text-light);
+}
+
+/* 侧边栏按钮 */
+.sidebar-buttons {
+    padding: 20px;
+    border-top: 1px solid var(--light-gray);
+}
+
+.sidebar-button {
+    position: relative;
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px;
+    overflow: hidden;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-button:active {
+    transform: scale(0.95);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .game-layout {
+        position: relative;
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        border-bottom: 1px solid var(--light-gray);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-toggle {
+        display: flex;
+    }
+
+    .sidebar-header {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .sidebar-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .player-name-text {
+        font-size: 0.9rem;
+    }
+
+    .game-status {
+        margin: 0 10px 10px;
+        padding: 15px;
+    }
+
+    .player-attributes {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+    }
+
+    .player-attributes h3 {
+        margin: 15px 0 10px;
+        font-size: 1rem;
+    }
+
+    .attribute-item {
+        margin: 8px 0;
+        padding: 8px 12px;
+    }
+
+    .sidebar-buttons {
+        display: flex;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .sidebar-button {
+        flex: 1;
+        margin: 0;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+    }
+}
