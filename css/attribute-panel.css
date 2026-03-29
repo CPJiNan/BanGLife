@@ -38,15 +38,16 @@
     justify-content: space-between;
     min-height: 120px;
     padding: 20px;
-    background: rgba(245, 245, 245, 0.7);
-    border-radius: var(--border-radius);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--light-gray);
+    border-radius: 15px;
+    background: var(--white);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
 .attribute-detail:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .attribute-detail .detail-label {
