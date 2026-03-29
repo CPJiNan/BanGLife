@@ -38,7 +38,7 @@ const defaultEvents = [
         options: [
             new Event({
                 id: 'banglife:RiNG 咖啡厅:热伯爵红茶',
-                title: 'RiNG 咖啡厅',
+                title: '热伯爵红茶',
                 description: '你点了一杯热伯爵红茶。<br>' +
                     '凛凛子小姐将茶杯放在你面前，佛手柑的清香随着热气缓缓升腾。<br>' +
                     '喝上一口，你感到整个人都放松下来。<br>' +
@@ -49,7 +49,7 @@ const defaultEvents = [
             }),
             new Event({
                 id: 'banglife:RiNG 咖啡厅:抹茶巴菲',
-                title: 'RiNG 咖啡厅',
+                title: '抹茶巴菲',
                 description: '你点了一份抹茶巴菲。<br>' +
                     '「抹茶巴菲~♪」<br>' +
                     '银色短发的女孩子从柜台后探出头来，目不转睛地盯着你的抹茶巴菲，你忍不住舀起一勺递到她嘴边。<br>' +
