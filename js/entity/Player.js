@@ -44,16 +44,6 @@ class Player {
     }
 
     /**
-     * 设置玩家属性。
-     *
-     * @param attribute 属性。
-     * @param value 值。
-     */
-    setAttribute(attribute, value) {
-        this.attributes[attribute] = value;
-    }
-
-    /**
      * 获取角色好感度。
      *
      * @param character 角色。

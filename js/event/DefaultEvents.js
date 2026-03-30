@@ -15,7 +15,7 @@ const defaultEvents = [
         action: (player) => {
             const randomSchool = Math.random()
             if (randomSchool < 0.33) player.attributes.school = '月之森女子学园';
-            else if (0.33 <= randomSchool < 0.66) player.attributes.school = '羽丘女子学园'
+            else if (0.33 <= randomSchool && randomSchool < 0.66) player.attributes.school = '羽丘女子学园'
             else player.attributes.school = '花咲川女子学园';
 
             player.attributes.grade = '高中一年级';
@@ -60,6 +60,31 @@ const defaultEvents = [
                 }
             })
         ]
+    }),
+    new Event({
+        id: 'banglife:Poppin\'Party 的星空下露营',
+        title: 'Poppin\'Party 的星空下露营',
+        description: '「大家一起来露营吧！」户山香澄举着露营手册，眼睛闪闪发光，「在星空下弹吉他，想想就超棒！」<br>' +
+            '牛込里美抱着贝斯，「我已经准备好新写的曲子了～」<br>' +
+            '花园多惠抱着兔子，「篝火已经生好了哦。」<br>' +
+            '山吹沙绫端着刚烤好的海螺包，「大家快趁热吃吧！」<br>' +
+            '市谷有咲无奈地扶额，「真是的，又要我来收拾烂摊子……」嘴上抱怨，却还是帮着搭好了帐篷。<br>' +
+            '夜晚，你们围坐在篝火旁，香澄弹着吉他唱起歌，星空在头顶铺开，晚风带着草木的清香。<br>' +
+            '香澄看向你，笑着说「能和大家、和你一起，真的太幸福了！」<br>' +
+            'Poppin\'Party 全成员好感度 +2，体质 +1。',
+        priority: 0,
+        weight: 2,
+        condition: (player) => 64 <= gameManager.round && gameManager.round <= 68 && player.getAffection('户山香澄') >= 15,
+        action: (player) => {
+            player.addAffection('户山香澄', 2);
+            player.addAffection('牛込里美', 2);
+            player.addAffection('花园多惠', 2);
+            player.addAffection('山吹沙绫', 2);
+            player.addAffection('市谷有咲', 2);
+            player.attributes.stamina += 1;
+        },
+        cost: 1,
+        author: '见冬'
     })
 ];
 
