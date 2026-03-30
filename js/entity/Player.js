@@ -70,7 +70,7 @@ class Player {
      * @param value 值。
      */
     addAffection(character, value) {
-        this.affections[character] += value;
+        this.setAffection(character, (this.affections[character] ?? 0) + value);
     }
 
     /**
@@ -80,7 +80,7 @@ class Player {
      * @param value 值。
      */
     removeAffection(character, value) {
-        this.affections[character] -= value;
+        this.setAffection(character, (this.affections[character] ?? 0) - value);
     }
 
     /**
