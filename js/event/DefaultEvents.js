@@ -71,17 +71,40 @@ const defaultEvents = [
             '市谷有咲无奈地扶额，「真是的，又要我来收拾烂摊子……」嘴上抱怨，却还是帮着搭好了帐篷。<br>' +
             '夜晚，你们围坐在篝火旁，香澄弹着吉他唱起歌，星空在头顶铺开，晚风带着草木的清香。<br>' +
             '香澄看向你，笑着说「能和大家、和你一起，真的太幸福了！」<br>' +
-            'Poppin\'Party 全成员好感度 +2，体质 +1。',
+            'Poppin\'Party 全成员好感度 +10，体质 +1。',
         priority: 0,
         weight: 2,
         condition: (player) => 64 <= gameManager.round && gameManager.round <= 68 && player.getAffection('户山香澄') >= 15,
         action: (player) => {
-            player.addAffection('户山香澄', 2);
-            player.addAffection('牛込里美', 2);
-            player.addAffection('花园多惠', 2);
-            player.addAffection('山吹沙绫', 2);
-            player.addAffection('市谷有咲', 2);
-            player.attributes.stamina += 1;
+            player.addAffection('户山香澄', 10);
+            player.addAffection('牛込里美', 10);
+            player.addAffection('花园多惠', 10);
+            player.addAffection('山吹沙绫', 10);
+            player.addAffection('市谷有咲', 10);
+            player.attributes.stamina++;
+        },
+        cost: 1,
+        author: '见冬'
+    }),
+    new Event({
+        id: 'banglife:CiRCLE 深夜的余音',
+        title: 'CiRCLE 深夜的余音',
+        description: '你结束 CiRCLE 的兼职准备锁门，发现排练室还亮着灯。<br>' +
+            '凑友希那的声音传来：「莉莎，这段贝斯律动不对，再走一遍副歌。」<br>' +
+            '亚子揉着手腕小声提议休息，却被友希那驳回：「Live 不能有任何瑕疵。」<br>' +
+            '看着纱夜默默校准吉他，莉莎、亚子、燐子重新投入排练，你没有出声打扰，而是选择轻轻离开。<br>' +
+            '第二天看到 Roselia 的海报，你回想起深夜的琴声，似乎懂了她们能够站上大舞台的原因。<br>' +
+            '凑友希娜好感度 +5，熟练度最高的一项或几项技能等级 + 1。',
+        priority: 0,
+        weight: 3,
+        condition: (player) => 73 <= gameManager.round && gameManager.round <= 80 && player.getAffection('凑友希那') >= 20,
+        action: (player) => {
+            player.addAffection('凑友希那', 5);
+            const skills = ['vocal', 'keyboard', 'guitar', 'bass', 'drum'];
+            const maxValue = Math.max(...skills.map(skill => player.attributes[skill]));
+            skills.forEach(skill => {
+                if (player.attributes[skill] === maxValue) player.attributes[skill]++;
+            });
         },
         cost: 1,
         author: '见冬'
