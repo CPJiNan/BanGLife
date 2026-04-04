@@ -112,8 +112,8 @@ const defaultEvents = [
         title: '羽丘的不可思议女孩',
         description: () => {
             return '午休时间，你在羽丘女子学园的中庭散步。<br>' +
-                '阳光洒在花坛上，樱花花瓣随风飘落，整个校园弥漫着春天的气息。<br>' +
-                '你注意到角落里有一个灰色短发的女孩蹲在地上，正专注地翻找着什么，完全没注意到你的靠近。';
+                '樱花花瓣随风飘落，整个校园弥漫着春天的气息。<br>' +
+                '你注意到角落里有一个灰色短发的女孩蹲在地上，正专注地翻找着什么，完全没有注意到你的靠近。';
         },
         weight: 1,
         condition: (player) => 1 <= gameManager.round && gameManager.round <= 48 &&
@@ -121,8 +121,8 @@ const defaultEvents = [
             player.attributes.class !== 'A 组' && player.getAffection('高松灯') < 10,
         options: [
             new Event({
-                id: 'banglife:羽丘的不可思议女孩:询问',
-                title: '询问',
+                id: 'banglife:羽丘的不可思议女孩:开口询问',
+                title: '开口询问',
                 description: () => {
                     return '你好奇地走过去，轻声问道：「是弄丢了什么吗？需要我帮忙一起找吗？」<br>' +
                         '女孩完全没有反应，依然专注地翻找着地面。<br>' +
@@ -138,8 +138,8 @@ const defaultEvents = [
                 cost: 1
             }),
             new Event({
-                id: 'banglife:羽丘的不可思议女孩:无视',
-                title: '无视',
+                id: 'banglife:羽丘的不可思议女孩:默默离开',
+                title: '默默离开',
                 description: '你没有出声打扰她，径自走过。<br>' +
                     '阳光透过樱花的淡粉洒在她身上，她那灰色的短发在微风中轻轻飘动。<br>' +
                     '女孩正把石头凑近眼前，专注地观察着石头的每一个纹路，仿佛沉浸在自己的世界里。<br>' +
