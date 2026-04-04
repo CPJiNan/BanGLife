@@ -53,7 +53,7 @@ const defaultEvents = [
                 description: '你点了一份抹茶巴菲。<br>' +
                     '「抹茶巴菲~♪」<br>' +
                     '银色短发的女孩子从柜台后探出头来，目不转睛地盯着你的抹茶巴菲，你忍不住舀起一勺递到她嘴边。<br>' +
-                    '要乐奈 好感度 +10。',
+                    '要乐奈 好感度变更为 10。',
                 condition: (player) => player.getAffection('要乐奈') < 10,
                 action: (player) => {
                     player.setAffection('要乐奈', 10)
@@ -72,7 +72,6 @@ const defaultEvents = [
             '夜晚，你们围坐在篝火旁，香澄弹着吉他唱起歌，星空在头顶铺开，晚风带着草木的清香。<br>' +
             '香澄看向你，笑着说「能和大家、和你一起，真的太幸福了！」<br>' +
             'Poppin\'Party 全成员好感度 +10，体质 +1。',
-        priority: 0,
         weight: 2,
         condition: (player) => 64 <= gameManager.round && gameManager.round <= 68 && player.getAffection('户山香澄') >= 15,
         action: (player) => {
@@ -95,7 +94,6 @@ const defaultEvents = [
             '看着纱夜默默校准吉他，莉莎、亚子、燐子重新投入排练，你没有出声打扰，而是选择轻轻离开。<br>' +
             '第二天看到 Roselia 的海报，你回想起深夜的琴声，似乎懂了她们能够站上大舞台的原因。<br>' +
             '凑友希娜好感度 +5，熟练度最高的一项或几项技能等级 + 1。',
-        priority: 0,
         weight: 3,
         condition: (player) => 73 <= gameManager.round && gameManager.round <= 80 && player.getAffection('凑友希那') >= 20,
         action: (player) => {
@@ -108,6 +106,46 @@ const defaultEvents = [
         },
         cost: 1,
         author: '见冬'
+    }),
+    new Event({
+        id: 'banglife:羽丘的不可思议女孩',
+        title: '羽丘的不可思议女孩',
+        description: () => {
+            return '午休时间，你在羽丘女子学园的中庭散步。<br>' +
+                '阳光洒在花坛上，樱花花瓣随风飘落，整个校园弥漫着春天的气息。<br>' +
+                '你注意到角落里有一个灰色短发的女孩蹲在地上，正专注地翻找着什么，完全没注意到你的靠近。';
+        },
+        weight: 1,
+        condition: (player) => 1 <= gameManager.round && gameManager.round <= 48 &&
+            player.attributes.school === '羽丘女子学园' &&
+            player.attributes.class !== 'A 组' && player.getAffection('高松灯') < 10,
+        options: [
+            new Event({
+                id: 'banglife:羽丘的不可思议女孩:询问',
+                title: '询问',
+                description: () => {
+                    return '你好奇地走过去，轻声问道：「是弄丢了什么吗？需要我帮忙一起找吗？」<br>' +
+                        '女孩完全没有反应，依然专注地翻找着地面。<br>' +
+                        '你凑近一看，发现她正在捡石头，嘴里念叨着：「啊，这块……有花纹。是大理石……」<br>' +
+                        '「咦……原来是在收集石头吗？」<br>' +
+                        '「！？ 呃，那个、我……」她的脸微微发红，慌忙把石头装进口袋，小声说：「再见……！」<br>' +
+                        '没等你反应过来，她已经转身跑开了。<br>' +
+                        '高松灯 好感度变更为 10。';
+                },
+                action: (player) => {
+                    player.setAffection('高松灯', 10);
+                },
+                cost: 1
+            }),
+            new Event({
+                id: 'banglife:羽丘的不可思议女孩:无视',
+                title: '无视',
+                description: '你没有出声打扰她，径自走过。<br>' +
+                    '阳光透过樱花的淡粉洒在她身上，她那灰色的短发在微风中轻轻飘动。<br>' +
+                    '女孩正把石头凑近眼前，专注地观察着石头的每一个纹路，仿佛沉浸在自己的世界里。<br>' +
+                    '你不禁回头看了她一眼，心想：真是个特别的孩子呢。'
+            })
+        ]
     })
 ];
 
