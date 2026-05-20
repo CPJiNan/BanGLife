@@ -7,14 +7,19 @@ import {registries} from '@/core/registry'
 const player = usePlayerStore()
 
 const visibleStats = computed(() => {
-  return registries.stats.getAll()
-    .filter(stat => stat.visible)
-    .map(stat => ({
+  const all = registries.stats.getAll().filter(stat => stat.visible)
+  const grouped: Record<string, Array<{ id: string; label: string; color?: string; max: number }>> = {}
+  for (const stat of all) {
+    const cat = stat.category
+    if (!grouped[cat]) grouped[cat] = []
+    grouped[cat].push({
       id: stat.id,
       label: stat.name,
       color: stat.color,
       max: stat.max,
-    }))
+    })
+  }
+  return grouped
 })
 
 const money = computed(() => player.state.money)
@@ -47,8 +52,9 @@ function barWidth(id: string) {
       <span class="text-sm font-semibold">¥{{ money }}</span>
     </div>
 
-    <div class="rounded-xl border border-neutral-200 bg-white p-3 flex flex-col gap-2">
-      <div v-for="stat in visibleStats" :key="stat.id" class="flex flex-col gap-0.5">
+    <div v-for="(stats, category) in visibleStats" :key="category"
+         class="rounded-xl border border-neutral-200 bg-white p-3 flex flex-col gap-2">
+      <div v-for="stat in stats" :key="stat.id" class="flex flex-col gap-0.5">
         <div class="flex items-center justify-between text-xs">
           <span class="text-muted">{{ stat.label }}</span>
           <span class="tabular-nums font-medium">{{ statValue(stat.id) }}</span>

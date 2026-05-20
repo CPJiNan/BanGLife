@@ -57,6 +57,7 @@ export interface Connection {
   to: string
   duration: number
   label?: string
+  icon?: string
   condition?: (ctx: GameContext) => boolean
 }
 
@@ -79,6 +80,7 @@ export interface Action {
   tag?: string
   label: string
   description?: string
+  icon?: string
   duration: number
   available?: (ctx: GameContext) => boolean
   visible?: (ctx: GameContext) => boolean

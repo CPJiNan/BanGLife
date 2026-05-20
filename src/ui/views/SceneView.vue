@@ -26,6 +26,8 @@ const tagLabels: Record<string, string> = {
   daily: '日常',
 }
 
+const base = import.meta.env.BASE_URL
+
 const groupedActions = computed(() => {
   const groups: Record<string, Action[]> = {}
   for (const action of locationActions.value) {
@@ -105,7 +107,10 @@ function executeAction(action: Action) {
             @click="executeAction(action)"
           >
             <span class="flex items-center justify-between">
-              <span class="text-sm font-medium">{{ action.label }}</span>
+              <span class="flex items-center gap-2">
+                <img v-if="action.icon" :alt="action.label" :src="`${base}icons/${action.icon}`" class="w-4 h-4"/>
+                <span class="text-sm font-medium">{{ action.label }}</span>
+              </span>
               <span class="text-xs text-muted tabular-nums">{{ action.duration }} 分钟</span>
             </span>
             <span v-if="action.description" class="text-xs text-muted mt-0.5">{{ action.description }}</span>
@@ -123,7 +128,10 @@ function executeAction(action: Action) {
             @click="moveTo(conn)"
           >
             <span class="flex items-center justify-between">
-              <span class="text-sm font-medium">{{ conn.label ?? conn.to }}</span>
+              <span class="flex items-center gap-2">
+                <img v-if="conn.icon" :alt="conn.label" :src="`${base}icons/${conn.icon}`" class="w-4 h-4"/>
+                <span class="text-sm font-medium">{{ conn.label ?? conn.to }}</span>
+              </span>
               <span class="text-xs text-muted tabular-nums">→ {{ conn.duration }} 分钟</span>
             </span>
           </button>
@@ -139,11 +147,11 @@ function executeAction(action: Action) {
             class="w-full text-left rounded-xl border border-neutral-200 bg-white px-4 py-3 hover:border-brand-pink hover:bg-pink-50/50 transition-all"
             @click="ui.openShop(shop.id)"
           >
-            <div class="flex items-center justify-between">
+            <span class="flex items-center justify-between">
               <span class="text-sm font-medium">{{ shop.name }}</span>
               <span class="text-xs text-muted">进入</span>
-            </div>
-            <p v-if="shop.description" class="text-xs text-muted mt-0.5">{{ shop.description }}</p>
+            </span>
+            <span v-if="shop.description" class="block text-xs text-muted mt-0.5">{{ shop.description }}</span>
           </button>
         </div>
       </div>
