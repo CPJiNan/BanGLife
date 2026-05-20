@@ -4,23 +4,45 @@ import {usePlayerStore} from '@/stores/player'
 
 export function getItemAmount(itemId: string): number {
   const {state} = usePlayerStore()
-  return state.inventory.find(i => i.itemId === itemId)?.amount ?? 0
+  const item = registries.items.get(itemId)
+
+  if (item?.stackable === false) return state.inventory.filter(i => i.itemId === itemId).length
+  else return state.inventory.find(i => i.itemId === itemId)?.amount ?? 0
 }
 
 export function giveItem(itemId: string, amount = 1): void {
   if (!Number.isFinite(amount) || amount <= 0) return
   const {state} = usePlayerStore()
-  const existing = state.inventory.find(i => i.itemId === itemId)
-  if (existing) {
-    existing.amount += amount
-  } else {
+  const item = registries.items.get(itemId)
+
+  if (item?.stackable !== false) {
+    const existing = state.inventory.find(i => i.itemId === itemId)
+    if (existing) {
+      existing.amount += amount
+      return
+    }
     state.inventory.push({itemId, amount})
+  } else {
+    for (let i = 0; i < amount; i++) {
+      state.inventory.push({itemId, amount: 1})
+    }
   }
 }
 
 export function takeItem(itemId: string, amount = 1): boolean {
   if (!Number.isFinite(amount) || amount <= 0) return false
   const {state} = usePlayerStore()
+  const item = registries.items.get(itemId)
+
+  if (item?.stackable === false) {
+    for (let i = 0; i < amount; i++) {
+      const index = state.inventory.findIndex(inv => inv.itemId === itemId)
+      if (index < 0) return false
+      state.inventory.splice(index, 1)
+    }
+    return true
+  }
+
   const index = state.inventory.findIndex(i => i.itemId === itemId)
   if (index < 0) return false
 

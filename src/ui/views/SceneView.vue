@@ -9,6 +9,7 @@ import {triggerEvents} from '@/core/scheduler'
 import {applyEffects} from '@/core/effects'
 import {getShopsByLocation} from '@/core/shop'
 import type {Action, Connection} from '@/core/types'
+import {ACTION_TAG_LABELS} from '@/core/constants'
 
 const player = usePlayerStore()
 const world = useWorldStore()
@@ -21,10 +22,6 @@ const locationActions = computed(() =>
   world.getActionsForLocation(player.state.currentLocationId, ctx.value)
 )
 const locationShops = computed(() => getShopsByLocation(player.state.currentLocationId, ctx.value))
-
-const tagLabels: Record<string, string> = {
-  daily: '日常',
-}
 
 const base = import.meta.env.BASE_URL
 
@@ -97,7 +94,7 @@ function executeAction(action: Action) {
 
     <div class="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-4">
       <div v-for="(acts, tag) in groupedActions" :key="tag">
-        <div class="text-xs text-muted mb-2 font-medium">{{ tagLabels[tag] ?? tag }}</div>
+        <div class="text-xs text-muted mb-2 font-medium">{{ ACTION_TAG_LABELS[tag] ?? tag }}</div>
         <div class="flex flex-col gap-2">
           <button
             v-for="action in acts"
@@ -148,7 +145,10 @@ function executeAction(action: Action) {
             @click="ui.openShop(shop.id)"
           >
             <span class="flex items-center justify-between">
-              <span class="text-sm font-medium">{{ shop.name }}</span>
+              <span class="flex items-center gap-2">
+                <img v-if="shop.icon" :alt="shop.name" :src="`${base}icons/${shop.icon}`" class="w-4 h-4"/>
+                <span class="text-sm font-medium">{{ shop.name }}</span>
+              </span>
               <span class="text-xs text-muted">进入</span>
             </span>
             <span v-if="shop.description" class="block text-xs text-muted mt-0.5">{{ shop.description }}</span>

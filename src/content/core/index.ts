@@ -1,5 +1,5 @@
 import type {ModDefinition, ModManifest} from '@banglife/mod-types'
-import type {Action, GameLocation, Passage, StatDef} from '@/core/types'
+import type {Action, GameLocation, Item, Passage, Shop, StatDef} from '@/core/types'
 import {GAME_VERSION} from '@/stores/save-types'
 
 const manifest: ModManifest = {
@@ -317,12 +317,76 @@ const passages: Passage[] = [
   },
 ]
 
+const items: Item[] = [
+  {
+    id: 'instrument.guitar.st_100',
+    name: 'ST-100',
+    description: '进口仿制吉他。固定琴桥，单双拾音器，ST琴型。手感粗糙，琴颈边缘硌手，音准稳定性较差。',
+    tags: ['guitar', 'instrument'],
+    stackable: false,
+  },
+  {
+    id: 'instrument.guitar.bgl_starter_10',
+    name: 'BGL Starter-10',
+    description: 'BGL 的入门型吉他。固定琴桥，单单双拾音器，ST琴型。做工合格，手感适中，适合新手使用。',
+    tags: ['guitar', 'instrument'],
+    stackable: false,
+  },
+  {
+    id: 'instrument.guitar.bgl_stage_20',
+    name: 'BGL Stage-20',
+    description: 'BGL 的基础型吉他。单摇琴桥，单单拾音器，TL琴型。在学生乐队中较为常见，性能均衡。 ',
+    tags: ['guitar', 'instrument'],
+    stackable: false,
+  },
+  {
+    id: 'instrument.guitar.bgl_rock_v',
+    name: 'BGL Rock-V',
+    description: 'BGL 的进阶型吉他。大双摇琴桥，双双可切单拾音器，V字琴型。舞台存在感强，适合视觉系演出。 ',
+    tags: ['guitar', 'instrument'],
+    stackable: false,
+  },
+  {
+    id: 'instrument.guitar.bgl_performance_x',
+    name: 'BGL Performance-X',
+    description: 'BGL 的专业型吉他。小双摇琴桥，单单单可切单单双拾音器，TL琴型。职业乐手常用的级别，二手流通价值较高。',
+    tags: ['guitar', 'instrument'],
+    stackable: false,
+  },
+  {
+    id: 'instrument.guitar.bgl_master_ex',
+    name: 'BGL Master-EX',
+    description: 'BGL 的旗舰型吉他。小双摇琴桥，双单双拾音器，LP琴型。做工精良，音色饱满，受到众多资深乐手的认可。  ',
+    tags: ['guitar', 'instrument'],
+    stackable: false,
+  },
+]
+
+const shops: Shop[] = [
+  {
+    id: 'shop.edogawa_instrument',
+    name: '江户川乐器店',
+    icon: 'shop.svg',
+    locationId: 'city.edogawa_instrument',
+    items: [
+      {itemId: 'instrument.guitar.st_100', buyPrice: 15000, sellPrice: 8000},
+      {itemId: 'instrument.guitar.bgl_starter_10', buyPrice: 39888, sellPrice: 19888},
+      {itemId: 'instrument.guitar.bgl_stage_20', buyPrice: 140000, sellPrice: 80000},
+      {itemId: 'instrument.guitar.bgl_rock_v', buyPrice: 180000, sellPrice: 100000},
+      {itemId: 'instrument.guitar.bgl_performance_x', buyPrice: 280000, sellPrice: 180000},
+      {itemId: 'instrument.guitar.bgl_master_ex', buyPrice: 550000, sellPrice: 300000},
+    ],
+  },
+]
+
 const definition: ModDefinition = {
   async onLoad(api) {
     for (const stat of stats) api.registerStat(stat)
     for (const location of locations) api.registerLocation(location)
     for (const action of actions) api.registerAction(action)
     for (const passage of passages) api.registerPassage(passage)
+    for (const item of items) api.registerItem(item)
+    for (const shop of shops) api.registerShop(shop)
   },
 }
 

@@ -158,6 +158,7 @@ export interface Shop {
   id: string
   name: string
   description?: string
+  icon?: string
   locationId?: string | string[]
   visible?: (ctx: GameContext) => boolean
   available?: (ctx: GameContext) => boolean

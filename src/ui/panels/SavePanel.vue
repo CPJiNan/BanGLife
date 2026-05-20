@@ -3,6 +3,7 @@ import {computed, onMounted, ref} from 'vue'
 import {useSaveStore} from '@/stores/save'
 import {useWorldStore} from '@/stores/world'
 import {formatTime, timeToInfo} from '@/core/time'
+import {MINUTES_PER_DAY} from '@/core/constants'
 
 const save = useSaveStore()
 const world = useWorldStore()
@@ -86,7 +87,7 @@ async function doImport() {
         <span class="text-xs text-muted font-medium">{{ slot.label }}</span>
         <span class="text-xs text-neutral-400">{{ formatDate(slot.savedAt) }}</span>
       </div>
-      <div v-if="slot.data" class="text-xs mb-2">第 {{ Math.floor(slot.preview.gameTime / (24 * 60)) + 1 }} 天
+      <div v-if="slot.data" class="text-xs mb-2">第 {{ Math.floor(slot.preview.gameTime / MINUTES_PER_DAY) + 1 }} 天
         {{ formatTime(timeToInfo(slot.preview.gameTime)) }} ·
         {{ world.getLocation(slot.preview.locationId)?.name ?? slot.preview.locationId }}
       </div>

@@ -7,6 +7,7 @@ import {useModsStore} from '@/stores/mods'
 import {useWorldStore} from '@/stores/world'
 import {GAME_VERSION} from '@/stores/save-types'
 import {formatTime, timeToInfo} from '@/core/time'
+import {MINUTES_PER_DAY} from '@/core/constants'
 import TrustModal from '@/ui/modals/TrustModal.vue'
 
 const router = useRouter()
@@ -127,7 +128,7 @@ async function onUrlInstall() {
             <span class="text-xs text-muted font-medium">{{ slot.label }}</span>
             <span class="text-xs text-neutral-400">{{ formatSaveDate(slot.savedAt) }}</span>
           </div>
-          <div v-if="slot.data" class="text-xs mb-3">第 {{ Math.floor(slot.preview.gameTime / (24 * 60)) + 1 }} 天
+          <div v-if="slot.data" class="text-xs mb-3">第 {{ Math.floor(slot.preview.gameTime / MINUTES_PER_DAY) + 1 }} 天
             {{ formatTime(timeToInfo(slot.preview.gameTime)) }} ·
             {{ world.getLocation(slot.preview.locationId)?.name ?? slot.preview.locationId }}
           </div>
