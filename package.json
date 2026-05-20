@@ -1,0 +1,36 @@
+{
+  "name": "banglife",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "BanGLife · 乐队少女模拟器",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "idb-keyval": "^6.2.2",
+    "jszip": "^3.10.1",
+    "lz-string": "^1.5.0",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.34",
+    "vue-router": "^5.0.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@tsconfig/node24": "^24.0.4",
+    "@types/node": "^25.8.0",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "@vue/tsconfig": "^0.9.1",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.13",
+    "vue-tsc": "^3.2.9"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}

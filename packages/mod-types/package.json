@@ -1,0 +1,16 @@
+{
+  "name": "@banglife/mod-types",
+  "version": "0.1.0",
+  "description": "BanGLife Mod TypeScript 类型声明",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "banglife",
+    "mod"
+  ],
+  "license": "MIT"
+}
