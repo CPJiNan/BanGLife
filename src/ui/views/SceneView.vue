@@ -115,26 +115,6 @@ function executeAction(action: Action) {
         </div>
       </div>
 
-      <div v-if="connections.length > 0">
-        <div class="text-xs text-muted mb-2 font-medium">移动</div>
-        <div class="flex flex-col gap-2">
-          <button
-            v-for="conn in connections"
-            :key="conn.to"
-            class="w-full text-left rounded-xl border border-dashed border-neutral-300 bg-white px-4 py-3 hover:border-brand-pink hover:bg-pink-50/50 transition-all"
-            @click="moveTo(conn)"
-          >
-            <span class="flex items-center justify-between">
-              <span class="flex items-center gap-2">
-                <img v-if="conn.icon" :alt="conn.label" :src="`${base}icons/${conn.icon}`" class="w-4 h-4"/>
-                <span class="text-sm font-medium">{{ conn.label ?? conn.to }}</span>
-              </span>
-              <span class="text-xs text-muted tabular-nums">→ {{ conn.duration }} 分钟</span>
-            </span>
-          </button>
-        </div>
-      </div>
-
       <div v-if="locationShops.length > 0">
         <div class="text-xs text-muted mb-2 font-medium">商店</div>
         <div class="flex flex-col gap-2">
@@ -152,6 +132,26 @@ function executeAction(action: Action) {
               <span class="text-xs text-muted">进入</span>
             </span>
             <span v-if="shop.description" class="block text-xs text-muted mt-0.5">{{ shop.description }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div v-if="connections.length > 0">
+        <div class="text-xs text-muted mb-2 font-medium">移动</div>
+        <div class="flex flex-col gap-2">
+          <button
+            v-for="conn in connections"
+            :key="conn.to"
+            class="w-full text-left rounded-xl border border-dashed border-neutral-300 bg-white px-4 py-3 hover:border-brand-pink hover:bg-pink-50/50 transition-all"
+            @click="moveTo(conn)"
+          >
+            <span class="flex items-center justify-between">
+              <span class="flex items-center gap-2">
+                <img v-if="conn.icon" :alt="conn.label" :src="`${base}icons/${conn.icon}`" class="w-4 h-4"/>
+                <span class="text-sm font-medium">{{ conn.label ?? conn.to }}</span>
+              </span>
+              <span class="text-xs text-muted tabular-nums">→ {{ conn.duration }} 分钟</span>
+            </span>
           </button>
         </div>
       </div>

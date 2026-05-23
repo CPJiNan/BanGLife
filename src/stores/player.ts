@@ -13,7 +13,7 @@ export const usePlayerStore = defineStore('player', () => {
       keyboard: 0,
       guitar: 0,
       bass: 0,
-      drums: 0,
+      drum: 0,
     },
     money: 50000,
     inventory: [],

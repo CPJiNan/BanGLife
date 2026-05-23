@@ -10,4 +10,7 @@ export const ACTION_TAG_LABELS: Record<string, string> = {
 export const ITEM_TAG_LABELS: Record<string, string> = {
   instrument: '乐器',
   guitar: '吉他',
+  keyboard: '键盘',
+  bass: '贝斯',
+  drum: '鼓'
 }
