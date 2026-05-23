@@ -95,13 +95,18 @@ export async function loadUserMod(modId: string): Promise<{
 }> {
   const manifest = await get<ModManifest>(manifestKey(modId))
   if (!manifest) throw new Error(`未找到 Mod ${modId}`)
-
   const entryPath = manifest.entry ?? 'index.js'
-  const entryUrl = await getModBlobUrl(modId, entryPath)
-  if (!entryUrl) throw new Error(`未找到 Mod ${modId} 入口文件 ${entryPath}`)
-
-  const module = await import(/* @vite-ignore */ `${entryUrl}?t=${Date.now()}`)
-  const definition = module.default as import('@banglife/mod-types').ModDefinition
-
+  const blob = await readModFile(modId, entryPath)
+  if (!blob) throw new Error(`未找到 Mod ${modId} 入口文件 ${entryPath}`)
+  const code = await blob.text()
+  const factory = new Function('api', `
+    const module = { exports: {} };
+    const exports = module.exports;
+    ${code}
+    return module.exports.default || module.exports;
+  `)
+  const {createModAPI} = await import('@/mod/api')
+  const api = createModAPI(manifest)
+  const definition = factory(api) as import('@banglife/mod-types').ModDefinition
   return {manifest, definition}
 }
