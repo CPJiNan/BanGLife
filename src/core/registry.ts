@@ -5,9 +5,6 @@ export class Registry<T extends { id: string }> {
   private sources = new Map<string, string>()
 
   register(item: T, source = 'core'): void {
-    if (this.items.has(item.id)) {
-      console.warn(`[Registry] Overwriting "${item.id}" (was from "${this.sources.get(item.id)}", now "${source}")`)
-    }
     this.items.set(item.id, item)
     this.sources.set(item.id, source)
   }
