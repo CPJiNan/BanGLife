@@ -13,13 +13,13 @@ export const useWorldStore = defineStore('world', () => {
     return registries.locations.get(id)
   }
 
-  function getActionsForLocation(locationId: string, context?: GameContext) {
+  function getActionsForLocation(locationId: string, ctx?: GameContext) {
     return registries.actions.filter(action => {
       const locMatch = action.locationId === '*' || action.locationId === locationId ||
         (Array.isArray(action.locationId) && action.locationId.includes(locationId))
       if (!locMatch) return false
-      if (!context) return true
-      return action.visible?.(context) !== false && action.available?.(context) !== false
+      if (!ctx) return true
+      return action.visible?.(ctx) !== false && action.available?.(ctx) !== false
     })
   }
 
