@@ -12,25 +12,6 @@ function manifestKey(modId: string) {
   return `${FS_PREFIX}${modId}:__manifest__`
 }
 
-const blobUrls = new Map<string, string>()
-
-function createBlobUrl(blob: Blob): string {
-  return URL.createObjectURL(blob)
-}
-
-function revokeBlobUrl(url: string): void {
-  URL.revokeObjectURL(url)
-}
-
-export function revokeModBlobUrls(modId: string): void {
-  for (const [key, url] of blobUrls) {
-    if (key.startsWith(`${modId}:`)) {
-      revokeBlobUrl(url)
-      blobUrls.delete(key)
-    }
-  }
-}
-
 export async function installModFromZip(zipData: ArrayBuffer): Promise<ModManifest> {
   const zip = await JSZip.loadAsync(zipData)
 
@@ -65,16 +46,6 @@ export async function readModFile(modId: string, path: string): Promise<Blob | u
   return get<Blob>(fsKey(modId, path))
 }
 
-export async function getModBlobUrl(modId: string, path: string): Promise<string | undefined> {
-  const cacheKey = `${modId}:${path}`
-  if (blobUrls.has(cacheKey)) return blobUrls.get(cacheKey)
-  const blob = await readModFile(modId, path)
-  if (!blob) return undefined
-  const url = createBlobUrl(blob)
-  blobUrls.set(cacheKey, url)
-  return url
-}
-
 export async function listInstalledMods(): Promise<ModManifest[]> {
   const allKeys = await keys<string>()
   const manifestKeys = allKeys.filter(k => typeof k === 'string' && k.endsWith(':__manifest__'))
@@ -86,7 +57,6 @@ export async function uninstallMod(modId: string): Promise<void> {
   const allKeys = await keys<string>()
   const modKeys = allKeys.filter(k => typeof k === 'string' && k.startsWith(`${FS_PREFIX}${modId}:`))
   await Promise.all(modKeys.map(k => del(k)))
-  revokeModBlobUrls(modId)
 }
 
 export async function loadUserMod(modId: string): Promise<{
