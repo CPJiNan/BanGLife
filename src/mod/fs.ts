@@ -73,7 +73,7 @@ export async function loadUserMod(modId: string): Promise<{
     const module = { exports: {} };
     const exports = module.exports;
     ${code}
-    return module.exports.default || module.exports;
+    return module.exports;
   `)
   const {createModAPI} = await import('@/mod/api')
   const api = createModAPI(manifest)
