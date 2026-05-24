@@ -101,7 +101,7 @@ async function onUrlInstall() {
       </div>
       <div v-if="mod.description" class="text-xs text-muted">{{ mod.description }}</div>
       <div v-if="mod.author" class="text-xs text-neutral-400 mt-0.5">作者：{{ mod.author }}</div>
-      <div v-if="mods.isLoaded(mod.id)" class="mt-1.5 text-xs text-green-600">● 运行中</div>
+      <div v-if="mods.isEnabled(mod.id)" class="mt-1.5 text-xs text-green-600">● 运行中</div>
     </div>
   </div>
   <TrustModal/>

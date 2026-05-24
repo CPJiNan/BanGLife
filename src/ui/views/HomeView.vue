@@ -209,7 +209,7 @@ async function onUrlInstall() {
               </button>
             </div>
           </div>
-          <div v-if="mods.isLoaded(mod.id)" class="mt-2 text-xs text-green-600">● 运行中</div>
+          <div v-if="mods.isEnabled(mod.id)" class="mt-2 text-xs text-green-600">● 运行中</div>
         </div>
       </div>
       <TrustModal/>
