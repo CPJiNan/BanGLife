@@ -126,6 +126,15 @@ async function onUrlInstall() {
             <img :src="`${base}icons/github.svg`" alt="Github" class="w-4 h-4"/>
             Github
           </a>
+          <a
+            class="flex-1 py-2.5 rounded-xl text-sm font-semibold border border-neutral-200 bg-white hover:border-brand-pink hover:bg-pink-50/50 transition-all flex items-center justify-center gap-2"
+            href="https://qm.qq.com/q/GGV0qPOkMM"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img :src="`${base}icons/qq.svg`" alt="QQ群" class="w-4 h-4"/>
+            QQ群
+          </a>
           <button
             class="flex-1 py-2.5 rounded-xl text-sm font-semibold border border-neutral-200 bg-white hover:border-brand-pink hover:bg-pink-50/50 transition-all flex items-center justify-center gap-2"
             @click="showSponsor = true"
@@ -251,7 +260,7 @@ async function onUrlInstall() {
             <div class="flex justify-center mb-4">
               <img
                 :src="`${base}sponsor.png`"
-                alt=""
+                alt="赞助"
                 class="w-full max-w-xs rounded-xl"/>
             </div>
             <p class="text-xs text-muted text-center mb-4">
