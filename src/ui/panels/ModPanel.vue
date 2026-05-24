@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue'
 import {useModsStore} from '@/stores/mods'
-import TrustModal from '@/ui/modals/TrustModal.vue'
+import InstallModal from '@/ui/modals/InstallModal.vue'
 
 const mods = useModsStore()
 const urlInput = ref('')
@@ -104,5 +104,5 @@ async function onUrlInstall() {
       <div v-if="mods.isEnabled(mod.id)" class="mt-1.5 text-xs text-green-600">● 运行中</div>
     </div>
   </div>
-  <TrustModal/>
+  <InstallModal/>
 </template>

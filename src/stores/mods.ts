@@ -5,7 +5,6 @@ import {installModFromUrl, installModFromZip, listInstalledMods, loadUserMod, un
 import {getLoadedMod, loadBundled, unloadMod} from '@/mod/api'
 
 const ENABLED_KEY = 'banglife:mods:enabled'
-const TRUSTED_KEY = 'banglife:mods:trusted'
 
 function readEnabled(): Set<string> {
   try {
@@ -19,26 +18,13 @@ function writeEnabled(ids: Set<string>) {
   localStorage.setItem(ENABLED_KEY, JSON.stringify([...ids]))
 }
 
-function readTrusted(): Set<string> {
-  try {
-    return new Set(JSON.parse(localStorage.getItem(TRUSTED_KEY) ?? '[]'))
-  } catch {
-    return new Set()
-  }
-}
-
-function writeTrusted(ids: Set<string>) {
-  localStorage.setItem(TRUSTED_KEY, JSON.stringify([...ids]))
-}
-
 export const useModsStore = defineStore('mods', () => {
   const installed = ref<ModManifest[]>([])
   const enabled = ref<Set<string>>(readEnabled())
-  const trusted = ref<Set<string>>(readTrusted())
   const busy = ref(false)
   const error = ref<string | null>(null)
 
-  const pendingTrust = ref<{ manifest: ModManifest; source: string } | null>(null)
+  const pendingInstall = ref<{ manifest: ModManifest; source: string } | null>(null)
 
   async function refresh() {
     installed.value = await listInstalledMods()
@@ -46,10 +32,6 @@ export const useModsStore = defineStore('mods', () => {
 
   function isEnabled(id: string) {
     return enabled.value.has(id)
-  }
-
-  function isTrusted(id: string) {
-    return trusted.value.has(id)
   }
 
   function isLoaded(id: string) {
@@ -65,7 +47,7 @@ export const useModsStore = defineStore('mods', () => {
     const mods = await listInstalledMods()
     installed.value = mods
     for (const manifest of mods) {
-      if (enabled.value.has(manifest.id) && trusted.value.has(manifest.id)) {
+      if (enabled.value.has(manifest.id)) {
         try {
           await _loadMod(manifest)
         } catch (e) {
@@ -82,7 +64,7 @@ export const useModsStore = defineStore('mods', () => {
       const buf = await file.arrayBuffer()
       const manifest = await installModFromZip(buf)
       await refresh()
-      pendingTrust.value = {manifest, source: `本地文件：${file.name}`}
+      pendingInstall.value = {manifest, source: `本地文件：${file.name}`}
     } catch (e) {
       error.value = e instanceof Error ? e.message : '安装失败'
     } finally {
@@ -96,7 +78,7 @@ export const useModsStore = defineStore('mods', () => {
     try {
       const manifest = await installModFromUrl(url)
       await refresh()
-      pendingTrust.value = {manifest, source: `URL：${url}`}
+      pendingInstall.value = {manifest, source: `URL：${url}`}
     } catch (e) {
       error.value = e instanceof Error ? e.message : '下载失败'
     } finally {
@@ -104,17 +86,15 @@ export const useModsStore = defineStore('mods', () => {
     }
   }
 
-  async function trustAndEnable(manifest: ModManifest): Promise<void> {
-    trusted.value.add(manifest.id)
-    writeTrusted(trusted.value)
+  async function confirmInstall(manifest: ModManifest): Promise<void> {
     enabled.value.add(manifest.id)
     writeEnabled(enabled.value)
-    pendingTrust.value = null
+    pendingInstall.value = null
     await _loadMod(manifest)
   }
 
-  function cancelTrust() {
-    pendingTrust.value = null
+  function cancelInstall() {
+    pendingInstall.value = null
   }
 
   async function toggleEnabled(id: string): Promise<void> {
@@ -140,9 +120,9 @@ export const useModsStore = defineStore('mods', () => {
   }
 
   return {
-    installed, enabled, trusted, busy, error, pendingTrust,
-    refresh, isEnabled, isTrusted, isLoaded,
-    installZip, installUrl, trustAndEnable, cancelTrust,
+    installed, enabled, busy, error, pendingInstall,
+    refresh, isEnabled, isLoaded,
+    installZip, installUrl, confirmInstall, cancelInstall,
     toggleEnabled, remove, loadAllEnabled,
   }
 })

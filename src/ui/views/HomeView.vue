@@ -8,7 +8,7 @@ import {useWorldStore} from '@/stores/world'
 import {GAME_VERSION} from '@/stores/save-types'
 import {formatTime, timeToInfo} from '@/core/time'
 import {MINUTES_PER_DAY} from '@/core/constants'
-import TrustModal from '@/ui/modals/TrustModal.vue'
+import InstallModal from '@/ui/modals/InstallModal.vue'
 
 const router = useRouter()
 const player = usePlayerStore()
@@ -212,7 +212,7 @@ async function onUrlInstall() {
           <div v-if="mods.isEnabled(mod.id)" class="mt-2 text-xs text-green-600">● 运行中</div>
         </div>
       </div>
-      <TrustModal/>
+      <InstallModal/>
 
       <footer class="mt-8 text-center text-xs text-muted">
         v{{ GAME_VERSION }} · BanGLife
