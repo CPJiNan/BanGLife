@@ -13,7 +13,17 @@ const manifest: ModManifest = {
 }
 
 const stats: StatDef[] = [
-  {id: 'hunger', name: '饥饿', min: 0, max: 100, default: 0, category: 'physical', visible: true, color: '#FF6666'},
+  {
+    id: 'hunger',
+    name: '饥饿',
+    min: 0,
+    max: 100,
+    default: 0,
+    category: 'physical',
+    visible: true,
+    color: '#FF6666',
+    decay: {amount: -5, perMinutes: 60}
+  },
   {id: 'fatigue', name: '疲劳', min: 0, max: 100, default: 0, category: 'physical', visible: true, color: '#FFBB22'},
   {id: 'stress', name: '压力', min: 0, max: 100, default: 0, category: 'mental', visible: true, color: '#FF77BB'},
   {id: 'vocal', name: '演唱', min: 0, max: 100, default: 0, category: 'skill', visible: true, color: '#FF9933'},
