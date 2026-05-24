@@ -9,7 +9,7 @@ import {triggerEvents} from '@/core/scheduler'
 import {applyEffects} from '@/core/effects'
 import {getShopsByLocation} from '@/core/shop'
 import type {Action, Connection} from '@/core/types'
-import {ACTION_TAG_LABELS} from '@/core/constants'
+import {ACTION_TAG_LABELS, CONNECTION_TAG_LABELS} from '@/core/constants'
 
 const player = usePlayerStore()
 const world = useWorldStore()
@@ -31,6 +31,16 @@ const groupedActions = computed(() => {
     const tag = action.tag ?? 'other'
     if (!groups[tag]) groups[tag] = []
     groups[tag].push(action)
+  }
+  return groups
+})
+
+const groupedConnections = computed(() => {
+  const groups: Record<string, Connection[]> = {}
+  for (const conn of connections.value) {
+    const tag = conn.tag ?? 'other'
+    if (!groups[tag]) groups[tag] = []
+    groups[tag].push(conn)
   }
   return groups
 })
@@ -136,11 +146,11 @@ function executeAction(action: Action) {
         </div>
       </div>
 
-      <div v-if="connections.length > 0">
-        <div class="text-xs text-muted mb-2 font-medium">移动</div>
+      <div v-for="(conns, tag) in groupedConnections" :key="tag">
+        <div class="text-xs text-muted mb-2 font-medium">{{ CONNECTION_TAG_LABELS[tag] ?? tag }}</div>
         <div class="flex flex-col gap-2">
           <button
-            v-for="conn in connections"
+            v-for="conn in conns"
             :key="conn.to"
             class="w-full text-left rounded-xl border border-dashed border-neutral-300 bg-white px-4 py-3 hover:border-brand-pink hover:bg-pink-50/50 transition-all"
             @click="moveTo(conn)"

@@ -58,6 +58,7 @@ export interface Connection {
   duration: number
   label?: string
   icon?: string
+  tag?: string
   condition?: (ctx: GameContext) => boolean
 }
 

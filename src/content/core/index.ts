@@ -69,11 +69,11 @@ const locations: GameLocation[] = [
     description: '安静的住宅区街道。两侧是整齐的楼房，偶尔有一两只猫走过。',
     tags: ['outdoor', 'city', 'residential'],
     connections: [
-      {to: 'home.living', duration: 1, label: '回家', icon: 'home.svg'},
-      {to: 'city.livehouse_circle', duration: 5, label: '去 LiveHouse CiRCLE', icon: 'microphone.svg'},
-      {to: 'city.edogawa_instrument', duration: 5, label: '去江户川乐器店', icon: 'shop.svg'},
-      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg'},
-      {to: 'city.shopping_street', duration: 5, label: '去商店街', icon: 'street.svg'},
+      {to: 'home.living', duration: 1, label: '回家', icon: 'home.svg', tag: 'building'},
+      {to: 'city.livehouse_circle', duration: 5, label: '去 LiveHouse CiRCLE', icon: 'microphone.svg', tag: 'building'},
+      {to: 'city.edogawa_instrument', duration: 5, label: '去江户川乐器店', icon: 'shop.svg', tag: 'building'},
+      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg', tag: 'area'},
+      {to: 'city.shopping_street', duration: 5, label: '去商店街', icon: 'street.svg', tag: 'area'},
     ],
   },
   {
@@ -82,7 +82,7 @@ const locations: GameLocation[] = [
     description: '知名的 LiveHouse，经常举办各种演出。',
     tags: ['indoor', 'city', 'music', 'livehouse'],
     connections: [
-      {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg'},
+      {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg', tag: 'area'},
     ],
   },
   {
@@ -91,7 +91,7 @@ const locations: GameLocation[] = [
     description: '品种齐全的乐器店，从配件到专业乐器一应俱全。',
     tags: ['indoor', 'city', 'shop', 'music'],
     connections: [
-      {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg'},
+      {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg', tag: 'area'},
     ],
   },
   {
@@ -100,11 +100,11 @@ const locations: GameLocation[] = [
     description: '连接着几所女子学园的街道，道路两旁种着行道树。',
     tags: ['outdoor', 'city', 'school'],
     connections: [
-      {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg'},
-      {to: 'school.hanasakigawa', duration: 5, label: '去花咲川女子学园', icon: 'school.svg'},
-      {to: 'school.haneoka', duration: 5, label: '去羽丘女子学园', icon: 'school.svg'},
-      {to: 'school.tsukinomori', duration: 5, label: '去月之森女子学园', icon: 'school.svg'},
-      {to: 'city.walking_bridge', duration: 5, label: '去步道桥', icon: 'bridge.svg'},
+      {to: 'school.hanasakigawa', duration: 5, label: '去花咲川女子学园', icon: 'school.svg', tag: 'building'},
+      {to: 'school.haneoka', duration: 5, label: '去羽丘女子学园', icon: 'school.svg', tag: 'building'},
+      {to: 'school.tsukinomori', duration: 5, label: '去月之森女子学园', icon: 'school.svg', tag: 'building'},
+      {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg', tag: 'area'},
+      {to: 'city.walking_bridge', duration: 5, label: '去步道桥', icon: 'bridge.svg', tag: 'area'},
     ],
   },
   {
@@ -113,7 +113,7 @@ const locations: GameLocation[] = [
     description: '校风自由的女子学园，鼓励学生发展个性，社团活动丰富多彩。',
     tags: ['outdoor', 'school'],
     connections: [
-      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg'},
+      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg', tag: 'area'},
     ],
   },
   {
@@ -122,7 +122,7 @@ const locations: GameLocation[] = [
     description: '注重升学率的女子学园，设有丰厚的奖学金制度。',
     tags: ['outdoor', 'school'],
     connections: [
-      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg'},
+      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg', tag: 'area'},
     ],
   },
   {
@@ -131,7 +131,7 @@ const locations: GameLocation[] = [
     description: '优雅的贵族女子学园，学生们举止端庄。',
     tags: ['outdoor', 'school'],
     connections: [
-      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg'},
+      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg', tag: 'area'},
     ],
   },
   {
@@ -140,8 +140,8 @@ const locations: GameLocation[] = [
     description: '连接学园街和车站前的天桥，桥下是熙熙攘攘的街道。',
     tags: ['outdoor', 'city'],
     connections: [
-      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg'},
-      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg'},
+      {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg', tag: 'area'},
+      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg', tag: 'area'},
     ],
   },
   {
@@ -150,11 +150,11 @@ const locations: GameLocation[] = [
     description: '繁忙的车站前广场，人来人往。',
     tags: ['outdoor', 'city'],
     connections: [
-      {to: 'city.walking_bridge', duration: 5, label: '去步道桥', icon: 'bridge.svg'},
-      {to: 'city.fast_food', duration: 5, label: '去快餐店', icon: 'burger.svg'},
-      {to: 'city.shopping_center', duration: 5, label: '去购物中心', icon: 'shop.svg'},
-      {to: 'city.livehouse_ring', duration: 5, label: '去 LiveHouse RiNG', icon: 'microphone.svg'},
-      {to: 'city.university_road', duration: 5, label: '去大学路', icon: 'street.svg'},
+      {to: 'city.fast_food', duration: 5, label: '去快餐店', icon: 'burger.svg', tag: 'building'},
+      {to: 'city.shopping_center', duration: 5, label: '去购物中心', icon: 'shop.svg', tag: 'building'},
+      {to: 'city.livehouse_ring', duration: 5, label: '去 LiveHouse RiNG', icon: 'microphone.svg', tag: 'building'},
+      {to: 'city.walking_bridge', duration: 5, label: '去步道桥', icon: 'bridge.svg', tag: 'area'},
+      {to: 'city.university_road', duration: 5, label: '去大学路', icon: 'street.svg', tag: 'area'},
     ],
   },
   {
@@ -163,7 +163,7 @@ const locations: GameLocation[] = [
     description: '提供各种套餐的快餐店，价格实惠。',
     tags: ['indoor', 'city', 'shop', 'food'],
     connections: [
-      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg'},
+      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg', tag: 'area'},
     ],
   },
   {
@@ -172,7 +172,7 @@ const locations: GameLocation[] = [
     description: '大型购物中心，各种商店应有尽有。',
     tags: ['indoor', 'city', 'shop'],
     connections: [
-      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg'},
+      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg', tag: 'area'},
     ],
   },
   {
@@ -181,7 +181,7 @@ const locations: GameLocation[] = [
     description: '备受瞩目的新锐 LiveHouse，集演出厅、录音室与咖啡馆于一体。',
     tags: ['indoor', 'city', 'music', 'livehouse'],
     connections: [
-      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg'},
+      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg', tag: 'area'},
     ],
   },
   {
@@ -190,7 +190,7 @@ const locations: GameLocation[] = [
     description: '连接两所大学的街道，路旁散落着咖啡馆和书店。',
     tags: ['outdoor', 'city'],
     connections: [
-      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg'},
+      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg', tag: 'area'},
     ],
   },
   {
@@ -199,7 +199,7 @@ const locations: GameLocation[] = [
     description: '传统的日式商店街，有很多特色小店。',
     tags: ['outdoor', 'city', 'shop'],
     connections: [
-      {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg'},
+      {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg', tag: 'area'},
     ],
   },
 ];
