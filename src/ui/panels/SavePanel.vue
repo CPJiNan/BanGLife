@@ -111,14 +111,14 @@ async function doImport() {
         <button
           v-if="slot.data"
           :disabled="save.busy"
-          class="text-xs py-1.5 px-2 rounded-lg border border-neutral-200 hover:border-brand-pink transition-colors"
+          class="flex-1 text-xs py-1.5 rounded-lg border border-neutral-200 hover:border-brand-pink transition-colors"
           @click="doExport(slot.slot)"
         >
           导出
         </button>
         <button
           :disabled="save.busy"
-          class="text-xs py-1.5 px-2 rounded-lg border border-red-100 text-red-400 hover:border-red-300 transition-colors"
+          class="flex-1 text-xs py-1.5 rounded-lg border border-red-100 text-red-400 hover:border-red-300 transition-colors"
           @click="doDelete(slot.slot)"
         >
           删除
