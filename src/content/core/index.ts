@@ -200,6 +200,7 @@ const locations: GameLocation[] = [
     tags: ['outdoor', 'city', 'shop'],
     connections: [
       {to: 'city.yamabuki_bakery', duration: 1, label: '去山吹面包房', icon: 'bread.svg', tag: 'place'},
+      {to: 'city.hanasawa_cafe', duration: 1, label: '去羽泽咖啡店', icon: 'coffee.svg', tag: 'place'},
       {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg', tag: 'area'},
     ],
   },
@@ -208,6 +209,15 @@ const locations: GameLocation[] = [
     name: '山吹面包房',
     description: '商店街内的面包房。玻璃柜台内陈列着各式各样的面包，空气中弥漫着黄油与焦糖混合的甜香。',
     tags: ['indoor', 'city', 'shop', 'food'],
+    connections: [
+      {to: 'city.shopping_street', duration: 1, label: '去商店街', icon: 'street.svg', tag: 'area'},
+    ],
+  },
+  {
+    id: 'city.hanasawa_cafe',
+    name: '羽泽咖啡店',
+    description: '商店街内的咖啡店。店内环境安静舒适，充盈着现磨咖啡的醇厚香气。',
+    tags: ['indoor', 'city', 'shop', 'drink'],
     connections: [
       {to: 'city.shopping_street', duration: 1, label: '去商店街', icon: 'street.svg', tag: 'area'},
     ],
@@ -552,6 +562,62 @@ const items: Item[] = [
       {type: 'stat', key: 'fatigue', value: -10},
     ],
   },
+  {
+    id: 'drink.hanasawa_cafe.health_tea',
+    name: '特制养生果茶',
+    description: '以多种草本与鲜果低温慢煮调制的果茶，茶汤清透，入口柔润微甜，带有温和的草本回甘。饮用后：疲劳 -15，压力 -10。',
+    tags: ['drink', 'consumable'],
+    stackable: true,
+    usable: true,
+    droppable: true,
+    consumable: true,
+    useEffects: [
+      {type: 'stat', key: 'fatigue', value: -15},
+      {type: 'stat', key: 'stress', value: -10},
+    ],
+  },
+  {
+    id: 'drink.hanasawa_cafe.americano',
+    name: '经典美式咖啡',
+    description: '选用深烘焙咖啡豆萃取的美式咖啡，口感醇厚顺滑，风味均衡，余韵悠长，传递着温暖的味道。饮用后：疲劳 -10，压力 -15。',
+    tags: ['drink', 'consumable'],
+    stackable: true,
+    usable: true,
+    droppable: true,
+    consumable: true,
+    useEffects: [
+      {type: 'stat', key: 'fatigue', value: -10},
+      {type: 'stat', key: 'stress', value: -5},
+    ],
+  },
+  {
+    id: 'drink.hanasawa_cafe.latte',
+    name: '拿铁',
+    description: '新鲜浓缩咖啡与绵密奶泡的经典融合，奶香柔和，口感细腻，适合作为甜点的搭配饮品。饮用后：疲劳 -15，压力 -8。',
+    tags: ['drink', 'consumable'],
+    stackable: true,
+    usable: true,
+    droppable: true,
+    consumable: true,
+    useEffects: [
+      {type: 'stat', key: 'fatigue', value: -15},
+      {type: 'stat', key: 'stress', value: -8},
+    ],
+  },
+  {
+    id: 'drink.hanasawa_cafe.hot_tea',
+    name: '热红茶',
+    description: '经典热红茶，附赠新鲜柠檬片，茶香浓郁明亮，入口温润，可依个人喜好添加柠檬饮用。饮用后：疲劳 -8，压力 -5。',
+    tags: ['drink', 'consumable'],
+    stackable: true,
+    usable: true,
+    droppable: true,
+    consumable: true,
+    useEffects: [
+      {type: 'stat', key: 'fatigue', value: -8},
+      {type: 'stat', key: 'stress', value: -5},
+    ],
+  },
 ]
 
 const shops: Shop[] = [
@@ -597,6 +663,18 @@ const shops: Shop[] = [
       {itemId: 'food.yamabuki_bakery.cream_roll', buyPrice: 320},
       {itemId: 'food.yamabuki_bakery.croquette_bread', buyPrice: 350},
       {itemId: 'food.yamabuki_bakery.sliced_bread', buyPrice: 280},
+    ],
+  },
+  {
+    id: 'shop.hanasawa_cafe',
+    name: '羽泽咖啡店',
+    icon: 'coffee.svg',
+    locationId: 'city.hanasawa_cafe',
+    items: [
+      {itemId: 'drink.hanasawa_cafe.health_tea', buyPrice: 580},
+      {itemId: 'drink.hanasawa_cafe.americano', buyPrice: 450},
+      {itemId: 'drink.hanasawa_cafe.latte', buyPrice: 520},
+      {itemId: 'drink.hanasawa_cafe.hot_tea', buyPrice: 420},
     ],
   },
 ]

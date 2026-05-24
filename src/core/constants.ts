@@ -17,6 +17,7 @@ export const CONNECTION_TAG_LABELS: Record<string, string> = {
 export const ITEM_TAG_LABELS: Record<string, string> = {
   consumable: '消耗品',
   food: '食物',
+  drink: '饮品',
   instrument: '乐器',
   guitar: '吉他',
   keyboard: '键盘',
