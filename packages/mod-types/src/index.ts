@@ -227,6 +227,8 @@ export interface ModAPI {
 
   registerShop(shop: Shop): void
 
+  registerShopItem(shopId: string, item: ShopItem): void
+
   registerStat(stat: StatDef): void
 
   registerNPC(npc: NPC): void

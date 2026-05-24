@@ -9,6 +9,7 @@ import type {
   NPC,
   Passage,
   Shop,
+  ShopItem,
   StatDef,
 } from '@banglife/mod-types'
 import type {GameContext} from '@/core/types'
@@ -18,6 +19,7 @@ import {usePlayerStore} from '@/stores/player'
 
 type UndoOp =
   | { type: 'unregister'; registry: keyof typeof registries; id: string }
+  | { type: 'unregister-shop-item'; shopId: string; itemId: string; idx: number }
   | { type: 'off'; unsub: () => void }
 
 type EventHandler = (...args: unknown[]) => void
@@ -74,6 +76,16 @@ export function createModAPI(manifest: ModManifest): ModAPI {
       registerEvent: (event: GameEvent) => reg('events', event),
       registerItem: (item: Item) => reg('items', item),
       registerShop: (shop: Shop) => reg('shops', shop),
+      registerShopItem(shopId: string, item: ShopItem) {
+        const shop = registries.shops.get(shopId)
+        if (!shop) {
+          api.log(`未找到商店 ${shopId}`, 'warn')
+          return
+        }
+        const idx = shop.items.length
+        shop.items.push(item)
+        track({type: 'unregister-shop-item', shopId, itemId: item.itemId, idx})
+      },
       registerStat: (stat: StatDef) => reg('stats', stat),
       registerNPC: (npc: NPC) => reg('npcs', npc),
       registerPassage: (passage: Passage) => reg('passages', passage),
@@ -99,7 +111,10 @@ export function createModAPI(manifest: ModManifest): ModAPI {
   ;(api as unknown as { _unload: () => void })._unload = () => {
     for (const op of [...undoStack].reverse()) {
       if (op.type === 'unregister') registries[op.registry].unregister(op.id)
-      else op.unsub()
+      else if (op.type === 'unregister-shop-item') {
+        const shop = registries.shops.get(op.shopId)
+        if (shop) shop.items.splice(op.idx, 1)
+      } else if (op.type === 'off') op.unsub()
     }
     undoStack.length = 0
   }
