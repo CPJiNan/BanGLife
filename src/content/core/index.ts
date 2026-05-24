@@ -181,8 +181,8 @@ const locations: GameLocation[] = [
     description: '备受瞩目的新锐 LiveHouse，集演出厅、录音室与咖啡馆于一体。',
     tags: ['indoor', 'city', 'music', 'livehouse'],
     connections: [
-      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg', tag: 'area'},
       {to: 'city.ring_cafe', duration: 1, label: '去 RiNG 咖啡厅', icon: 'coffee.svg', tag: 'place'},
+      {to: 'city.station_front', duration: 5, label: '去车站前', icon: 'fountain.svg', tag: 'area'},
     ],
   },
   {
@@ -191,7 +191,7 @@ const locations: GameLocation[] = [
     description: 'LiveHouse RiNG 内的咖啡厅。环境宽敞明亮，桌椅错落有致。',
     tags: ['indoor', 'city', 'shop', 'drink', 'food'],
     connections: [
-      {to: 'city.livehouse_ring', duration: 1, label: '返回 LiveHouse RiNG', icon: 'microphone.svg', tag: 'place'},
+      {to: 'city.livehouse_ring', duration: 1, label: '去 LiveHouse RiNG', icon: 'microphone.svg', tag: 'place'},
     ],
   },
   {
