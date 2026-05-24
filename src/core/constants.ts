@@ -9,7 +9,7 @@ export const ACTION_TAG_LABELS: Record<string, string> = {
 }
 
 export const CONNECTION_TAG_LABELS: Record<string, string> = {
-  building: '附近地点',
+  place: '当前地点',
   area: '其他区域',
   other: '移动',
 }

@@ -30,7 +30,7 @@ const locations: GameLocation[] = [
     description: '你的房间。书桌上放着乐谱，窗外是安静的住宅街。',
     tags: ['indoor', 'home', 'private'],
     connections: [
-      {to: 'home.living', duration: 1, label: '去客厅', icon: 'sofa.svg'},
+      {to: 'home.living', duration: 1, label: '去客厅', icon: 'sofa.svg', tag: 'place'},
     ],
   },
   {
@@ -39,10 +39,10 @@ const locations: GameLocation[] = [
     description: '家里的公共区域。电视、沙发，简单而温馨。',
     tags: ['indoor', 'home'],
     connections: [
-      {to: 'home.bedroom', duration: 1, label: '去卧室', icon: 'bed.svg'},
-      {to: 'home.bathroom', duration: 1, label: '去浴室', icon: 'bath.svg'},
-      {to: 'home.kitchen', duration: 1, label: '去厨房', icon: 'kitchen.svg'},
-      {to: 'city.residential_street', duration: 1, label: '出门', icon: 'street.svg'},
+      {to: 'home.bedroom', duration: 1, label: '去卧室', icon: 'bed.svg', tag: 'place'},
+      {to: 'home.bathroom', duration: 1, label: '去浴室', icon: 'bath.svg', tag: 'place'},
+      {to: 'home.kitchen', duration: 1, label: '去厨房', icon: 'kitchen.svg', tag: 'place'},
+      {to: 'city.residential_street', duration: 1, label: '出门', icon: 'street.svg', tag: 'area'},
     ],
   },
   {
@@ -51,7 +51,7 @@ const locations: GameLocation[] = [
     description: '家里的浴室。白色瓷砖墙面，洗发水和沐浴露整齐地摆在架子上。',
     tags: ['indoor', 'home'],
     connections: [
-      {to: 'home.living', duration: 1, label: '去客厅', icon: 'sofa.svg'},
+      {to: 'home.living', duration: 1, label: '去客厅', icon: 'sofa.svg', tag: 'place'},
     ],
   },
   {
@@ -60,7 +60,7 @@ const locations: GameLocation[] = [
     description: '整洁的厨房。水槽里没有堆积的碗筷，冰箱里常备着牛奶和鸡蛋。',
     tags: ['indoor', 'home'],
     connections: [
-      {to: 'home.living', duration: 1, label: '去客厅', icon: 'sofa.svg'},
+      {to: 'home.living', duration: 1, label: '去客厅', icon: 'sofa.svg', tag: 'place'},
     ],
   },
   {
@@ -69,9 +69,9 @@ const locations: GameLocation[] = [
     description: '安静的住宅区街道。两侧是整齐的楼房，偶尔有一两只猫走过。',
     tags: ['outdoor', 'city', 'residential'],
     connections: [
-      {to: 'home.living', duration: 1, label: '回家', icon: 'home.svg', tag: 'building'},
-      {to: 'city.livehouse_circle', duration: 5, label: '去 LiveHouse CiRCLE', icon: 'microphone.svg', tag: 'building'},
-      {to: 'city.edogawa_instrument', duration: 5, label: '去江户川乐器店', icon: 'shop.svg', tag: 'building'},
+      {to: 'home.living', duration: 1, label: '回家', icon: 'home.svg', tag: 'place'},
+      {to: 'city.livehouse_circle', duration: 5, label: '去 LiveHouse CiRCLE', icon: 'microphone.svg', tag: 'place'},
+      {to: 'city.edogawa_instrument', duration: 5, label: '去江户川乐器店', icon: 'shop.svg', tag: 'place'},
       {to: 'city.school_street', duration: 5, label: '去学园街', icon: 'street.svg', tag: 'area'},
       {to: 'city.shopping_street', duration: 5, label: '去商店街', icon: 'street.svg', tag: 'area'},
     ],
@@ -100,9 +100,9 @@ const locations: GameLocation[] = [
     description: '连接着几所女子学园的街道，道路两旁种着行道树。',
     tags: ['outdoor', 'city', 'school'],
     connections: [
-      {to: 'school.hanasakigawa', duration: 5, label: '去花咲川女子学园', icon: 'school.svg', tag: 'building'},
-      {to: 'school.haneoka', duration: 5, label: '去羽丘女子学园', icon: 'school.svg', tag: 'building'},
-      {to: 'school.tsukinomori', duration: 5, label: '去月之森女子学园', icon: 'school.svg', tag: 'building'},
+      {to: 'school.hanasakigawa', duration: 5, label: '去花咲川女子学园', icon: 'school.svg', tag: 'place'},
+      {to: 'school.haneoka', duration: 5, label: '去羽丘女子学园', icon: 'school.svg', tag: 'place'},
+      {to: 'school.tsukinomori', duration: 5, label: '去月之森女子学园', icon: 'school.svg', tag: 'place'},
       {to: 'city.residential_street', duration: 5, label: '去住宅街', icon: 'street.svg', tag: 'area'},
       {to: 'city.walking_bridge', duration: 5, label: '去步道桥', icon: 'bridge.svg', tag: 'area'},
     ],
@@ -150,9 +150,9 @@ const locations: GameLocation[] = [
     description: '繁忙的车站前广场，人来人往。',
     tags: ['outdoor', 'city'],
     connections: [
-      {to: 'city.fast_food', duration: 5, label: '去快餐店', icon: 'burger.svg', tag: 'building'},
-      {to: 'city.shopping_center', duration: 5, label: '去购物中心', icon: 'shop.svg', tag: 'building'},
-      {to: 'city.livehouse_ring', duration: 5, label: '去 LiveHouse RiNG', icon: 'microphone.svg', tag: 'building'},
+      {to: 'city.fast_food', duration: 5, label: '去快餐店', icon: 'burger.svg', tag: 'place'},
+      {to: 'city.shopping_center', duration: 5, label: '去购物中心', icon: 'shop.svg', tag: 'place'},
+      {to: 'city.livehouse_ring', duration: 5, label: '去 LiveHouse RiNG', icon: 'microphone.svg', tag: 'place'},
       {to: 'city.walking_bridge', duration: 5, label: '去步道桥', icon: 'bridge.svg', tag: 'area'},
       {to: 'city.university_road', duration: 5, label: '去大学路', icon: 'street.svg', tag: 'area'},
     ],
