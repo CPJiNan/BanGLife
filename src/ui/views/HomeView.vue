@@ -23,6 +23,10 @@ const playerName = ref('')
 const urlInput = ref('')
 const fileInput = ref<HTMLInputElement | null>(null)
 
+const showSponsor = ref(false)
+
+const base = import.meta.env.BASE_URL
+
 onMounted(async () => {
   await save.refresh()
   await mods.refresh()
@@ -109,6 +113,25 @@ async function onUrlInstall() {
             @click="newGame"
           >
             开始新游戏
+          </button>
+        </div>
+
+        <div class="flex gap-3">
+          <a
+            class="flex-1 py-2.5 rounded-xl text-sm font-semibold border border-neutral-200 bg-white hover:border-brand-pink hover:bg-pink-50/50 transition-all flex items-center justify-center gap-2"
+            href="https://github.com/CPJiNan/BanGLife"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img :src="`${base}icons/github.svg`" alt="Github" class="w-4 h-4"/>
+            Github
+          </a>
+          <button
+            class="flex-1 py-2.5 rounded-xl text-sm font-semibold border border-neutral-200 bg-white hover:border-brand-pink hover:bg-pink-50/50 transition-all flex items-center justify-center gap-2"
+            @click="showSponsor = true"
+          >
+            <img :src="`${base}icons/coffee.svg`" alt="赞助" class="w-4 h-4"/>
+            赞助
           </button>
         </div>
 
@@ -213,6 +236,36 @@ async function onUrlInstall() {
         </div>
       </div>
       <InstallModal/>
+
+      <Transition>
+        <div
+          v-if="showSponsor"
+          class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 transition-opacity duration-200"
+          @click="showSponsor = false"
+        >
+          <div
+            class="w-full max-w-sm rounded-2xl bg-white shadow-xl p-6"
+            @click.stop
+          >
+            <h3 class="text-base font-bold mb-4 text-center">赞助</h3>
+            <div class="flex justify-center mb-4">
+              <img
+                :src="`${base}sponsor.png`"
+                alt=""
+                class="w-full max-w-xs rounded-xl"/>
+            </div>
+            <p class="text-xs text-muted text-center mb-4">
+              感谢您的支持！
+            </p>
+            <button
+              class="w-full py-2 rounded-xl text-sm font-semibold border border-neutral-200 hover:border-neutral-400 transition-colors"
+              @click="showSponsor = false"
+            >
+              关闭
+            </button>
+          </div>
+        </div>
+      </Transition>
 
       <footer class="mt-8 text-center text-xs text-muted">
         v{{ GAME_VERSION }} · BanGLife
