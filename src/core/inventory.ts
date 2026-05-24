@@ -72,7 +72,7 @@ export function useItem(
   const item = registries.items.get(itemId)
   if (!canUseItem(item) || !item?.useEffects) return false
 
-  const consume = item.consume ?? true
+  const consume = item.consumable ?? true
   const consumeAmount = consume === true ? 1 : consume === false ? 0 : consume
   if (consumeAmount > 0 && getItemAmount(itemId) < consumeAmount) return false
 

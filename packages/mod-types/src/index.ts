@@ -142,7 +142,7 @@ export interface Item {
   tags?: string[]
   usable?: boolean
   useEffects?: Effect[]
-  consume?: boolean | number
+  consumable?: boolean | number
   droppable?: boolean
 }
 
