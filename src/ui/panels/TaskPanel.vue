@@ -109,7 +109,9 @@ function formatExpire(startTime: number, expireMinutes: number): string {
           :disabled="claimingId !== null || !allTargetsDone(entry)"
           class="flex-1 text-xs py-1.5 rounded-lg text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-wait"
           style="background: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple))"
-          @click="claimReward(entry.id)"
+          @mousedown="console.log('[TaskPanel] mousedown', entry.id)"
+          @mouseup="console.log('[TaskPanel] mouseup', entry.id)"
+          @click="console.log('[TaskPanel] click', entry.id); claimReward(entry.id)"
         >
           {{ claimingId === entry.id ? '领取中...' : '领取奖励' }}
         </button>
