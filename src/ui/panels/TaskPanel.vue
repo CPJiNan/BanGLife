@@ -34,12 +34,10 @@ function allTargetsDone(entry: Entry): boolean {
 }
 
 async function claimReward(id: string) {
-  console.log('[TaskPanel] claimReward called, id=' + id + ' claimingId=' + claimingId.value)
   if (claimingId.value !== null) return
   claimingId.value = id
   try {
     await tasksStore.complete(id)
-    console.log('[TaskPanel] complete done for ' + id)
   } catch (e) {
     console.error('[TaskPanel] 领取任务奖励失败：', e)
   } finally {
@@ -109,9 +107,7 @@ function formatExpire(startTime: number, expireMinutes: number): string {
           :disabled="claimingId !== null || !allTargetsDone(entry)"
           class="flex-1 text-xs py-1.5 rounded-lg text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-wait"
           style="background: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple))"
-          @mousedown="console.log('[TaskPanel] mousedown', entry.id)"
-          @mouseup="console.log('[TaskPanel] mouseup', entry.id)"
-          @click="console.log('[TaskPanel] click', entry.id); claimReward(entry.id)"
+          @click="claimReward(entry.id)"
         >
           {{ claimingId === entry.id ? '领取中...' : '领取奖励' }}
         </button>

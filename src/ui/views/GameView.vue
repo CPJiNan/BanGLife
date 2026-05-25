@@ -174,18 +174,16 @@ function toggleMobilePanel(id: PanelId) {
 <style scoped>
 .panel-slide-enter-active,
 .panel-slide-leave-active {
-  transition: transform 0.2s ease, opacity 0.15s ease;
+  transition: opacity 0.12s ease;
 }
 
 .panel-slide-enter-from,
 .panel-slide-leave-to {
-  transform: translateX(-100%);
   opacity: 0;
 }
 
 .panel-slide-enter-to,
 .panel-slide-leave-from {
-  transform: translateX(0);
   opacity: 1;
 }
 
