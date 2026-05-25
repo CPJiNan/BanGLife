@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, onMounted, watch} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import {useTasksStore} from '@/stores/tasks'
 import type {TaskState} from '@/stores/tasks'
 import {usePlayerStore} from '@/stores/player'
@@ -7,6 +7,8 @@ import type {Task} from '@/core/types'
 
 const tasksStore = useTasksStore()
 const player = usePlayerStore()
+
+const claimingId = ref<string | null>(null)
 
 onMounted(() => {
   tasksStore.checkAll()
@@ -27,10 +29,14 @@ function allTargetsDone(entry: Entry): boolean {
 }
 
 async function claimReward(id: string) {
+  if (claimingId.value !== null) return
+  claimingId.value = id
   try {
     await tasksStore.complete(id)
   } catch (e) {
     console.error('[TaskPanel] 领取任务奖励失败：', e)
+  } finally {
+    claimingId.value = null
   }
 }
 
@@ -93,11 +99,12 @@ function formatExpire(startTime: number, expireMinutes: number): string {
       <div class="flex gap-2">
         <button
           v-if="allTargetsDone(entry)"
-          class="flex-1 text-xs py-1.5 rounded-lg text-white transition-opacity hover:opacity-90"
+          :disabled="claimingId !== null"
+          class="flex-1 text-xs py-1.5 rounded-lg text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-wait"
           style="background: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple))"
           @click="claimReward(entry.id)"
         >
-          领取奖励
+          {{ claimingId === entry.id ? '领取中...' : '领取奖励' }}
         </button>
         <button
           v-if="entry.task.cancelable"
