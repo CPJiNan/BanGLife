@@ -34,10 +34,12 @@ function allTargetsDone(entry: Entry): boolean {
 }
 
 async function claimReward(id: string) {
+  console.log('[TaskPanel] claimReward called, id=' + id + ' claimingId=' + claimingId.value)
   if (claimingId.value !== null) return
   claimingId.value = id
   try {
     await tasksStore.complete(id)
+    console.log('[TaskPanel] complete done for ' + id)
   } catch (e) {
     console.error('[TaskPanel] 领取任务奖励失败：', e)
   } finally {

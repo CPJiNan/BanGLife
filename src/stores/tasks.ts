@@ -40,10 +40,11 @@ export const useTasksStore = defineStore('tasks', () => {
 
   async function complete(taskId: string): Promise<void> {
     const state = tasks.value[taskId]
+    console.log('[TasksStore] complete called id=' + taskId + ' state=' + !!state + ' status=' + (state ? state.status : 'N/A') + ' progress=' + (state ? JSON.stringify(state.progress) : 'N/A'))
     if (!state || state.status !== 'active') return
     const task = registries.tasks.get(taskId)
-    if (!task) return
-    if (!state.progress.every(p => p)) return
+    if (!task) { console.log('[TasksStore] complete — task not in registry'); return }
+    if (!state.progress.every(p => p)) { console.log('[TasksStore] complete — not all targets done'); return }
 
     // Mark completed before async work to prevent double-claim
     state.status = 'completed'
