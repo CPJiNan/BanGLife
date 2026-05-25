@@ -10,6 +10,11 @@ const player = usePlayerStore()
 
 const claimingId = ref<string | null>(null)
 
+// Evaluate targets during setup so the initial render already reflects
+// correct progress. Avoids a second render during the CSS enter
+// transition which can cause click events to be lost.
+tasksStore.checkAll()
+
 onMounted(() => {
   tasksStore.checkAll()
 })
