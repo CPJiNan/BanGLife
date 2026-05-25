@@ -4,6 +4,7 @@ import type {SaveSlot} from './save-types'
 import {buildSaveFile, deleteSlot, exportSave, importSave, listSlots, readSlot, writeSlot,} from './save-storage'
 import {getLoadedMods} from '@/mod/api'
 import {usePlayerStore} from './player'
+import {useTasksStore} from './tasks'
 
 export const useSaveStore = defineStore('save', () => {
   const slots = ref<SaveSlot[]>([])
@@ -32,11 +33,13 @@ export const useSaveStore = defineStore('save', () => {
     error.value = null
     try {
       const player = usePlayerStore()
+      const tasksStore = useTasksStore()
       const saveFile = buildSaveFile(
         player.time,
         player.state,
         buildModData(),
         buildModList(),
+        tasksStore.serialize(),
       )
       const saveSlot: SaveSlot = {
         slot,
@@ -69,6 +72,9 @@ export const useSaveStore = defineStore('save', () => {
       const player = usePlayerStore()
       player.time = saved.data.state.time
       Object.assign(player.state, saved.data.state.player)
+      if (saved.data.state.taskStates) {
+        useTasksStore().deserialize(saved.data.state.taskStates)
+      }
       for (const mod of getLoadedMods()) {
         const modData = saved.data.modData[mod.manifest.id]
         if (modData !== undefined) mod.definition.onDeserialize?.(modData)
