@@ -12,9 +12,10 @@ onMounted(() => {
   tasksStore.checkAll()
 })
 
-// Re-check targets on each time tick while panel is open
+// Re-check targets and expirations on each time tick while panel is open
 watch(() => player.time, () => {
   tasksStore.checkAll()
+  tasksStore.checkExpirations()
 })
 
 interface Entry { id: string; task: Task; state: TaskState }
