@@ -24,30 +24,13 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   }
 
-  function checkAll(): void {
-    const ctx = makeGameContext()
-    for (const [id, state] of Object.entries(tasks.value)) {
-      if (state.status !== 'active') continue
-      const task = registries.tasks.get(id)
-      if (!task) continue
-      for (let i = 0; i < task.targets.length; i++) {
-        if (!state.progress[i]) {
-          state.progress[i] = task.targets[i].onCheck(ctx)
-        }
-      }
-    }
-  }
-
   async function complete(taskId: string): Promise<void> {
     const state = tasks.value[taskId]
     if (!state || state.status !== 'active') return
     const task = registries.tasks.get(taskId)
     if (!task) return
     if (!state.progress.every(p => p)) return
-
-    // Mark completed before async work to prevent double-claim
     state.status = 'completed'
-
     const ctx = makeGameContext()
     try {
       if (task.rewards && task.rewards.length > 0) {
@@ -73,13 +56,24 @@ export const useTasksStore = defineStore('tasks', () => {
     delete tasks.value[taskId]
   }
 
-  function checkExpirations(): void {
+  function updateTasks(): void {
+    const ctx = makeGameContext()
+    for (const [id, state] of Object.entries(tasks.value)) {
+      if (state.status !== 'active') continue
+      const task = registries.tasks.get(id)
+      if (!task) continue
+      for (let i = 0; i < task.targets.length; i++) {
+        if (!state.progress[i]) state.progress[i] = task.targets[i].onCheck(ctx)
+      }
+    }
+  }
+
+  function expireTasks(): void {
     const ctx = makeGameContext()
     const now = ctx.time.absolute
     for (const [id, state] of Object.entries(tasks.value)) {
       if (state.status !== 'active') continue
       const task = registries.tasks.get(id)
-      // Clean up orphaned states whose definition was removed (mod unload)
       if (!task) {
         delete tasks.value[id]
         continue
@@ -105,14 +99,13 @@ export const useTasksStore = defineStore('tasks', () => {
       .filter((e): e is { id: string; task: Task; state: TaskState } => e.task !== undefined)
   })
 
-  const hasClaimable = computed(() => {
+  const hasCompletedTasks = computed(() => {
     return entries.value.some(e => e.state.progress.every(p => p))
   })
 
   function serialize(): Record<string, { startTime: number; progress: boolean[]; status: string }> {
     const result: Record<string, { startTime: number; progress: boolean[]; status: string }> = {}
     for (const [id, state] of Object.entries(tasks.value)) {
-      // Skip orphaned states whose task definition was unregistered
       if (!registries.tasks.get(id)) continue
       result[id] = {
         startTime: state.startTime,
@@ -141,12 +134,12 @@ export const useTasksStore = defineStore('tasks', () => {
   return {
     tasks,
     entries,
-    hasClaimable,
     activate,
-    checkAll,
     complete,
     cancel,
-    checkExpirations,
+    updateTasks,
+    expireTasks,
+    hasCompletedTasks,
     serialize,
     deserialize,
   }

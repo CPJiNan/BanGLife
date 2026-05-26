@@ -72,8 +72,8 @@ export const useSaveStore = defineStore('save', () => {
       const player = usePlayerStore()
       player.time = saved.data.state.time
       Object.assign(player.state, saved.data.state.player)
-      if (saved.data.state.taskStates) {
-        useTasksStore().deserialize(saved.data.state.taskStates)
+      if (saved.data.state.tasks) {
+        useTasksStore().deserialize(saved.data.state.tasks)
       }
       for (const mod of getLoadedMods()) {
         const modData = saved.data.modData[mod.manifest.id]

@@ -63,7 +63,7 @@ export function buildSaveFile(
   player: PlayerState,
   modData: Record<string, unknown>,
   mods: { id: string; version: string }[],
-  taskStates: Record<string, { startTime: number; progress: boolean[]; status: string }> = {},
+  tasks: Record<string, { startTime: number; progress: boolean[]; status: string }> = {},
 ): SaveFile {
   const now = Date.now()
   return {
@@ -77,8 +77,7 @@ export function buildSaveFile(
     state: {
       time,
       player: JSON.parse(JSON.stringify(player)),
-      eventsFired: [],
-      taskStates,
+      tasks: tasks,
     },
     ui: {seenPassages: []},
   }

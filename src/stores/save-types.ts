@@ -15,8 +15,7 @@ export interface SaveFile {
   state: {
     time: number
     player: PlayerState
-    eventsFired: string[]
-    taskStates: Record<string, { startTime: number; progress: boolean[]; status: string }>
+    tasks: Record<string, { startTime: number; progress: boolean[]; status: string }>
   }
   ui: {
     seenPassages: string[]

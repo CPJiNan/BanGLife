@@ -5,7 +5,7 @@ import type {GameContext, TriggerSignal} from '@/core/types'
 
 export function triggerEvents(signal: TriggerSignal, ctx: GameContext): string | null {
   eventBus.emit(signal.type, signal)
-  if (signal.type === 'time:tick') useTasksStore().checkExpirations()
+  if (signal.type === 'time:tick') useTasksStore().expireTasks()
   const candidates = registries.events.filter(evt => {
     if (evt.trigger.on !== signal.type) return false
     if (evt.trigger.condition && !evt.trigger.condition(ctx)) return false

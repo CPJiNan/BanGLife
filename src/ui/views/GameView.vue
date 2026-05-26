@@ -65,7 +65,7 @@ function toggleMobilePanel(id: PanelId) {
         <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
         <span class="text-[9px] mt-0.5 leading-none">{{ btn.label }}</span>
         <span
-          v-if="btn.badge && tasksStore.hasClaimable"
+          v-if="btn.badge && tasksStore.hasCompletedTasks"
           class="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full"
         />
       </button>
@@ -134,7 +134,7 @@ function toggleMobilePanel(id: PanelId) {
         <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
         <span class="text-[10px]">{{ btn.label }}</span>
         <span
-          v-if="btn.badge && tasksStore.hasClaimable"
+          v-if="btn.badge && tasksStore.hasCompletedTasks"
           class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
         />
       </button>

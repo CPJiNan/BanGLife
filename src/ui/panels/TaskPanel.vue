@@ -10,15 +10,15 @@ const player = usePlayerStore()
 
 const claimingId = ref<string | null>(null)
 
-tasksStore.checkAll()
+tasksStore.updateTasks()
 
 onMounted(() => {
-  tasksStore.checkAll()
+  tasksStore.updateTasks()
 })
 
 watch(() => player.time, () => {
-  tasksStore.checkAll()
-  tasksStore.checkExpirations()
+  tasksStore.updateTasks()
+  tasksStore.expireTasks()
 })
 
 interface Entry {
