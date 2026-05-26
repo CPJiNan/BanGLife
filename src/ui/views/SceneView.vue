@@ -57,7 +57,6 @@ function showPassageById(passageId: string) {
 
 function moveTo(connection: Connection) {
   player.advanceTime(connection.duration)
-  // Trigger time:tick so expire checks (and other time-driven events) fire on movement
   triggerEvents({type: 'time:tick', minutes: connection.duration}, makeGameContext())
   player.moveTo(connection.to)
   const evtPassageId = triggerEvents({type: 'location:enter', locationId: connection.to}, makeGameContext())

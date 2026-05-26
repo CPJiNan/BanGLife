@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {computed, onMounted, ref, watch} from 'vue'
-import {useTasksStore} from '@/stores/tasks'
 import type {TaskState} from '@/stores/tasks'
+import {useTasksStore} from '@/stores/tasks'
 import {usePlayerStore} from '@/stores/player'
 import type {Task} from '@/core/types'
 
@@ -10,28 +10,24 @@ const player = usePlayerStore()
 
 const claimingId = ref<string | null>(null)
 
-// Evaluate targets during setup so the initial render already reflects
-// correct progress. Avoids a second render during the CSS enter
-// transition which can cause click events to be lost.
 tasksStore.checkAll()
 
 onMounted(() => {
   tasksStore.checkAll()
 })
 
-// Re-check targets and expirations on each time tick while panel is open
 watch(() => player.time, () => {
   tasksStore.checkAll()
   tasksStore.checkExpirations()
 })
 
-interface Entry { id: string; task: Task; state: TaskState }
+interface Entry {
+  id: string;
+  task: Task;
+  state: TaskState
+}
 
 const entries = computed<Entry[]>(() => tasksStore.entries as Entry[])
-
-function allTargetsDone(entry: Entry): boolean {
-  return entry.state.progress.every(p => p)
-}
 
 async function claimReward(id: string) {
   if (claimingId.value !== null) return
@@ -39,31 +35,29 @@ async function claimReward(id: string) {
   try {
     await tasksStore.complete(id)
   } catch (e) {
-    console.error('[TaskPanel] 领取任务奖励失败：', e)
+    console.error('[BanGLife] 任务奖励领取失败：', e)
   } finally {
     claimingId.value = null
   }
 }
 
-function abandonTask(id: string) {
+function cancelTask(id: string) {
   tasksStore.cancel(id)
 }
 
 function formatExpire(startTime: number, expireMinutes: number): string {
-  const elapsed = player.time - startTime
-  const remaining = expireMinutes - elapsed
-  if (remaining <= 0) return '即将过期'
+  const remaining = startTime + expireMinutes - player.time
   const h = Math.floor(remaining / 60)
   const m = Math.floor(remaining % 60)
   if (h > 0) return `${h} 小时 ${m} 分钟`
-  return `${m} 分钟`
+  else return `${m} 分钟`
 }
 </script>
 
 <template>
   <div class="flex flex-col gap-3 p-4 overflow-y-auto h-full">
     <div v-if="entries.length === 0" class="text-xs text-neutral-400 text-center py-6">
-      暂无进行中的任务
+      暂无任务
     </div>
 
     <div
@@ -103,8 +97,8 @@ function formatExpire(startTime: number, expireMinutes: number): string {
 
       <div class="flex gap-2">
         <button
-          v-show="allTargetsDone(entry)"
-          :disabled="claimingId !== null || !allTargetsDone(entry)"
+          v-show="entry.state.progress.every(p => p)"
+          :disabled="claimingId !== null || !entry.state.progress.every(p => p)"
           class="flex-1 text-xs py-1.5 rounded-lg text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-wait"
           style="background: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple))"
           @click="claimReward(entry.id)"
@@ -114,9 +108,9 @@ function formatExpire(startTime: number, expireMinutes: number): string {
         <button
           v-if="entry.task.cancelable"
           class="flex-1 text-xs py-1.5 rounded-lg border border-red-100 text-red-400 hover:border-red-300 transition-colors"
-          @click="abandonTask(entry.id)"
+          @click="cancelTask(entry.id)"
         >
-          放弃任务
+          取消任务
         </button>
       </div>
 

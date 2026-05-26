@@ -20,6 +20,6 @@ async function boot() {
   await useModsStore().loadAllEnabled()
 }
 
-boot().catch((err) => {
-  console.error('[BanGLife] 启动失败：', err)
+boot().catch((e) => {
+  console.error('[BanGLife] 启动失败：', e)
 })

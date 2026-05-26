@@ -15,7 +15,22 @@ import type {
   Task,
 } from '@banglife/mod-types'
 
-export type {GameTime, Period, GameLocation, Connection, Action, GameEvent, Item, Shop, ShopItem, StatDef, NPC, Passage, Target, Task}
+export type {
+  GameTime,
+  Period,
+  GameLocation,
+  Connection,
+  Action,
+  GameEvent,
+  Item,
+  Shop,
+  ShopItem,
+  StatDef,
+  NPC,
+  Passage,
+  Target,
+  Task
+}
 export type {PlayerState, InventoryItem, Relationship, GameContext, TimeInfo as ModTimeInfo} from '@banglife/mod-types'
 
 export interface TimeInfo {
