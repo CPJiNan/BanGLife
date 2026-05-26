@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import StatsPanel from '@/ui/panels/StatsPanel.vue'
 import SocialPanel from '@/ui/panels/SocialPanel.vue'
+import TaskPanel from '@/ui/panels/TaskPanel.vue'
 import SavePanel from '@/ui/panels/SavePanel.vue'
 import OptionsPanel from '@/ui/panels/OptionsPanel.vue'
 import InventoryPanel from '@/ui/panels/InventoryPanel.vue'
@@ -12,9 +13,10 @@ import PassageOverlay from '@/ui/overlays/PassageOverlay.vue'
 import {computed, ref} from 'vue'
 import {usePlayerStore} from '@/stores/player'
 import {useWorldStore} from '@/stores/world'
+import {useTasksStore} from '@/stores/tasks'
 import {formatDate, formatTime} from '@/core/time'
 
-type PanelId = 'stats' | 'social' | 'save' | 'options' | 'inventory'
+type PanelId = 'stats' | 'social' | 'tasks' | 'inventory' | 'save' | 'options'
 
 const activePanel = ref<PanelId | null>(null)
 const mobilePanel = ref<PanelId | null>(null)
@@ -22,6 +24,7 @@ const mobilePanel = ref<PanelId | null>(null)
 const player = usePlayerStore()
 const world = useWorldStore()
 const ui = useUIStore()
+const tasksStore = useTasksStore()
 
 const timeStr = computed(() => formatTime(player.timeInfo))
 const dateStr = computed(() => formatDate(player.timeInfo))
@@ -29,9 +32,10 @@ const locationName = computed(() => world.getLocation(player.state.currentLocati
 
 const base = import.meta.env.BASE_URL
 
-const sidebarButtons: { id: PanelId; label: string; icon: string }[] = [
+const sidebarButtons: { id: PanelId; label: string; icon: string; badge?: boolean }[] = [
   {id: 'stats', label: '属性', icon: `${base}icons/stats.svg`},
   {id: 'social', label: '社交', icon: `${base}icons/social.svg`},
+  {id: 'tasks', label: '任务', icon: `${base}icons/task.svg`, badge: true},
   {id: 'inventory', label: '背包', icon: `${base}icons/inventory.svg`},
   {id: 'save', label: '存档', icon: `${base}icons/save.svg`},
   {id: 'options', label: '选项', icon: `${base}icons/options.svg`},
@@ -55,11 +59,15 @@ function toggleMobilePanel(id: PanelId) {
         :class="activePanel === btn.id
           ? 'bg-pink-50 text-brand-pink'
           : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-700'"
-        class="w-10 h-10 rounded-xl flex flex-col items-center justify-center transition-colors"
+        class="w-10 h-10 rounded-xl flex flex-col items-center justify-center transition-colors relative"
         @click="togglePanel(btn.id)"
       >
         <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
         <span class="text-[9px] mt-0.5 leading-none">{{ btn.label }}</span>
+        <span
+          v-if="btn.badge && tasksStore.hasClaimable"
+          class="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full"
+        />
       </button>
 
     </aside>
@@ -83,6 +91,7 @@ function toggleMobilePanel(id: PanelId) {
         <div class="flex-1 overflow-hidden">
           <StatsPanel v-if="activePanel === 'stats'"/>
           <SocialPanel v-else-if="activePanel === 'social'"/>
+          <TaskPanel v-else-if="activePanel === 'tasks'"/>
           <InventoryPanel v-else-if="activePanel === 'inventory'"/>
           <SavePanel v-else-if="activePanel === 'save'"/>
           <OptionsPanel v-else-if="activePanel === 'options'"/>
@@ -119,11 +128,15 @@ function toggleMobilePanel(id: PanelId) {
         v-for="btn in sidebarButtons"
         :key="btn.id"
         :class="mobilePanel === btn.id ? 'text-brand-pink' : 'text-muted'"
-        class="flex-1 flex flex-col items-center gap-0.5 py-2 transition-colors"
+        class="flex-1 flex flex-col items-center gap-0.5 py-2 transition-colors relative"
         @click="toggleMobilePanel(btn.id)"
       >
         <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
         <span class="text-[10px]">{{ btn.label }}</span>
+        <span
+          v-if="btn.badge && tasksStore.hasClaimable"
+          class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
+        />
       </button>
     </nav>
 
@@ -146,6 +159,7 @@ function toggleMobilePanel(id: PanelId) {
         <div class="flex-1 overflow-hidden">
           <StatsPanel v-if="mobilePanel === 'stats'"/>
           <SocialPanel v-else-if="mobilePanel === 'social'"/>
+          <TaskPanel v-else-if="mobilePanel === 'tasks'"/>
           <InventoryPanel v-else-if="mobilePanel === 'inventory'"/>
           <SavePanel v-else-if="mobilePanel === 'save'"/>
           <OptionsPanel v-else-if="mobilePanel === 'options'"/>
@@ -160,19 +174,16 @@ function toggleMobilePanel(id: PanelId) {
 <style scoped>
 .panel-slide-enter-active,
 .panel-slide-leave-active {
-  transition: width 0.2s ease, opacity 0.15s ease;
-  overflow: hidden;
+  transition: opacity 0.12s ease;
 }
 
 .panel-slide-enter-from,
 .panel-slide-leave-to {
-  width: 0;
   opacity: 0;
 }
 
 .panel-slide-enter-to,
 .panel-slide-leave-from {
-  width: 18rem;
   opacity: 1;
 }
 

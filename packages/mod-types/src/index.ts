@@ -47,7 +47,7 @@ export interface GameContext {
 }
 
 export interface Effect {
-  type: 'stat' | 'money' | 'item' | 'flag' | 'time' | 'location' | 'event'
+  type: 'stat' | 'money' | 'item' | 'flag' | 'time' | 'location' | 'event' | 'task'
   key?: string
   value?: number | string | boolean
   chance?: number
@@ -201,6 +201,25 @@ export interface Passage {
   choices?: Choice[]
 }
 
+export interface Target {
+  title: string
+  description: string
+  onCheck: (ctx: GameContext) => boolean
+}
+
+export interface Task {
+  id: string
+  title: string
+  description: string
+  targets: Target[]
+  rewards?: Effect[]
+  cancelable?: boolean
+  expire?: number
+  onComplete?: (ctx: GameContext) => void
+  onCancel?: (ctx: GameContext) => void
+  onExpire?: (ctx: GameContext) => void
+}
+
 export interface ModManifest {
   id: string
   name: string
@@ -234,6 +253,8 @@ export interface ModAPI {
   registerNPC(npc: NPC): void
 
   registerPassage(passage: Passage): void
+
+  registerTask(task: Task): void
 
   on(event: string, handler: (...args: unknown[]) => void): () => void
 

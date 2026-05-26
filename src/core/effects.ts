@@ -2,6 +2,7 @@ import type {Effect} from '@banglife/mod-types'
 import {registries} from '@/core/registry'
 import {giveItem, takeItem} from '@/core/inventory'
 import {usePlayerStore} from '@/stores/player'
+import {useTasksStore} from '@/stores/tasks'
 
 export function applyEffects(effects: Effect[]): void {
   const player = usePlayerStore()
@@ -47,6 +48,12 @@ export function applyEffects(effects: Effect[]): void {
         break
       }
       case 'event': {
+        break
+      }
+      case 'task': {
+        if (effect.key !== undefined) {
+          useTasksStore().activate(effect.key)
+        }
         break
       }
     }

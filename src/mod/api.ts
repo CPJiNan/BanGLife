@@ -11,6 +11,7 @@ import type {
   Shop,
   ShopItem,
   StatDef,
+  Task,
 } from '@banglife/mod-types'
 import type {GameContext} from '@/core/types'
 import type {Registry} from '@/core/registry'
@@ -89,6 +90,7 @@ export function createModAPI(manifest: ModManifest): ModAPI {
       registerStat: (stat: StatDef) => reg('stats', stat),
       registerNPC: (npc: NPC) => reg('npcs', npc),
       registerPassage: (passage: Passage) => reg('passages', passage),
+      registerTask: (task: Task) => reg('tasks', task),
 
       on(event: string, handler: (...args: unknown[]) => void) {
         const unsub = eventBus.on(event, handler)

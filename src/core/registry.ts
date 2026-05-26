@@ -1,4 +1,4 @@
-import type {Action, GameEvent, GameLocation, Item, NPC, Passage, Shop, StatDef} from './types'
+import type {Action, GameEvent, GameLocation, Item, NPC, Passage, Shop, StatDef, Task} from './types'
 
 export class Registry<T extends { id: string }> {
   private items = new Map<string, T>()
@@ -45,4 +45,5 @@ export const registries = {
   stats: new Registry<StatDef>(),
   npcs: new Registry<NPC>(),
   passages: new Registry<Passage>(),
+  tasks: new Registry<Task>(),
 }
