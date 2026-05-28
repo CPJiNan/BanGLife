@@ -11,10 +11,10 @@ const iconPaths: Record<string, string> = {
 }
 
 const barColors: Record<string, string> = {
-  success: 'bg-green-500',
-  error: 'bg-red-500',
-  warning: 'bg-yellow-500',
-  info: 'bg-blue-500',
+  success: 'bg-green-400',
+  error: 'bg-red-400',
+  warning: 'bg-yellow-400',
+  info: 'bg-blue-400',
 }
 </script>
 
