@@ -41,7 +41,7 @@ function onCancel() {
           </button>
           <button
             :class="ui.activeConfirm.variant === 'danger'
-              ? 'bg-red-500 hover:bg-red-600'
+              ? 'border border-red-100 text-red-400 hover:bg-red-50 hover:border-red-300'
               : 'text-white hover:opacity-90'"
             :style="ui.activeConfirm.variant !== 'danger'
               ? { background: 'linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple))' }
