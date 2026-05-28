@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import {computed, ref} from 'vue'
 import type {PlayerState} from '@/core/types'
-import {timeToInfo} from '@/core/time'
+import {getTimeInfo} from '@/core/time'
 import {START_TIME} from '@/core/constants'
 import {registries} from '@/core/registry'
 
@@ -24,7 +24,7 @@ export const usePlayerStore = defineStore('player', () => {
   })
 
   const time = ref<number>(START_TIME)
-  const timeInfo = computed(() => timeToInfo(time.value))
+  const timeInfo = computed(() => getTimeInfo(time.value))
 
   function advanceTime(minutes: number): void {
     time.value += minutes

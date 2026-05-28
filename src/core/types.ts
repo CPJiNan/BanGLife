@@ -31,7 +31,9 @@ export type {
   Target,
   Task
 }
-export type {PlayerState, InventoryItem, Relationship, GameContext, TimeInfo as ModTimeInfo} from '@banglife/mod-types'
+export type {PlayerState, InventoryItem, Relationship, GameContext} from '@banglife/mod-types'
+
+export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 
 export interface TimeInfo {
   absolute: GameTime
@@ -40,7 +42,7 @@ export interface TimeInfo {
   hour: number
   minute: number
   period: Period
-  season?: 'spring' | 'summer' | 'autumn' | 'winter'
+  season: Season
 }
 
 export type TriggerSignal =

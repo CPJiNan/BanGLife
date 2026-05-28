@@ -6,7 +6,7 @@ import {useSaveStore} from '@/stores/save'
 import {useModsStore} from '@/stores/mods'
 import {useWorldStore} from '@/stores/world'
 import {GAME_VERSION} from '@/stores/save-types'
-import {formatTime, timeToInfo} from '@/core/time'
+import {formatTime, getTimeInfo} from '@/core/time'
 import {MINUTES_PER_DAY} from '@/core/constants'
 import InstallModal from '@/ui/components/modals/InstallModal.vue'
 
@@ -161,7 +161,7 @@ async function onUrlInstall() {
             <span class="text-xs text-neutral-400">{{ formatSaveDate(slot.savedAt) }}</span>
           </div>
           <div v-if="slot.data" class="text-xs mb-3">第 {{ Math.floor(slot.preview.gameTime / MINUTES_PER_DAY) + 1 }} 天
-            {{ formatTime(timeToInfo(slot.preview.gameTime)) }} ·
+            {{ formatTime(getTimeInfo(slot.preview.gameTime)) }} ·
             {{ world.getLocation(slot.preview.locationId)?.name ?? slot.preview.locationId }}
           </div>
           <div v-else class="text-xs text-neutral-400 mb-3">空槽位</div>
