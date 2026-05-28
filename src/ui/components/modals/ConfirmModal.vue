@@ -4,13 +4,13 @@ import {useUIStore} from '@/stores/ui'
 const ui = useUIStore()
 
 function onConfirm() {
-  const cb = ui.confirm?.onConfirm
+  const cb = ui.activeConfirm?.onConfirm
   ui.dismissConfirm()
   cb?.()
 }
 
 function onCancel() {
-  const cb = ui.confirm?.onCancel
+  const cb = ui.activeConfirm?.onCancel
   ui.dismissConfirm()
   cb?.()
 }
@@ -19,16 +19,16 @@ function onCancel() {
 <template>
   <Transition name="confirm">
     <div
-      v-if="ui.confirm"
+      v-if="ui.activeConfirm"
       class="fixed inset-0 z-[60] flex items-center justify-center p-4"
     >
-      <div class="absolute inset-0 bg-black/30" @click="onCancel()" />
+      <div class="absolute inset-0 bg-black/30" @click="onCancel()"/>
 
       <div class="relative w-full max-w-sm bg-white rounded-2xl shadow-xl p-6">
-        <h3 class="text-sm font-semibold text-neutral-800">{{ ui.confirm.title }}</h3>
+        <h3 class="text-sm font-semibold text-neutral-800">{{ ui.activeConfirm.title }}</h3>
 
-        <p v-if="ui.confirm.description" class="text-xs text-muted mt-2 leading-relaxed">
-          {{ ui.confirm.description }}
+        <p v-if="ui.activeConfirm.description" class="text-xs text-muted mt-2 leading-relaxed">
+          {{ ui.activeConfirm.description }}
         </p>
 
         <div class="flex gap-3 mt-5">
@@ -40,10 +40,10 @@ function onCancel() {
             取消
           </button>
           <button
-            :class="ui.confirm.variant === 'danger'
+            :class="ui.activeConfirm.variant === 'danger'
               ? 'bg-red-500 hover:bg-red-600'
               : 'text-white hover:opacity-90'"
-            :style="ui.confirm.variant !== 'danger'
+            :style="ui.activeConfirm.variant !== 'danger'
               ? { background: 'linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple))' }
               : {}"
             class="flex-1 text-xs py-2 rounded-xl transition-colors"

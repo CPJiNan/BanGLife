@@ -26,8 +26,8 @@ export interface ConfirmState {
 export const useUIStore = defineStore('ui', () => {
   const activePassage = ref<ActivePassage | null>(null)
   const activeShopId = ref<string | null>(null)
-  const toasts = ref<Toast[]>([])
-  const confirm = ref<ConfirmState | null>(null)
+  const activeToasts = ref<Toast[]>([])
+  const activeConfirm = ref<ConfirmState | null>(null)
 
   function showPassage(passage: ActivePassage): void {
     activePassage.value = passage
@@ -48,34 +48,34 @@ export const useUIStore = defineStore('ui', () => {
   function showToast(message: string, type: Toast['type'] = 'info', duration = 3000): string {
     const id = `toast-${Date.now()}`
     const toast: Toast = {id, message, type, duration}
-    toasts.value.push(toast)
+    activeToasts.value.push(toast)
 
     setTimeout(() => {
-      const index = toasts.value.findIndex(t => t.id === id)
-      if (index > -1) toasts.value.splice(index, 1)
+      const index = activeToasts.value.findIndex(t => t.id === id)
+      if (index > -1) activeToasts.value.splice(index, 1)
     }, duration)
 
     return id
   }
 
   function dismissToast(id: string): void {
-    const index = toasts.value.findIndex(t => t.id === id)
-    if (index > -1) toasts.value.splice(index, 1)
+    const index = activeToasts.value.findIndex(t => t.id === id)
+    if (index > -1) activeToasts.value.splice(index, 1)
   }
 
   function showConfirm(state: ConfirmState): void {
-    confirm.value = state
+    activeConfirm.value = state
   }
 
   function dismissConfirm(): void {
-    confirm.value = null
+    activeConfirm.value = null
   }
 
   return {
     activePassage,
     activeShopId,
-    toasts,
-    confirm,
+    activeToasts,
+    activeConfirm,
     showPassage,
     dismissPassage,
     openShop,
