@@ -8,7 +8,7 @@ import {useWorldStore} from '@/stores/world'
 import {GAME_VERSION} from '@/stores/save-types'
 import {formatTime, timeToInfo} from '@/core/time'
 import {MINUTES_PER_DAY} from '@/core/constants'
-import InstallModal from '@/ui/modals/InstallModal.vue'
+import InstallModal from '@/ui/components/modals/InstallModal.vue'
 
 const router = useRouter()
 const player = usePlayerStore()

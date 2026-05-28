@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue'
 import {useModsStore} from '@/stores/mods'
-import InstallModal from '@/ui/modals/InstallModal.vue'
+import InstallModal from '@/ui/components/modals/InstallModal.vue'
 
 const mods = useModsStore()
 const urlInput = ref('')

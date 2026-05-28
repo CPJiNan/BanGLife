@@ -8,7 +8,7 @@ import InventoryPanel from '@/ui/panels/InventoryPanel.vue'
 import SceneView from '@/ui/views/SceneView.vue'
 import ShopView from '@/ui/views/ShopView.vue'
 import {useUIStore} from '@/stores/ui'
-import PassageOverlay from '@/ui/overlays/PassageOverlay.vue'
+import PassageOverlay from '@/ui/components/overlays/PassageOverlay.vue'
 
 import {computed, ref} from 'vue'
 import {usePlayerStore} from '@/stores/player'
