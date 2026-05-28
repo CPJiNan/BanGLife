@@ -42,10 +42,16 @@ function cancelTask(id: string) {
 
 function formatExpire(startTime: number, expireMinutes: number): string {
   const remaining = startTime + expireMinutes - player.time
+  if (remaining <= 0) return '即将过期'
   const h = Math.floor(remaining / 60)
   const m = Math.floor(remaining % 60)
   if (h > 0) return `${h} 小时 ${m} 分钟`
   else return `${m} 分钟`
+}
+
+function getJobHours(entry: Entry): number {
+  const key = `job:${entry.id.split('.').slice(1).join(':')}:hours`
+  return (player.state.flags[key] as number) || 0
 }
 </script>
 
@@ -61,7 +67,10 @@ function formatExpire(startTime: number, expireMinutes: number): string {
       class="rounded-xl border border-neutral-200 bg-white p-3"
     >
       <div class="text-sm font-medium mb-1">{{ entry.task.title }}</div>
-      <p class="text-xs text-muted mb-3">{{ entry.task.description }}</p>
+      <p class="text-xs text-muted mb-1">{{ entry.task.description }}</p>
+      <p v-if="entry.id.startsWith('job.')" class="text-xs text-brand-pink mb-2">
+        已打工时长：{{ getJobHours(entry) }} 小时
+      </p>
 
       <div class="flex flex-col gap-1.5 mb-3">
         <div
