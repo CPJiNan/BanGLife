@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, onMounted, ref} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import type {TaskState} from '@/stores/tasks'
 import {useTasksStore} from '@/stores/tasks'
 import {usePlayerStore} from '@/stores/player'
@@ -14,6 +14,11 @@ tasksStore.updateTasks()
 
 onMounted(() => {
   tasksStore.updateTasks()
+})
+
+watch(() => player.time, () => {
+  tasksStore.updateTasks()
+  tasksStore.expireTasks()
 })
 
 interface Entry {
@@ -71,9 +76,9 @@ function formatExpire(startTime: number, expireMinutes: number): string {
         >
           <div
             :class="entry.state.progress[i]
-              ? 'bg-green-100 text-green-600'
-              : 'bg-neutral-100 text-neutral-300'"
-            class="w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 mt-0.5"
+              ? 'border-green-500 text-green-500'
+              : 'border-neutral-300 text-neutral-300'"
+            class="w-4 h-4 rounded-full border-2 border-dashed flex items-center justify-center text-[10px] shrink-0 mt-0.5"
           >
             {{ entry.state.progress[i] ? '✓' : '' }}
           </div>
@@ -94,8 +99,7 @@ function formatExpire(startTime: number, expireMinutes: number): string {
         <button
           v-show="entry.state.progress.every(p => p)"
           :disabled="claimingId !== null || !entry.state.progress.every(p => p)"
-          class="flex-1 text-xs py-1.5 rounded-lg text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-wait"
-          style="background: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple))"
+          class="flex-1 text-xs py-1.5 rounded-lg border border-neutral-300 hover:border-brand-pink cursor-pointer transition-colors"
           @click="claimReward(entry.id)"
         >
           {{ claimingId === entry.id ? '领取中...' : '领取奖励' }}

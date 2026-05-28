@@ -13,7 +13,6 @@ import PassageOverlay from '@/ui/components/overlays/PassageOverlay.vue'
 import {computed, ref} from 'vue'
 import {usePlayerStore} from '@/stores/player'
 import {useWorldStore} from '@/stores/world'
-import {useTasksStore} from '@/stores/tasks'
 import {formatDate, formatTime} from '@/core/time'
 
 type PanelId = 'stats' | 'social' | 'tasks' | 'inventory' | 'save' | 'options'
@@ -24,7 +23,6 @@ const mobilePanel = ref<PanelId | null>(null)
 const player = usePlayerStore()
 const world = useWorldStore()
 const ui = useUIStore()
-const tasksStore = useTasksStore()
 
 const timeStr = computed(() => formatTime(player.timeInfo))
 const dateStr = computed(() => formatDate(player.timeInfo))
@@ -32,10 +30,10 @@ const locationName = computed(() => world.getLocation(player.state.currentLocati
 
 const base = import.meta.env.BASE_URL
 
-const sidebarButtons: { id: PanelId; label: string; icon: string; badge?: boolean }[] = [
+const sidebarButtons: { id: PanelId; label: string; icon: string }[] = [
   {id: 'stats', label: '属性', icon: `${base}icons/stats.svg`},
   {id: 'social', label: '社交', icon: `${base}icons/social.svg`},
-  {id: 'tasks', label: '任务', icon: `${base}icons/task.svg`, badge: true},
+  {id: 'tasks', label: '任务', icon: `${base}icons/task.svg`},
   {id: 'inventory', label: '背包', icon: `${base}icons/inventory.svg`},
   {id: 'save', label: '存档', icon: `${base}icons/save.svg`},
   {id: 'options', label: '选项', icon: `${base}icons/options.svg`},
@@ -64,10 +62,6 @@ function toggleMobilePanel(id: PanelId) {
       >
         <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
         <span class="text-[9px] mt-0.5 leading-none">{{ btn.label }}</span>
-        <span
-          v-if="btn.badge && tasksStore.hasCompletedTasks"
-          class="absolute top-0.5 right-0.5 w-2 h-2 bg-red-500 rounded-full"
-        />
       </button>
 
     </aside>
@@ -133,10 +127,6 @@ function toggleMobilePanel(id: PanelId) {
       >
         <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
         <span class="text-[10px]">{{ btn.label }}</span>
-        <span
-          v-if="btn.badge && tasksStore.hasCompletedTasks"
-          class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
-        />
       </button>
     </nav>
 

@@ -13,12 +13,6 @@ const knownNPCs = computed(() => {
 })
 
 const allNPCs = computed(() => registries.npcs.getAll())
-
-function affectionColor(val: number): string {
-  if (val >= 50) return 'text-pink-500'
-  if (val >= 0) return 'text-neutral-600'
-  return 'text-red-500'
-}
 </script>
 
 <template>
@@ -37,14 +31,8 @@ function affectionColor(val: number): string {
         <div class="flex gap-3 text-xs">
           <div>
             <span class="text-muted">好感：</span>
-            <span :class="affectionColor(entry.rel.affection)">
+            <span class="text-neutral-600">
               {{ entry.rel.affection }}
-            </span>
-          </div>
-          <div>
-            <span class="text-muted">信任：</span>
-            <span class="text-neutral-700">
-              {{ entry.rel.trust }}
             </span>
           </div>
         </div>

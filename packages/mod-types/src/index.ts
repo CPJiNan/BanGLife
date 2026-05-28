@@ -36,7 +36,6 @@ export interface InventoryItem {
 
 export interface Relationship {
   affection: number
-  trust: number
   flags: Record<string, boolean>
 }
 
@@ -178,19 +177,9 @@ export interface StatDef {
   color?: string
 }
 
-export interface NPCSchedule {
-  weekday?: (0 | 1 | 2 | 3 | 4 | 5 | 6)[]
-  timeRange: [number, number]
-  location: string
-}
-
 export interface NPC {
   id: string
   name: string
-  portrait?: string
-  defaultLocation?: string
-  schedule?: NPCSchedule[]
-  dialogs: string[]
 }
 
 export interface Passage {
