@@ -10,57 +10,49 @@ const iconPaths: Record<string, string> = {
   info: '/icons/info.svg',
 }
 
-const borderColors: Record<string, string> = {
-  success: 'border-l-green-500',
-  error: 'border-l-red-500',
-  warning: 'border-l-yellow-500',
-  info: 'border-l-blue-500',
-}
-
-const textColors: Record<string, string> = {
-  success: 'text-green-500',
-  error: 'text-red-500',
-  warning: 'text-yellow-500',
-  info: 'text-blue-500',
+const barColors: Record<string, string> = {
+  success: 'bg-green-400',
+  error: 'bg-red-400',
+  warning: 'bg-yellow-400',
+  info: 'bg-blue-400',
 }
 </script>
 
 <template>
-  <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none">
+  <div class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2.5 pointer-events-none">
     <TransitionGroup name="toast">
       <div
         v-for="toast in ui.activeToasts"
         :key="toast.id"
         :class="[
-          'flex items-start gap-2.5 bg-white/95 backdrop-blur-sm rounded-lg pl-3 pr-1.5 py-2.5',
-          'shadow-lg ring-1 ring-black/5 border-l-4 min-w-[240px] max-w-[340px] pointer-events-auto',
-          borderColors[toast.type ?? 'info'] ?? 'border-l-blue-500',
+          'flex items-center gap-3 rounded-2xl px-4 py-3 min-w-70 max-w-100 pointer-events-auto',
+          'bg-white/95 backdrop-blur-md shadow-[0_8px_30px_-6px_rgba(0,0,0,0.12)] relative overflow-hidden',
         ]"
-        @click="ui.dismissToast(toast.id)"
       >
         <img
-          :class="textColors[toast.type ?? 'info'] ?? 'text-blue-500'"
           :src="iconPaths[toast.type ?? 'info']"
-          class="w-5 h-5 shrink-0 mt-0.5"
-        />
+          alt=""
+          class="w-5 h-5 shrink-0"/>
 
-        <span class="flex-1 text-sm text-neutral-700 leading-snug">{{ toast.message }}</span>
+        <span class="flex-1 text-sm font-medium text-neutral-700 leading-snug">{{ toast.message }}</span>
 
         <button
-          class="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-neutral-400 hover:text-red-500 hover:bg-red-50 transition-colors"
-          @click.stop="ui.dismissToast(toast.id)"
+          class="shrink-0 w-5 h-5 rounded-lg flex items-center justify-center text-neutral-400/60
+                 hover:text-neutral-600 hover:bg-black/5 transition-all opacity-0 group-hover:opacity-100"
+          style="opacity: 0.4"
+          @click="ui.dismissToast(toast.id)"
         >
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round"
-               stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-linecap="round"
+               stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24">
             <path d="M18 6l-12 12"/>
             <path d="M6 6l12 12"/>
           </svg>
         </button>
 
-        <div class="absolute bottom-0 left-4 right-3 h-0.5 bg-neutral-200 rounded-full overflow-hidden">
+        <div class="absolute bottom-0 left-0 right-0 h-0.75 bg-black/4 overflow-hidden">
           <div
+            :class="['h-full w-full rounded-full origin-left', barColors[toast.type ?? 'info'] ?? 'bg-blue-500']"
             :style="{ animation: `toast-progress ${toast.duration ?? 3000}ms linear forwards` }"
-            class="h-full bg-neutral-300 rounded-full origin-left"
           />
         </div>
       </div>
@@ -69,6 +61,31 @@ const textColors: Record<string, string> = {
 </template>
 
 <style scoped>
+.toast-enter-active {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.toast-leave-active {
+  transition: all 0.25s ease-in;
+}
+
+.toast-enter-from {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.95);
+}
+
+.toast-leave-to {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.97);
+}
+
+.toast-move {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+</style>
+
+
+<style>
 @keyframes toast-progress {
   from {
     transform: scaleX(1);
@@ -76,24 +93,5 @@ const textColors: Record<string, string> = {
   to {
     transform: scaleX(0);
   }
-}
-
-.toast-enter-active,
-.toast-leave-active {
-  transition: all 0.3s ease;
-}
-
-.toast-enter-from {
-  opacity: 0;
-  transform: translateX(100%);
-}
-
-.toast-leave-to {
-  opacity: 0;
-  transform: translateX(100%);
-}
-
-.toast-move {
-  transition: transform 0.3s ease;
 }
 </style>
