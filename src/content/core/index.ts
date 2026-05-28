@@ -1,5 +1,6 @@
 import type {ModDefinition, ModManifest} from '@banglife/mod-types'
 import type {Action, GameLocation, Item, Passage, Shop, StatDef} from '@/core/types'
+import {jobActions, jobPassages, jobTasks} from './jobs'
 import {GAME_VERSION} from '@/stores/save-types'
 
 const manifest: ModManifest = {
@@ -850,6 +851,9 @@ const definition: ModDefinition = {
     for (const passage of passages) api.registerPassage(passage)
     for (const item of items) api.registerItem(item)
     for (const shop of shops) api.registerShop(shop)
+    for (const action of jobActions) api.registerAction(action)
+    for (const passage of jobPassages) api.registerPassage(passage)
+    for (const task of jobTasks) api.registerTask(task)
   },
 }
 

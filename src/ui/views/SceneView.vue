@@ -8,6 +8,7 @@ import {makeGameContext} from '@/mod/api'
 import {triggerEvents} from '@/core/scheduler'
 import {applyEffects} from '@/core/effects'
 import {getShopsByLocation} from '@/core/shop'
+import {useTasksStore} from '@/stores/tasks'
 import type {Action, Connection} from '@/core/types'
 import {ACTION_TAG_LABELS, CONNECTION_TAG_LABELS} from '@/core/constants'
 
@@ -82,6 +83,7 @@ function executeAction(action: Action) {
 
   if (action.execute) {
     action.execute(makeGameContext())
+    useTasksStore().updateTasks()
   }
 
   const afterPassageId = triggerEvents({type: 'action:after', actionId: action.id}, makeGameContext())
@@ -127,7 +129,7 @@ function executeAction(action: Action) {
       </div>
 
       <div v-if="locationShops.length > 0">
-        <div class="text-xs text-muted mb-2 font-medium">商店</div>
+        <div class="text-xs text-muted mb-2 font-medium">购买商品</div>
         <div class="flex flex-col gap-2">
           <button
             v-for="shop in locationShops"
