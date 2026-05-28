@@ -5,8 +5,7 @@ export const MINUTES_PER_WEEK = 7 * MINUTES_PER_DAY
 
 export const ACTION_TAG_LABELS: Record<string, string> = {
   daily: '日常',
-  other: '行动',
-  job: '打工',
+  other: '行动'
 }
 
 export const CONNECTION_TAG_LABELS: Record<string, string> = {
