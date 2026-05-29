@@ -96,7 +96,7 @@ function formatExpire(startTime: number, expireMinutes: number): string {
         >
           <div
             :class="entry.state.progress[i]
-              ? 'border-brand-pink text-brand-pink'
+              ? 'border-green-500 text-green-500'
               : 'border-neutral-300 text-neutral-300'"
             class="w-4 h-4 rounded-full border-2 border-dashed flex items-center justify-center text-[10px] shrink-0 mt-0.5"
           >
@@ -114,8 +114,9 @@ function formatExpire(startTime: number, expireMinutes: number): string {
             <div class="mt-1 flex items-center gap-2">
               <div class="flex-1 h-1 rounded-full bg-neutral-100 overflow-hidden">
                 <div
+                  :class="entry.state.progress[i] ? 'bg-green-400' : 'bg-neutral-300'"
                   :style="{ width: `${getTargetProgress(target) * 100}%` }"
-                  class="h-full rounded-full transition-all duration-300 bg-brand-pink"
+                  class="h-full rounded-full transition-all duration-300"
                 />
               </div>
               <span class="w-6 text-[10px] text-muted text-right shrink-0">{{
