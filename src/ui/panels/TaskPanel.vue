@@ -50,6 +50,7 @@ function cancelTask(id: string, title: string) {
     variant: 'danger',
     onConfirm: () => {
       tasksStore.cancel(id)
+      ui.showToast(`任务 ${title} 已取消`, 'success')
     },
   })
 }
