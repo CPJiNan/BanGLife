@@ -30,14 +30,19 @@ const locationName = computed(() => world.getLocation(player.state.currentLocati
 
 const base = import.meta.env.BASE_URL
 
-const sidebarButtons: { id: PanelId; label: string; icon: string }[] = [
+const sidebarTopButtons: { id: PanelId; label: string; icon: string }[] = [
   {id: 'stats', label: '属性', icon: `${base}icons/stats.svg`},
   {id: 'social', label: '社交', icon: `${base}icons/social.svg`},
   {id: 'tasks', label: '任务', icon: `${base}icons/task.svg`},
   {id: 'inventory', label: '背包', icon: `${base}icons/inventory.svg`},
+]
+
+const sidebarBottomButtons: { id: PanelId; label: string; icon: string }[] = [
   {id: 'save', label: '存档', icon: `${base}icons/save.svg`},
   {id: 'options', label: '选项', icon: `${base}icons/options.svg`},
 ]
+
+const sidebarButtons = [...sidebarTopButtons, ...sidebarBottomButtons]
 
 function togglePanel(id: PanelId) {
   activePanel.value = activePanel.value === id ? null : id
@@ -52,7 +57,20 @@ function toggleMobilePanel(id: PanelId) {
   <div class="h-full hidden md:flex overflow-hidden">
     <aside class="w-14 shrink-0 bg-white border-r border-neutral-200 flex flex-col items-center py-3 gap-1">
       <button
-        v-for="btn in sidebarButtons"
+        v-for="btn in sidebarTopButtons"
+        :key="btn.id"
+        :class="activePanel === btn.id
+          ? 'bg-pink-50 text-brand-pink'
+          : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-700'"
+        class="w-10 h-10 rounded-xl flex flex-col items-center justify-center transition-colors relative"
+        @click="togglePanel(btn.id)"
+      >
+        <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
+        <span class="text-[9px] mt-0.5 leading-none">{{ btn.label }}</span>
+      </button>
+      <div class="flex-1"></div>
+      <button
+        v-for="btn in sidebarBottomButtons"
         :key="btn.id"
         :class="activePanel === btn.id
           ? 'bg-pink-50 text-brand-pink'
