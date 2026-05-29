@@ -3,10 +3,12 @@ import {computed, onMounted, ref, watch} from 'vue'
 import type {TaskState} from '@/stores/tasks'
 import {useTasksStore} from '@/stores/tasks'
 import {usePlayerStore} from '@/stores/player'
+import {useUIStore} from '@/stores/ui'
 import type {Task} from '@/core/types'
 
 const tasksStore = useTasksStore()
 const player = usePlayerStore()
+const ui = useUIStore()
 
 const claimingId = ref<string | null>(null)
 
@@ -41,8 +43,15 @@ async function claimReward(id: string) {
   }
 }
 
-function cancelTask(id: string) {
-  tasksStore.cancel(id)
+function cancelTask(id: string, title: string) {
+  ui.showConfirm({
+    title: '取消任务',
+    description: `确定要取消任务 ${title} 吗？`,
+    variant: 'danger',
+    onConfirm: () => {
+      tasksStore.cancel(id)
+    },
+  })
 }
 
 function formatExpire(startTime: number, expireMinutes: number): string {
@@ -108,7 +117,7 @@ function formatExpire(startTime: number, expireMinutes: number): string {
         <button
           v-if="entry.task.cancelable"
           class="flex-1 text-xs py-1.5 rounded-lg border border-red-100 text-red-400 hover:border-red-300 transition-colors"
-          @click="cancelTask(entry.id)"
+          @click="cancelTask(entry.id, entry.task.title)"
         >
           取消任务
         </button>
