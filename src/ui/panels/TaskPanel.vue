@@ -4,7 +4,8 @@ import type {TaskState} from '@/stores/tasks'
 import {useTasksStore} from '@/stores/tasks'
 import {usePlayerStore} from '@/stores/player'
 import {useUIStore} from '@/stores/ui'
-import type {Task} from '@/core/types'
+import type {Target, Task} from '@/core/types'
+import {makeGameContext} from '@/mod/api'
 
 const tasksStore = useTasksStore()
 const player = usePlayerStore()
@@ -55,6 +56,14 @@ function cancelTask(id: string, title: string) {
   })
 }
 
+function getTargetProgress(target: Target): number {
+  const ctx = makeGameContext()
+  if (target.onProgress) {
+    return Math.min(1, Math.max(0, target.onProgress(ctx)))
+  }
+  return target.onCheck(ctx) ? 1 : 0
+}
+
 function formatExpire(startTime: number, expireMinutes: number): string {
   const remaining = startTime + expireMinutes - player.time
   if (remaining <= 0) return '0 分钟'
@@ -87,13 +96,13 @@ function formatExpire(startTime: number, expireMinutes: number): string {
         >
           <div
             :class="entry.state.progress[i]
-              ? 'border-green-500 text-green-500'
+              ? 'border-brand-pink text-brand-pink'
               : 'border-neutral-300 text-neutral-300'"
             class="w-4 h-4 rounded-full border-2 border-dashed flex items-center justify-center text-[10px] shrink-0 mt-0.5"
           >
             {{ entry.state.progress[i] ? '✓' : '' }}
           </div>
-          <div>
+          <div class="flex-1 min-w-0">
             <div
               :class="entry.state.progress[i] ? 'text-neutral-500 line-through' : 'text-neutral-700'"
             >
@@ -101,6 +110,17 @@ function formatExpire(startTime: number, expireMinutes: number): string {
             </div>
             <div v-if="target.description" class="text-[10px] text-muted mt-0.5">
               {{ target.description }}
+            </div>
+            <div class="mt-1 flex items-center gap-2">
+              <div class="flex-1 h-1 rounded-full bg-neutral-100 overflow-hidden">
+                <div
+                  :style="{ width: `${getTargetProgress(target) * 100}%` }"
+                  class="h-full rounded-full transition-all duration-300 bg-brand-pink"
+                />
+              </div>
+              <span class="w-6 text-[10px] text-muted text-right shrink-0">{{
+                  Math.round(getTargetProgress(target) * 100)
+                }}%</span>
             </div>
           </div>
         </div>
