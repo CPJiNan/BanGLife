@@ -45,13 +45,27 @@ const groupedItems = computed(() => {
 function buy(itemId: string) {
   const entry = shopItems.value.find(i => i.shopItem.itemId === itemId)
   if (!entry) return
-  buyFromShop(entry.shopItem, ctx.value)
+  const itemName = entry.item?.name ?? itemId
+  ui.showConfirm({
+    title: '购买物品',
+    description: `确定要购买 ${itemName} 吗？`,
+    onConfirm: () => {
+      buyFromShop(entry.shopItem, ctx.value)
+    }
+  })
 }
 
 function sell(itemId: string) {
   const entry = shopItems.value.find(i => i.shopItem.itemId === itemId)
   if (!entry) return
-  sellToShop(entry.shopItem, ctx.value)
+  const itemName = entry.item?.name ?? itemId
+  ui.showConfirm({
+    title: '出售物品',
+    description: `确定要出售 ${itemName} 吗？`,
+    onConfirm: () => {
+      sellToShop(entry.shopItem, ctx.value)
+    }
+  })
 }
 
 function close() {

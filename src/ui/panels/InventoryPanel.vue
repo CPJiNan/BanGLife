@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import {computed} from 'vue'
 import {usePlayerStore} from '@/stores/player'
+import {useUIStore} from '@/stores/ui'
 import {registries} from '@/core/registry'
 import {applyEffects} from '@/core/effects'
 import {dropItem, useItem} from '@/core/inventory'
 import {ITEM_TAG_LABELS} from '@/core/constants'
 
 const player = usePlayerStore()
+const ui = useUIStore()
 
 const inventory = computed(() => player.state.inventory)
 
@@ -31,11 +33,34 @@ const groupedEntries = computed(() => {
 })
 
 function handleUse(itemId: string) {
-  useItem(itemId, applyEffects)
+  const entry = entries.value.find(e => e.itemId === itemId)
+  if (!entry) return
+
+  const itemName = entry.item?.name ?? itemId
+
+  ui.showConfirm({
+    title: '使用物品',
+    description: `确定要使用 ${itemName} 吗？`,
+    onConfirm: () => {
+      useItem(itemId, applyEffects)
+    }
+  })
 }
 
 function handleDrop(itemId: string) {
-  dropItem(itemId, 1)
+  const entry = entries.value.find(e => e.itemId === itemId)
+  if (!entry) return
+
+  const itemName = entry.item?.name ?? itemId
+
+  ui.showConfirm({
+    title: '丢弃物品',
+    description: `确定要丢弃 ${itemName} 吗？`,
+    variant: 'danger',
+    onConfirm: () => {
+      dropItem(itemId, 1)
+    }
+  })
 }
 </script>
 
