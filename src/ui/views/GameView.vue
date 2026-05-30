@@ -8,6 +8,7 @@ import InventoryPanel from '@/ui/panels/InventoryPanel.vue'
 import SceneView from '@/ui/views/SceneView.vue'
 import ShopView from '@/ui/views/ShopView.vue'
 import {useUIStore} from '@/stores/ui'
+import {useTasksStore} from '@/stores/tasks'
 import PassageOverlay from '@/ui/components/overlays/PassageOverlay.vue'
 
 import {computed, ref} from 'vue'
@@ -23,6 +24,7 @@ const mobilePanel = ref<PanelId | null>(null)
 const player = usePlayerStore()
 const world = useWorldStore()
 const ui = useUIStore()
+const tasks = useTasksStore()
 
 const timeStr = computed(() => formatTime(player.timeInfo))
 const dateStr = computed(() => formatDate(player.timeInfo))
@@ -67,6 +69,10 @@ function toggleMobilePanel(id: PanelId) {
       >
         <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
         <span class="text-[9px] mt-0.5 leading-none">{{ btn.label }}</span>
+        <span
+          v-if="btn.id === 'tasks' && tasks.hasCompletedTasks"
+          class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
+        />
       </button>
       <div class="flex-1"></div>
       <button
@@ -145,6 +151,10 @@ function toggleMobilePanel(id: PanelId) {
       >
         <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
         <span class="text-[10px]">{{ btn.label }}</span>
+        <span
+          v-if="btn.id === 'tasks' && tasks.hasCompletedTasks"
+          class="absolute top-1.5 right-1/2 translate-x-3 w-2 h-2 bg-red-500 rounded-full"
+        />
       </button>
     </nav>
 
