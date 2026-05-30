@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, onMounted, ref, watch} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import type {TaskState} from '@/stores/tasks'
 import {useTasksStore} from '@/stores/tasks'
 import {usePlayerStore} from '@/stores/player'
@@ -17,11 +17,6 @@ tasksStore.updateTasks()
 
 onMounted(() => {
   tasksStore.updateTasks()
-})
-
-watch(() => player.time, () => {
-  tasksStore.updateTasks()
-  tasksStore.expireTasks()
 })
 
 interface Entry {

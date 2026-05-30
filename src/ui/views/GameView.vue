@@ -11,7 +11,7 @@ import {useUIStore} from '@/stores/ui'
 import {useTasksStore} from '@/stores/tasks'
 import PassageOverlay from '@/ui/components/overlays/PassageOverlay.vue'
 
-import {computed, ref} from 'vue'
+import {computed, ref, watch} from 'vue'
 import {usePlayerStore} from '@/stores/player'
 import {useWorldStore} from '@/stores/world'
 import {formatDate, formatTime} from '@/core/time'
@@ -25,6 +25,11 @@ const player = usePlayerStore()
 const world = useWorldStore()
 const ui = useUIStore()
 const tasks = useTasksStore()
+
+watch(() => player.time, () => {
+  tasks.updateTasks()
+  tasks.expireTasks()
+})
 
 const timeStr = computed(() => formatTime(player.timeInfo))
 const dateStr = computed(() => formatDate(player.timeInfo))
