@@ -8,9 +8,10 @@ import InventoryPanel from '@/ui/panels/InventoryPanel.vue'
 import SceneView from '@/ui/views/SceneView.vue'
 import ShopView from '@/ui/views/ShopView.vue'
 import {useUIStore} from '@/stores/ui'
+import {useTasksStore} from '@/stores/tasks'
 import PassageOverlay from '@/ui/components/overlays/PassageOverlay.vue'
 
-import {computed, ref} from 'vue'
+import {computed, ref, watch} from 'vue'
 import {usePlayerStore} from '@/stores/player'
 import {useWorldStore} from '@/stores/world'
 import {formatDate, formatTime} from '@/core/time'
@@ -23,6 +24,12 @@ const mobilePanel = ref<PanelId | null>(null)
 const player = usePlayerStore()
 const world = useWorldStore()
 const ui = useUIStore()
+const tasks = useTasksStore()
+
+watch(() => player.time, () => {
+  tasks.updateTasks()
+  tasks.expireTasks()
+})
 
 const timeStr = computed(() => formatTime(player.timeInfo))
 const dateStr = computed(() => formatDate(player.timeInfo))
@@ -30,14 +37,19 @@ const locationName = computed(() => world.getLocation(player.state.currentLocati
 
 const base = import.meta.env.BASE_URL
 
-const sidebarButtons: { id: PanelId; label: string; icon: string }[] = [
+const sidebarTopButtons: { id: PanelId; label: string; icon: string }[] = [
   {id: 'stats', label: '属性', icon: `${base}icons/stats.svg`},
   {id: 'social', label: '社交', icon: `${base}icons/social.svg`},
   {id: 'tasks', label: '任务', icon: `${base}icons/task.svg`},
   {id: 'inventory', label: '背包', icon: `${base}icons/inventory.svg`},
+]
+
+const sidebarBottomButtons: { id: PanelId; label: string; icon: string }[] = [
   {id: 'save', label: '存档', icon: `${base}icons/save.svg`},
   {id: 'options', label: '选项', icon: `${base}icons/options.svg`},
 ]
+
+const sidebarButtons = [...sidebarTopButtons, ...sidebarBottomButtons]
 
 function togglePanel(id: PanelId) {
   activePanel.value = activePanel.value === id ? null : id
@@ -52,7 +64,24 @@ function toggleMobilePanel(id: PanelId) {
   <div class="h-full hidden md:flex overflow-hidden">
     <aside class="w-14 shrink-0 bg-white border-r border-neutral-200 flex flex-col items-center py-3 gap-1">
       <button
-        v-for="btn in sidebarButtons"
+        v-for="btn in sidebarTopButtons"
+        :key="btn.id"
+        :class="activePanel === btn.id
+          ? 'bg-pink-50 text-brand-pink'
+          : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-700'"
+        class="w-10 h-10 rounded-xl flex flex-col items-center justify-center transition-colors relative"
+        @click="togglePanel(btn.id)"
+      >
+        <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
+        <span class="text-[9px] mt-0.5 leading-none">{{ btn.label }}</span>
+        <span
+          v-if="btn.id === 'tasks' && tasks.hasCompletedTasks"
+          class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
+        />
+      </button>
+      <div class="flex-1"></div>
+      <button
+        v-for="btn in sidebarBottomButtons"
         :key="btn.id"
         :class="activePanel === btn.id
           ? 'bg-pink-50 text-brand-pink'
@@ -127,6 +156,10 @@ function toggleMobilePanel(id: PanelId) {
       >
         <img :alt="btn.label" :src="btn.icon" class="w-4 h-4"/>
         <span class="text-[10px]">{{ btn.label }}</span>
+        <span
+          v-if="btn.id === 'tasks' && tasks.hasCompletedTasks"
+          class="absolute top-1.5 right-1/2 translate-x-3 w-2 h-2 bg-red-500 rounded-full"
+        />
       </button>
     </nav>
 

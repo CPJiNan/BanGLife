@@ -3,6 +3,7 @@ import {computed, ref} from 'vue'
 import {registries} from '@/core/registry'
 import {makeGameContext} from '@/mod/api'
 import type {Task} from '@/core/types'
+import {useUIStore} from './ui'
 
 export interface TaskState {
   startTime: number
@@ -71,6 +72,7 @@ export const useTasksStore = defineStore('tasks', () => {
   function expireTasks(): void {
     const ctx = makeGameContext()
     const now = ctx.time.absolute
+    const ui = useUIStore()
     for (const [id, state] of Object.entries(tasks.value)) {
       if (state.status !== 'active') continue
       const task = registries.tasks.get(id)
@@ -81,6 +83,7 @@ export const useTasksStore = defineStore('tasks', () => {
       if (!task.expire || task.expire <= 0) continue
       if (now >= state.startTime + task.expire) {
         state.status = 'expired'
+        ui.showToast(`任务 ${task.title} 已过期`, 'warning')
         const onExpire = task.onExpire ?? task.onCancel
         onExpire?.(ctx)
         delete tasks.value[id]

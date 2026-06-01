@@ -194,6 +194,7 @@ export interface Target {
   title: string
   description: string
   onCheck: (ctx: GameContext) => boolean
+  onProgress?: (ctx: GameContext) => number
 }
 
 export interface Task {

@@ -1,12 +1,15 @@
 <script lang="ts" setup>
-import {computed, onMounted, ref, watch} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import type {TaskState} from '@/stores/tasks'
 import {useTasksStore} from '@/stores/tasks'
 import {usePlayerStore} from '@/stores/player'
-import type {Task} from '@/core/types'
+import {useUIStore} from '@/stores/ui'
+import type {Target, Task} from '@/core/types'
+import {makeGameContext} from '@/mod/api'
 
 const tasksStore = useTasksStore()
 const player = usePlayerStore()
+const ui = useUIStore()
 
 const claimingId = ref<string | null>(null)
 
@@ -14,11 +17,6 @@ tasksStore.updateTasks()
 
 onMounted(() => {
   tasksStore.updateTasks()
-})
-
-watch(() => player.time, () => {
-  tasksStore.updateTasks()
-  tasksStore.expireTasks()
 })
 
 interface Entry {
@@ -41,8 +39,24 @@ async function claimReward(id: string) {
   }
 }
 
-function cancelTask(id: string) {
-  tasksStore.cancel(id)
+function cancelTask(id: string, title: string) {
+  ui.showConfirm({
+    title: '取消任务',
+    description: `确定要取消任务 ${title} 吗？`,
+    variant: 'danger',
+    onConfirm: () => {
+      tasksStore.cancel(id)
+      ui.showToast(`任务 ${title} 已取消`, 'success')
+    },
+  })
+}
+
+function getTargetProgress(target: Target): number {
+  const ctx = makeGameContext()
+  if (target.onProgress) {
+    return Math.min(1, Math.max(0, target.onProgress(ctx)))
+  }
+  return target.onCheck(ctx) ? 1 : 0
 }
 
 function formatExpire(startTime: number, expireMinutes: number): string {
@@ -83,7 +97,7 @@ function formatExpire(startTime: number, expireMinutes: number): string {
           >
             {{ entry.state.progress[i] ? '✓' : '' }}
           </div>
-          <div>
+          <div class="flex-1 min-w-0">
             <div
               :class="entry.state.progress[i] ? 'text-neutral-500 line-through' : 'text-neutral-700'"
             >
@@ -91,6 +105,18 @@ function formatExpire(startTime: number, expireMinutes: number): string {
             </div>
             <div v-if="target.description" class="text-[10px] text-muted mt-0.5">
               {{ target.description }}
+            </div>
+            <div class="mt-1 flex items-center gap-2">
+              <div class="flex-1 h-1 rounded-full bg-neutral-100 overflow-hidden">
+                <div
+                  :class="entry.state.progress[i] ? 'bg-green-500' : 'bg-neutral-300'"
+                  :style="{ width: `${getTargetProgress(target) * 100}%` }"
+                  class="h-full rounded-full transition-all duration-300"
+                />
+              </div>
+              <span class="w-6 text-[10px] text-muted text-right shrink-0">{{
+                  Math.round(getTargetProgress(target) * 100)
+                }}%</span>
             </div>
           </div>
         </div>
@@ -108,7 +134,7 @@ function formatExpire(startTime: number, expireMinutes: number): string {
         <button
           v-if="entry.task.cancelable"
           class="flex-1 text-xs py-1.5 rounded-lg border border-red-100 text-red-400 hover:border-red-300 transition-colors"
-          @click="cancelTask(entry.id)"
+          @click="cancelTask(entry.id, entry.task.title)"
         >
           取消任务
         </button>
