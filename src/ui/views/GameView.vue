@@ -7,6 +7,7 @@ import OptionsPanel from '@/ui/panels/OptionsPanel.vue'
 import InventoryPanel from '@/ui/panels/InventoryPanel.vue'
 import SceneView from '@/ui/views/SceneView.vue'
 import ShopView from '@/ui/views/ShopView.vue'
+import AppearanceView from '@/ui/views/AppearanceView.vue'
 import {useUIStore} from '@/stores/ui'
 import {useTasksStore} from '@/stores/tasks'
 import PassageOverlay from '@/ui/components/overlays/PassageOverlay.vue'
@@ -123,7 +124,8 @@ function toggleMobilePanel(id: PanelId) {
     </Transition>
 
     <div class="flex-1 overflow-hidden bg-neutral-50">
-      <ShopView v-if="ui.activeShopId"/>
+      <AppearanceView v-if="ui.activeWardrobe" />
+      <ShopView v-else-if="ui.activeShopId"/>
       <SceneView v-else/>
     </div>
 
@@ -142,7 +144,8 @@ function toggleMobilePanel(id: PanelId) {
     </header>
 
     <div class="flex-1 overflow-hidden bg-neutral-50">
-      <ShopView v-if="ui.activeShopId"/>
+      <AppearanceView v-if="ui.activeWardrobe" />
+      <ShopView v-else-if="ui.activeShopId"/>
       <SceneView v-else/>
     </div>
 

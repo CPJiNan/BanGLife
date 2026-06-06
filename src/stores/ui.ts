@@ -28,6 +28,7 @@ export const useUIStore = defineStore('ui', () => {
   const activeShopId = ref<string | null>(null)
   const activeToasts = ref<Toast[]>([])
   const activeConfirm = ref<ConfirmState | null>(null)
+  const activeWardrobe = ref<boolean>(false)
 
   function showPassage(passage: ActivePassage): void {
     activePassage.value = passage
@@ -71,11 +72,20 @@ export const useUIStore = defineStore('ui', () => {
     activeConfirm.value = null
   }
 
+  function openWardrobe(): void {
+    activeWardrobe.value = true
+  }
+
+  function closeWardrobe(): void {
+    activeWardrobe.value = false
+  }
+
   return {
     activePassage,
     activeShopId,
     activeToasts,
     activeConfirm,
+    activeWardrobe,
     showPassage,
     dismissPassage,
     openShop,
@@ -84,5 +94,7 @@ export const useUIStore = defineStore('ui', () => {
     dismissToast,
     showConfirm,
     dismissConfirm,
+    openWardrobe,
+    closeWardrobe,
   }
 })

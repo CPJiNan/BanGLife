@@ -9,6 +9,10 @@ import {GAME_VERSION} from '@/stores/save-types'
 import {formatTime, getTimeInfo} from '@/core/time'
 import {MINUTES_PER_DAY} from '@/core/constants'
 import InstallModal from '@/ui/components/modals/InstallModal.vue'
+import CharacterSprite from '@/ui/components/CharacterSprite.vue'
+import AppearancePicker from '@/ui/components/AppearancePicker.vue'
+import {DEFAULT_APPEARANCE, PARTS} from '@/stores/appearance'
+import type {AppearanceState} from '@/core/types'
 
 const router = useRouter()
 const player = usePlayerStore()
@@ -19,6 +23,9 @@ const world = useWorldStore()
 const tab = ref<'start' | 'saves' | 'mods'>('start')
 
 const playerName = ref('')
+const draftAppearance = ref<AppearanceState>(JSON.parse(JSON.stringify(DEFAULT_APPEARANCE)))
+
+const creationParts = computed(() => PARTS.filter(p => p.id === 'eyes' || p.id === 'hair'))
 
 const urlInput = ref('')
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -48,6 +55,7 @@ function formatSaveDate(ts: number): string {
 
 function newGame() {
   player.state.name = playerName.value.trim() || ''
+  player.state.appearance = JSON.parse(JSON.stringify(draftAppearance.value))
   router.push('/game')
 }
 
@@ -97,15 +105,28 @@ async function onUrlInstall() {
 
         <div class="rounded-2xl bg-white border border-neutral-200 p-5">
           <h2 class="text-sm font-semibold mb-3">创建角色</h2>
-          <div class="flex gap-2 mb-4">
-            <input
-              v-model="playerName"
-              class="flex-1 text-sm border border-neutral-200 rounded-xl px-3 py-2 focus:outline-none focus:border-brand-pink"
-              maxlength="12"
-              placeholder="输入角色名称"
-              type="text"
-              @keydown.enter="newGame"
-            />
+          <div class="flex gap-4 mb-4">
+            <!-- 左侧：预览 -->
+            <div class="shrink-0 flex items-start pt-1">
+              <CharacterSprite :appearance="draftAppearance" :width="128" :height="171" />
+            </div>
+            <!-- 右侧：输入 + 选择器 -->
+            <div class="flex-1 flex flex-col gap-3">
+              <input
+                v-model="playerName"
+                class="text-sm border border-neutral-200 rounded-xl px-3 py-2 focus:outline-none focus:border-brand-pink"
+                maxlength="12"
+                placeholder="输入角色名称"
+                type="text"
+                @keydown.enter="newGame"
+              />
+              <AppearancePicker
+                v-for="p in creationParts"
+                :key="p.id"
+                :part="p"
+                v-model="draftAppearance[p.id]"
+              />
+            </div>
           </div>
           <button
             class="w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90"

@@ -31,7 +31,7 @@ export type {
   Target,
   Task
 }
-export type {PlayerState, InventoryItem, Relationship, GameContext} from '@banglife/mod-types'
+export type {PlayerState, InventoryItem, Relationship, GameContext, AppearanceState, PartSelection} from '@banglife/mod-types'
 
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 

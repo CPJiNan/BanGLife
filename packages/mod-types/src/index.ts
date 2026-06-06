@@ -1,3 +1,10 @@
+export interface PartSelection {
+  style: string
+  color: string
+}
+
+export type AppearanceState = Record<string, PartSelection>
+
 export type GameTime = number
 
 export type Period =
@@ -27,6 +34,7 @@ export interface PlayerState {
   flags: Record<string, unknown>
   currentLocationId: string
   actionCooldowns: Record<string, GameTime>
+  appearance: AppearanceState
 }
 
 export interface InventoryItem {
