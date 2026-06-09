@@ -283,7 +283,7 @@ const actions: Action[] = [
     id: 'bedroom.wardrobe',
     label: '打开衣柜',
     icon: 'wardrobe.svg',
-    duration: 0,
+    duration: 1,
     tag: 'daily',
     locationId: 'home.bedroom',
     execute() {
