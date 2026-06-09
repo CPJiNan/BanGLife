@@ -71,7 +71,7 @@ function formatExpire(startTime: number, expireMinutes: number): string {
 
 <template>
   <div class="flex flex-col gap-3 p-4 overflow-y-auto h-full">
-    <div v-if="entries.length === 0" class="text-xs text-neutral-400 text-center py-6">
+    <div v-if="entries.length === 0" class="text-xs text-neutral-400 text-center py-4">
       暂无任务
     </div>
 

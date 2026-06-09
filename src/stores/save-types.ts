@@ -1,7 +1,7 @@
 import type {PlayerState} from '@/core/types'
 import {version} from '../../package.json' with {type: 'json'}
 
-export const SAVE_FORMAT_VERSION = 2
+export const SAVE_FORMAT_VERSION = 1
 export const GAME_VERSION = version
 
 export interface SaveFile {

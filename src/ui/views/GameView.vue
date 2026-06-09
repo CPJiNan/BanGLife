@@ -124,7 +124,7 @@ function toggleMobilePanel(id: PanelId) {
     </Transition>
 
     <div class="flex-1 overflow-hidden bg-neutral-50">
-      <AppearanceView v-if="ui.activeWardrobe" />
+      <AppearanceView v-if="ui.activeWardrobe"/>
       <ShopView v-else-if="ui.activeShopId"/>
       <SceneView v-else/>
     </div>
@@ -144,7 +144,7 @@ function toggleMobilePanel(id: PanelId) {
     </header>
 
     <div class="flex-1 overflow-hidden bg-neutral-50">
-      <AppearanceView v-if="ui.activeWardrobe" />
+      <AppearanceView v-if="ui.activeWardrobe"/>
       <ShopView v-else-if="ui.activeShopId"/>
       <SceneView v-else/>
     </div>

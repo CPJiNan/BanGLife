@@ -49,7 +49,7 @@ function barWidth(id: string) {
     </div>
 
     <div class="rounded-xl border border-neutral-200 bg-white p-3 flex justify-center">
-      <CharacterSprite :appearance="player.state.appearance" />
+      <CharacterSprite :appearance="player.state.appearance"/>
     </div>
 
     <div class="rounded-xl border border-neutral-200 bg-white px-3 py-2 flex items-center justify-between">
