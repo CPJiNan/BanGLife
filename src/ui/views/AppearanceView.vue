@@ -3,7 +3,7 @@ import {computed, onMounted, ref} from 'vue'
 import CharacterSprite from '@/ui/components/CharacterSprite.vue'
 import {usePlayerStore} from '@/stores/player'
 import {useUIStore} from '@/stores/ui'
-import {useAppearanceStore, DEFAULT_APPEARANCE, PARTS, displayName} from '@/stores/appearance'
+import {DEFAULT_APPEARANCE, displayName, PARTS, useAppearanceStore} from '@/stores/appearance'
 import type {AppearanceState, PartSelection} from '@/core/types'
 
 const player = usePlayerStore()
@@ -28,7 +28,7 @@ const currentOptions = computed(() => {
   return part.styles.flatMap(s =>
     part.colors.map(c => ({
       id: `${s.id}-${c.id}`,
-      label: `${displayName(s)}·${displayName(c)}`,
+      label: `${displayName(s)} ${displayName(c)}`,
       selection: {style: s.id, color: c.id} as PartSelection,
     }))
   )
@@ -63,15 +63,14 @@ function cancel() {
     <div class="px-6 pt-5 pb-3 border-b border-neutral-200 bg-white shrink-0 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
         <h2 class="text-xl font-bold">衣柜</h2>
-        <p class="text-sm text-muted">更换外观</p>
       </div>
       <button class="text-xs text-muted hover:text-brand-pink transition-colors" @click="cancel">返回</button>
     </div>
 
     <div class="flex-1 flex overflow-hidden">
-      <!-- 左侧：预览 + 操作 -->
-      <div class="w-72 shrink-0 bg-white border-r border-neutral-200 flex flex-col items-center justify-center gap-4 p-4">
-        <CharacterSprite :appearance="draft" />
+      <div
+        class="w-72 shrink-0 bg-white border-r border-neutral-200 flex flex-col items-center justify-center gap-4 p-4">
+        <CharacterSprite :appearance="draft"/>
         <div class="flex gap-2">
           <button
             class="px-6 py-2 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90"
@@ -89,9 +88,7 @@ function cancel() {
         </div>
       </div>
 
-      <!-- 右侧：外观选项 -->
       <div class="flex-1 flex flex-col overflow-hidden">
-        <!-- 标签栏 -->
         <div class="flex gap-1 px-4 py-3 border-b border-neutral-200 bg-white shrink-0 flex-wrap">
           <button
             v-for="p in PARTS"
@@ -106,7 +103,6 @@ function cancel() {
           </button>
         </div>
 
-        <!-- 选项网格 -->
         <div class="flex-1 overflow-y-auto px-4 py-4">
           <div class="grid grid-cols-3 gap-3">
             <button
@@ -118,13 +114,13 @@ function cancel() {
               class="rounded-2xl border p-4 flex flex-col items-center gap-2 transition-all"
               @click="selectOption(activePart!.id, opt.selection)"
             >
-              <div class="w-24 h-32 flex items-center justify-center rounded-lg overflow-hidden">
+              <span class="w-24 h-32 flex items-center justify-center rounded-lg overflow-hidden">
                 <CharacterSprite
                   :appearance="{ ...draft, [activePart!.id]: opt.selection }"
-                  :width="96"
                   :height="128"
+                  :width="96"
                 />
-              </div>
+              </span>
               <span class="text-xs font-medium text-neutral-700">{{ opt.label }}</span>
             </button>
           </div>

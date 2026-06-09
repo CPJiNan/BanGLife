@@ -20,7 +20,7 @@ export const PARTS: PartDef[] = [
     id: 'eyes',
     label: '眼睛',
     hasColor: true,
-    styles: [{id: '01', alias: '圆眼'}],
+    styles: [{id: '01'}],
     colors: [
       {id: 'brown', alias: '棕色'},
       {id: 'blue', alias: '蓝色'},
@@ -42,21 +42,21 @@ export const PARTS: PartDef[] = [
     id: 'eyebrows',
     label: '眉毛',
     hasColor: false,
-    styles: [{id: '01', alias: '标准眉'}],
+    styles: [{id: '01'}],
     colors: [],
   },
   {
     id: 'mouth',
     label: '嘴巴',
     hasColor: false,
-    styles: [{id: '01', alias: '微笑'}],
+    styles: [{id: '01'}],
     colors: [],
   },
   {
     id: 'nose',
     label: '鼻子',
     hasColor: false,
-    styles: [{id: '01', alias: '标准鼻'}],
+    styles: [{id: '01'}],
     colors: [],
   },
 ]

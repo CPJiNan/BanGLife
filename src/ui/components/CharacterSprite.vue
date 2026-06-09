@@ -29,10 +29,11 @@ function layerSrc(part: string): string {
     <img
       v-for="layer in LAYERS"
       :key="layer.part"
-      :src="layerSrc(layer.part)"
       :alt="layer.part"
+      :src="layerSrc(layer.part)"
       :style="{ zIndex: layer.z }"
       class="absolute inset-0 w-full h-full object-contain"
+      style="image-rendering: pixelated"
     />
   </div>
 </template>

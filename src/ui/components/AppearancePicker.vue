@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {ref} from 'vue'
+import type {OptionDef, PartDef} from '@/stores/appearance'
 import {displayName} from '@/stores/appearance'
-import type {PartDef, OptionDef} from '@/stores/appearance'
 import type {PartSelection} from '@/core/types'
 
 const props = defineProps<{
@@ -63,9 +63,8 @@ function currentColorLabel(): string {
 
 <template>
   <div class="flex flex-col gap-1.5">
-    <!-- 样式行 -->
     <div class="relative flex items-center gap-2">
-      <span class="text-xs text-muted shrink-0 w-8">样式</span>
+      <span class="text-xs text-muted shrink-0 w-12">{{ part.label }}样式</span>
       <button
         class="w-6 h-6 rounded-lg flex items-center justify-center text-xs text-muted hover:bg-neutral-100 hover:text-neutral-600 transition-colors shrink-0"
         @click="prevStyle"
@@ -84,7 +83,6 @@ function currentColorLabel(): string {
       >
         ▶
       </button>
-      <!-- 下拉列表 -->
       <div
         v-if="expandedStyle"
         class="absolute top-full left-12 right-0 mt-1 z-10 bg-white border border-neutral-200 rounded-xl shadow-lg overflow-hidden"
@@ -101,9 +99,8 @@ function currentColorLabel(): string {
       </div>
     </div>
 
-    <!-- 颜色行 -->
     <div v-if="part.hasColor" class="relative flex items-center gap-2">
-      <span class="text-xs text-muted shrink-0 w-8">颜色</span>
+      <span class="text-xs text-muted shrink-0 w-12">{{ part.label }}颜色</span>
       <button
         class="w-6 h-6 rounded-lg flex items-center justify-center text-xs text-muted hover:bg-neutral-100 hover:text-neutral-600 transition-colors shrink-0"
         @click="prevColor"
@@ -122,7 +119,6 @@ function currentColorLabel(): string {
       >
         ▶
       </button>
-      <!-- 下拉列表 -->
       <div
         v-if="expandedColor"
         class="absolute top-full left-12 right-0 mt-1 z-10 max-h-40 overflow-y-auto bg-white border border-neutral-200 rounded-xl shadow-lg"
