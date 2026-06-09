@@ -281,7 +281,7 @@ const actions: Action[] = [
   },
   {
     id: 'bedroom.wardrobe',
-    label: '衣柜',
+    label: '打开衣柜',
     icon: 'wardrobe.svg',
     duration: 0,
     tag: 'daily',
