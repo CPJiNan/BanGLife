@@ -1,6 +1,7 @@
 import type {ModDefinition, ModManifest} from '@banglife/mod-types'
 import type {Action, GameLocation, Item, Passage, Shop, StatDef} from '@/core/types'
 import {GAME_VERSION} from '@/stores/save-types'
+import {useUIStore} from '@/stores/ui'
 
 const manifest: ModManifest = {
   id: 'banglife.core',
@@ -277,6 +278,17 @@ const actions: Action[] = [
     effects: [
       {type: 'stat', key: 'stress', value: -5},
     ],
+  },
+  {
+    id: 'bedroom.wardrobe',
+    label: '衣柜',
+    icon: 'wardrobe.svg',
+    duration: 0,
+    tag: 'daily',
+    locationId: 'home.bedroom',
+    execute() {
+      useUIStore().openWardrobe()
+    },
   },
 ]
 

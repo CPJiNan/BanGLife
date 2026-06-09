@@ -8,6 +8,44 @@ type Migration = (save: SaveFile) => SaveFile
 
 const migrations: Record<number, Migration> = {
   1: s => s,
+  2: migrateAppearanceV2,
+}
+
+function migrateAppearanceV2(save: SaveFile): SaveFile {
+  const s = JSON.parse(JSON.stringify(save)) as SaveFile
+  const player = s.state.player as unknown as Record<string, unknown>
+  const appearance = player['appearance']
+  if (!appearance || typeof appearance !== 'object') return s
+
+  // Check if already in new format (values are objects, not strings)
+  const entries = Object.entries(appearance as Record<string, unknown>)
+  if (entries.every(([, v]) => typeof v === 'object' && v !== null)) return s
+
+  // Migrate: old format string paths → new PartSelection
+  const newAppearance: Record<string, { style: string; color: string }> = {}
+  for (const [part, value] of entries) {
+    if (typeof value !== 'string') {
+      newAppearance[part] = {style: '01', color: ''}
+      continue
+    }
+    // Pattern: '{part}/{style}-{color}.png' or '{part}/{style}.png'
+    const fileName = (value as string).replace(/\.png$/, '')
+    const afterSlash = fileName.includes('/') ? fileName.split('/').pop()! : fileName
+    const dashIdx = afterSlash.indexOf('-')
+    if (dashIdx >= 0) {
+      newAppearance[part] = {
+        style: afterSlash.substring(0, dashIdx),
+        color: afterSlash.substring(dashIdx + 1),
+      }
+    } else {
+      newAppearance[part] = {
+        style: afterSlash,
+        color: '',
+      }
+    }
+  }
+  player['appearance'] = newAppearance
+  return s
 }
 
 function migrate(save: SaveFile): SaveFile {

@@ -21,6 +21,13 @@ export const usePlayerStore = defineStore('player', () => {
     flags: {},
     currentLocationId: 'home.bedroom',
     actionCooldowns: {},
+    appearance: {
+      eyes: {style: '01', color: 'brown'},
+      hair: {style: '01', color: 'black'},
+      eyebrows: {style: '01', color: ''},
+      mouth: {style: '01', color: ''},
+      nose: {style: '01', color: ''},
+    },
   })
 
   const time = ref<number>(START_TIME)
