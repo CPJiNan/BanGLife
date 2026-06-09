@@ -30,7 +30,7 @@ export const PARTS: PartDef[] = [
     id: 'hair',
     label: '头发',
     hasColor: true,
-    styles: [{id: '01', alias: '长直发'}],
+    styles: [{id: '01'}],
     colors: [
       {id: 'black', alias: '黑色'},
       {id: 'blue', alias: '蓝色'},
