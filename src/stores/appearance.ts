@@ -32,6 +32,7 @@ export const PARTS: PartDef[] = [
     styles: [{id: '01'}],
     colors: [
       {id: 'black', alias: '黑色'},
+      {id: 'milk_tea_blonde', alias: '奶茶金色'},
     ],
   },
   {
