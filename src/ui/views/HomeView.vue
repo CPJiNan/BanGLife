@@ -105,8 +105,8 @@ async function onUrlInstall() {
 
         <div class="rounded-2xl bg-white border border-neutral-200 p-5">
           <h2 class="text-sm font-semibold mb-3">创建角色</h2>
-          <div class="flex gap-4 mb-4">
-            <div class="shrink-0 flex items-start pt-1">
+          <div class="flex flex-col sm:flex-row gap-4 mb-4">
+            <div class="shrink-0 flex items-center justify-center sm:justify-start pt-1">
               <CharacterSprite :appearance="draftAppearance" :height="171" :width="128"/>
             </div>
             <div class="flex-1 flex flex-col gap-3">
