@@ -1,6 +1,7 @@
 import type {ModDefinition, ModManifest} from '@banglife/mod-types'
 import type {Action, GameLocation, Item, Passage, Shop, StatDef} from '@/core/types'
 import {GAME_VERSION} from '@/stores/save-types'
+import {schoolActions, schoolPassages} from './school'
 import {useUIStore} from '@/stores/ui'
 
 const manifest: ModManifest = {
@@ -32,6 +33,7 @@ const stats: StatDef[] = [
   {id: 'guitar', name: '吉他', min: 0, max: 100, default: 0, category: 'skill', visible: true, color: '#AA88FF'},
   {id: 'bass', name: '贝斯', min: 0, max: 100, default: 0, category: 'skill', visible: true, color: '#66EEBB'},
   {id: 'drum', name: '鼓', min: 0, max: 100, default: 0, category: 'skill', visible: true, color: '#FFAAAA'},
+  {id: 'wisdom', name: '智慧', min: 0, max: 100, default: 0, category: 'mental', visible: true, color: '#66DDFF'},
 ]
 
 const locations: GameLocation[] = [
@@ -862,6 +864,8 @@ const definition: ModDefinition = {
     for (const passage of passages) api.registerPassage(passage)
     for (const item of items) api.registerItem(item)
     for (const shop of shops) api.registerShop(shop)
+    for (const action of schoolActions) api.registerAction(action)
+    for (const passage of schoolPassages) api.registerPassage(passage)
   },
 }
 

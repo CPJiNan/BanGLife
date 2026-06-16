@@ -35,6 +35,7 @@ export interface PlayerState {
   currentLocationId: string
   actionCooldowns: Record<string, GameTime>
   appearance: AppearanceState
+  school: string
 }
 
 export interface InventoryItem {

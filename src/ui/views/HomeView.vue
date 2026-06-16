@@ -23,6 +23,7 @@ const world = useWorldStore()
 const tab = ref<'start' | 'saves' | 'mods'>('start')
 
 const playerName = ref('')
+const draftSchool = ref('school.haneoka')
 const draftAppearance = ref<AppearanceState>(JSON.parse(JSON.stringify(DEFAULT_APPEARANCE)))
 
 const creationParts = computed(() => PARTS.filter(p => p.id === 'eyes' || p.id === 'hair'))
@@ -56,6 +57,7 @@ function formatSaveDate(ts: number): string {
 function newGame() {
   player.state.name = playerName.value.trim() || ''
   player.state.appearance = JSON.parse(JSON.stringify(draftAppearance.value))
+  player.state.school = draftSchool.value
   router.push('/game')
 }
 
@@ -126,6 +128,28 @@ async function onUrlInstall() {
               />
             </div>
           </div>
+
+          <div class="mb-4">
+            <h3 class="text-xs text-muted mb-2">选择学校</h3>
+            <div class="grid grid-cols-3 gap-2">
+              <button
+                v-for="s in [
+                  {id: 'school.hanasakigawa', name: '花咲川'},
+                  {id: 'school.haneoka', name: '羽丘'},
+                  {id: 'school.tsukinomori', name: '月之森'},
+                ]"
+                :key="s.id"
+                :class="draftSchool === s.id
+                  ? 'border-brand-pink bg-pink-50 text-brand-pink font-medium'
+                  : 'border-neutral-200 text-neutral-500 hover:border-neutral-300'"
+                class="text-xs py-2 rounded-xl border transition-colors"
+                @click="draftSchool = s.id"
+              >
+                {{ s.name }}
+              </button>
+            </div>
+          </div>
+
           <button
             class="w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style="background: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple))"

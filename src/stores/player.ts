@@ -19,6 +19,7 @@ export const usePlayerStore = defineStore('player', () => {
     inventory: [],
     relationships: {},
     flags: {},
+    school: 'school.haneoka',
     currentLocationId: 'home.bedroom',
     actionCooldowns: {},
     appearance: {

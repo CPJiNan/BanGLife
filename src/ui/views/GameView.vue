@@ -112,7 +112,7 @@ function toggleMobilePanel(id: PanelId) {
             ✕
           </button>
         </div>
-        <div class="flex-1 overflow-hidden">
+        <div class="flex-1 overflow-y-auto">
           <StatsPanel v-if="activePanel === 'stats'"/>
           <SocialPanel v-else-if="activePanel === 'social'"/>
           <TaskPanel v-else-if="activePanel === 'tasks'"/>
@@ -182,7 +182,7 @@ function toggleMobilePanel(id: PanelId) {
             关闭
           </button>
         </div>
-        <div class="flex-1 overflow-hidden">
+        <div class="flex-1 overflow-y-auto">
           <StatsPanel v-if="mobilePanel === 'stats'"/>
           <SocialPanel v-else-if="mobilePanel === 'social'"/>
           <TaskPanel v-else-if="mobilePanel === 'tasks'"/>
