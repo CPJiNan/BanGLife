@@ -16,7 +16,7 @@ const base = import.meta.env.BASE_URL
 function layerSrc(part: string): string {
   if (part === 'base') return `${base}characters/base.png`
   const sel = props.appearance[part]
-  if (!sel) return ''
+  if (!sel || !sel.style) return ''
   return `${base}characters/${partPath(part, sel)}`
 }
 </script>
@@ -28,6 +28,7 @@ function layerSrc(part: string): string {
   >
     <img
       v-for="layer in LAYERS"
+      v-show="layerSrc(layer.part)"
       :key="layer.part"
       :alt="layer.part"
       :src="layerSrc(layer.part)"

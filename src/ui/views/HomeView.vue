@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, onMounted, ref} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import {useRouter} from 'vue-router'
 import {usePlayerStore} from '@/stores/player'
 import {useSaveStore} from '@/stores/save'
@@ -11,7 +11,7 @@ import {MINUTES_PER_DAY} from '@/core/constants'
 import InstallModal from '@/ui/components/modals/InstallModal.vue'
 import CharacterSprite from '@/ui/components/CharacterSprite.vue'
 import AppearancePicker from '@/ui/components/AppearancePicker.vue'
-import {DEFAULT_APPEARANCE, PARTS} from '@/stores/appearance'
+import {DEFAULT_APPEARANCE, PARTS, SCHOOL_CLOTHING} from '@/stores/appearance'
 import type {AppearanceState} from '@/core/types'
 
 const router = useRouter()
@@ -23,10 +23,14 @@ const world = useWorldStore()
 const tab = ref<'start' | 'saves' | 'mods'>('start')
 
 const playerName = ref('')
-const draftSchool = ref('school.haneoka')
+const draftSchool = ref('')
 const draftAppearance = ref<AppearanceState>(JSON.parse(JSON.stringify(DEFAULT_APPEARANCE)))
 
 const creationParts = computed(() => PARTS.filter(p => p.id === 'eyes' || p.id === 'hair'))
+
+watch(draftSchool, (school) => {
+  draftAppearance.value.clothing = {style: school ? (SCHOOL_CLOTHING[school] ?? '') : '', color: ''}
+})
 
 const urlInput = ref('')
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -134,9 +138,9 @@ async function onUrlInstall() {
             <div class="grid grid-cols-3 gap-2">
               <button
                 v-for="s in [
-                  {id: 'school.hanasakigawa', name: '花咲川'},
-                  {id: 'school.haneoka', name: '羽丘'},
-                  {id: 'school.tsukinomori', name: '月之森'},
+                  {id: 'school.haneoka', name: '羽丘女子学园'},
+                  {id: 'school.tsukinomori', name: '月之森女子学园'},
+                  {id: 'school.hanasakigawa', name: '花咲川女子学园'},
                 ]"
                 :key="s.id"
                 :class="draftSchool === s.id
@@ -151,7 +155,8 @@ async function onUrlInstall() {
           </div>
 
           <button
-            class="w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            :disabled="!draftSchool"
+            class="w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
             style="background: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple))"
             @click="newGame"
           >

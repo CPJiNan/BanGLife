@@ -3,12 +3,14 @@ import {computed, onMounted, ref} from 'vue'
 import CharacterSprite from '@/ui/components/CharacterSprite.vue'
 import {usePlayerStore} from '@/stores/player'
 import {useUIStore} from '@/stores/ui'
+import {makeGameContext} from '@/mod/api'
 import {DEFAULT_APPEARANCE, displayName, PARTS, useAppearanceStore} from '@/stores/appearance'
 import type {AppearanceState, PartSelection} from '@/core/types'
 
 const player = usePlayerStore()
 const ui = useUIStore()
 const appearanceStore = useAppearanceStore()
+const ctx = computed(() => makeGameContext())
 
 const draft = ref<AppearanceState>(JSON.parse(JSON.stringify(DEFAULT_APPEARANCE)))
 const activeTab = ref<string>('eyes')
@@ -18,11 +20,13 @@ const activePart = computed(() => PARTS.find(p => p.id === activeTab.value))
 const currentOptions = computed(() => {
   const part = activePart.value
   if (!part) return []
+  const gameCtx = ctx.value
   if (!part.hasColor) {
     return part.styles.map(s => ({
       id: s.id,
       label: displayName(s),
       selection: {style: s.id, color: ''} as PartSelection,
+      locked: s.available ? !s.available(gameCtx) : false,
     }))
   }
   return part.styles.flatMap(s =>
@@ -30,6 +34,7 @@ const currentOptions = computed(() => {
       id: `${s.id}-${c.id}`,
       label: `${displayName(s)} ${displayName(c)}`,
       selection: {style: s.id, color: c.id} as PartSelection,
+      locked: s.available ? !s.available(gameCtx) : false,
     }))
   )
 })
@@ -38,7 +43,12 @@ onMounted(() => {
   draft.value = JSON.parse(JSON.stringify(player.state.appearance))
 })
 
-function selectOption(partId: string, sel: PartSelection) {
+function selectOption(partId: string, sel: PartSelection, locked: boolean) {
+  if (locked) return
+  if (partId === 'clothing' && isSelected(partId, sel)) {
+    draft.value = {...draft.value, [partId]: {style: '', color: ''}}
+    return
+  }
   draft.value = {...draft.value, [partId]: {...sel}}
 }
 
@@ -108,11 +118,15 @@ function cancel() {
             <button
               v-for="opt in currentOptions"
               :key="opt.id"
-              :class="isSelected(activePart!.id, opt.selection)
-                ? 'border-brand-pink bg-pink-50 ring-1 ring-brand-pink/30'
-                : 'border-neutral-200 bg-white hover:border-neutral-300'"
+              :class="[
+                opt.locked
+                  ? 'border-neutral-100 bg-neutral-50 cursor-not-allowed opacity-40'
+                  : isSelected(activePart!.id, opt.selection)
+                    ? 'border-brand-pink bg-pink-50 ring-1 ring-brand-pink/30'
+                    : 'border-neutral-200 bg-white hover:border-neutral-300',
+              ]"
               class="rounded-2xl border p-4 flex flex-col items-center gap-2 transition-all"
-              @click="selectOption(activePart!.id, opt.selection)"
+              @click="selectOption(activePart!.id, opt.selection, opt.locked)"
             >
               <span class="w-24 h-32 flex items-center justify-center rounded-lg overflow-hidden">
                 <CharacterSprite
@@ -121,7 +135,10 @@ function cancel() {
                   :width="96"
                 />
               </span>
-              <span class="text-xs font-medium text-neutral-700">{{ opt.label }}</span>
+              <span class="text-xs font-medium text-neutral-700">
+                {{ opt.label }}
+                <span v-if="opt.locked" class="text-[10px] text-muted">🔒</span>
+              </span>
             </button>
           </div>
         </div>

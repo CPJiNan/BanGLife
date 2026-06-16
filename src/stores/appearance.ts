@@ -1,10 +1,11 @@
 import {defineStore} from 'pinia'
-import type {AppearanceState, PartSelection} from '@/core/types'
+import type {AppearanceState, GameContext, PartSelection} from '@/core/types'
 import {usePlayerStore} from './player'
 
 export interface OptionDef {
   id: string
   alias?: string
+  available?: (ctx: GameContext) => boolean
 }
 
 export interface PartDef {
@@ -58,6 +59,13 @@ export const PARTS: PartDef[] = [
     styles: [{id: '01'}],
     colors: [],
   },
+  {
+    id: 'clothing',
+    label: '服装',
+    hasColor: false,
+    styles: [{id: '01', alias: '羽丘女子学园校服', available: () => true}],
+    colors: [],
+  },
 ]
 
 export const LAYERS = [
@@ -66,8 +74,15 @@ export const LAYERS = [
   {part: 'mouth', z: 3},
   {part: 'eyebrows', z: 4},
   {part: 'eyes', z: 5},
-  {part: 'hair', z: 6},
+  {part: 'clothing', z: 6},
+  {part: 'hair', z: 7},
 ] as const
+
+export const SCHOOL_CLOTHING: Record<string, string> = {
+  'school.haneoka': '01',        // 羽丘女子学园校服
+  'school.hanasakigawa': '',     // 暂无
+  'school.tsukinomori': '',      // 暂无
+}
 
 export const DEFAULT_APPEARANCE: AppearanceState = {
   eyes: {style: '01', color: 'brown'},
@@ -75,6 +90,7 @@ export const DEFAULT_APPEARANCE: AppearanceState = {
   eyebrows: {style: '01', color: ''},
   mouth: {style: '01', color: ''},
   nose: {style: '01', color: ''},
+  clothing: {style: '', color: ''},
 }
 
 export function displayName(opt: OptionDef): string {
