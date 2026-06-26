@@ -72,7 +72,7 @@ const stats: StatDef[] = [
   {id: 'fatigue', name: '疲劳', min: 0, max: 100, default: 0, category: 'physical', visible: true, color: '#FFBB22'},
   {id: 'knowledge', name: '知识', min: 0, max: 100, default: 0, category: 'mental', visible: true, color: '#66DDFF'},
   {id: 'stress', name: '压力', min: 0, max: 100, default: 0, category: 'mental', visible: true, color: '#FF77BB'},
-  {id: 'vocal', name: '演唱', min: 0, max: 100, default: 0, category: 'instrument', visible: true, color: '#FF9933'},
+  {id: 'vocal', name: '演唱', min: 0, max: 100, default: 20, category: 'instrument', visible: true, color: '#FF9933'},
   {id: 'keyboard', name: '键盘', min: 0, max: 100, default: 0, category: 'instrument', visible: true, color: '#99CCFF'},
   {id: 'guitar', name: '吉他', min: 0, max: 100, default: 0, category: 'instrument', visible: true, color: '#AA88FF'},
   {id: 'bass', name: '贝斯', min: 0, max: 100, default: 0, category: 'instrument', visible: true, color: '#66EEBB'},
@@ -82,7 +82,7 @@ const stats: StatDef[] = [
     name: '表达',
     min: 0,
     max: 100,
-    default: 0,
+    default: 20,
     category: 'performance',
     visible: false,
     color: '#FF6699'
@@ -92,7 +92,7 @@ const stats: StatDef[] = [
     name: '技巧',
     min: 0,
     max: 100,
-    default: 0,
+    default: 20,
     category: 'performance',
     visible: false,
     color: '#99CCFF'
@@ -102,7 +102,7 @@ const stats: StatDef[] = [
     name: '节奏',
     min: 0,
     max: 100,
-    default: 0,
+    default: 20,
     category: 'performance',
     visible: false,
     color: '#FFCC44'
@@ -112,7 +112,7 @@ const stats: StatDef[] = [
     name: '音感',
     min: 0,
     max: 100,
-    default: 0,
+    default: 20,
     category: 'performance',
     visible: false,
     color: '#88DDAA'
@@ -122,7 +122,7 @@ const stats: StatDef[] = [
     name: '合奏',
     min: 0,
     max: 100,
-    default: 0,
+    default: 20,
     category: 'performance',
     visible: false,
     color: '#CC99FF'
@@ -132,7 +132,7 @@ const stats: StatDef[] = [
     name: '即兴',
     min: 0,
     max: 100,
-    default: 0,
+    default: 20,
     category: 'performance',
     visible: false,
     color: '#FFAA66'

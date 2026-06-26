@@ -222,11 +222,9 @@ async function onUrlInstall() {
                 class="text-left p-2.5 rounded-xl border transition-colors"
                 @click="toggleTrait(trait.id)"
               >
-                <span class="flex items-center justify-between mb-0.5">
-                  <span class="text-xs font-medium">{{ trait.name }}</span>
-                  <span v-if="selectedTraits.includes(trait.id)" class="text-xs text-brand-pink">✓</span>
+                <span class="flex items-center mb-0.5">
+                  <span class="text-xs font-medium">{{ trait.description }}</span>
                 </span>
-                <p class="text-xs text-muted leading-relaxed">{{ trait.description }}</p>
               </button>
             </div>
           </div>

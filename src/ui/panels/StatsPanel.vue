@@ -29,7 +29,8 @@ const timeStr = computed(() => formatTime(player.timeInfo))
 const dateStr = computed(() => formatDate(player.timeInfo))
 
 function statValue(id: string) {
-  return Math.round(player.state.stats[id] ?? 0)
+  const stat = registries.stats.get(id)
+  return Math.round(player.state.stats[id] ?? stat?.default ?? 0)
 }
 
 function statMax(id: string) {

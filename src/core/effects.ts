@@ -6,6 +6,25 @@ import {useTasksStore} from '@/stores/tasks'
 import {useUIStore} from '@/stores/ui'
 import {makeGameContext} from '@/mod/api'
 
+function applyNpcStat(targetId: string, statId: string, amount: number): void {
+  const statDef = registries.stats.get(statId)
+  const max = statDef?.max ?? 100
+  const min = statDef?.min ?? 0
+  const def = statDef?.default ?? 0
+
+  if (targetId === 'player') {
+    const player = usePlayerStore()
+    const current = player.state.stats[statId] ?? def
+    player.state.stats[statId] = Math.max(min, Math.min(max, current + amount))
+  } else {
+    const npc = registries.npcs.get(targetId)
+    if (npc && npc.stats) {
+      const current = npc.stats[statId] ?? def
+      npc.stats[statId] = Math.max(min, Math.min(max, current + amount))
+    }
+  }
+}
+
 export function applyEffects(effects: Effect[]): void {
   const player = usePlayerStore()
   const state = player.state
@@ -16,9 +35,24 @@ export function applyEffects(effects: Effect[]): void {
         if (effect.key === undefined) break
         const statDef = registries.stats.get(effect.key)
         const max = statDef?.max ?? 100
-        const current = state.stats[effect.key] ?? 0
+        const def = statDef?.default ?? 0
+        const current = state.stats[effect.key] ?? def
         const delta = Number(effect.value ?? 0)
         state.stats[effect.key] = Math.max(statDef?.min ?? 0, Math.min(max, current + delta))
+        break
+      }
+      case 'npc_stat': {
+        if (effect.key === undefined) break
+        const amount = Number(effect.value ?? 0)
+        const parts = effect.key.split(':')
+        if (parts.length !== 2) break
+        const targetId = parts[0]
+        const statId = parts[1]
+        if (targetId === 'band') {
+          for (const member of state.band.members) {
+            applyNpcStat(member.id, statId, amount)
+          }
+        } else applyNpcStat(targetId, statId, amount)
         break
       }
       case 'flag': {

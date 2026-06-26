@@ -47,7 +47,9 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   function modifyStat(id: string, delta: number): void {
-    const current = state.value.stats[id] ?? 0
+    const statDef = registries.stats.get(id)
+    const def = statDef?.default ?? 0
+    const current = state.value.stats[id] ?? def
     state.value.stats[id] = current + delta
   }
 

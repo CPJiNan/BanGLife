@@ -36,15 +36,15 @@ function getMemberName(memberId: string): string {
 }
 
 function computeBaseScore(member: BandMember, stats: Record<string, number>): number {
-  const expression = stats.expression ?? 0
-  const technique = stats.technique ?? 0
-  const rhythm = stats.rhythm ?? 0
-  const pitch = stats.pitch ?? 0
-  const ensemble = stats.ensemble ?? 0
-  const improvisation = stats.improvisation ?? 0
+  const expression = stats.expression ?? registries.stats.get('expression')?.default ?? 0
+  const technique = stats.technique ?? registries.stats.get('technique')?.default ?? 0
+  const rhythm = stats.rhythm ?? registries.stats.get('rhythm')?.default ?? 0
+  const pitch = stats.pitch ?? registries.stats.get('pitch')?.default ?? 0
+  const ensemble = stats.ensemble ?? registries.stats.get('ensemble')?.default ?? 0
+  const improvisation = stats.improvisation ?? registries.stats.get('improvisation')?.default ?? 0
 
   return (expression + technique + rhythm + pitch + ensemble + improvisation) / 6 *
-    (1 + (stats[member.instrument] ?? 0) / 200) * (1 + (member.role === 'lead' ? ((technique + expression) / 400) : ((rhythm + ensemble) / 400))) *
+    (1 + (stats[member.instrument] ?? registries.stats.get(member.instrument)?.default ?? 0) / 200) * (1 + (member.role === 'lead' ? ((technique + expression) / 400) : ((rhythm + ensemble) / 400))) *
     (1 + (member.id !== 'player' ? (usePlayerStore().state.relationships[member.id]?.affection ?? 0) : 0) / 200)
 }
 

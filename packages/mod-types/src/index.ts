@@ -53,7 +53,6 @@ export interface PlayerState {
 
 export interface Trait {
   id: string
-  name: string
   description: string
   effects?: Effect[]
 }
@@ -75,7 +74,7 @@ export interface GameContext {
 }
 
 export interface Effect {
-  type: 'stat' | 'flag' | 'money' | 'item' | 'time' | 'location' | 'passage' | 'task' | 'affection' | 'script'
+  type: 'stat' | 'flag' | 'money' | 'item' | 'time' | 'location' | 'passage' | 'task' | 'affection' | 'npc_stat' | 'script'
   key?: string
   value?: number | string | boolean | ((ctx: GameContext) => void)
   chance?: number

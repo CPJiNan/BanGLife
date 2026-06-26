@@ -84,7 +84,18 @@ function getMemberStats(id: string): Record<string, number> {
 const bandScore = computed(() => {
   const members = band.band.members
   if (members.length === 0) return 0
-  const totalScore = members.reduce((sum, m) => sum + (s => ((s.expression ?? 0) + (s.technique ?? 0) + (s.rhythm ?? 0) + (s.pitch ?? 0) + (s.ensemble ?? 0) + (s.improvisation ?? 0)) / 6 * (1 + (s[m.instrument] ?? 0) / 200) * (1 + (m.role === 'lead' ? ((s.technique ?? 0) + (s.expression ?? 0)) / 400 : ((s.rhythm ?? 0) + (s.ensemble ?? 0)) / 400)))(getMemberStats(m.id)), 0)
+  const totalScore = members.reduce((sum, m) => sum + (s => {
+    const expression = s.expression ?? registries.stats.get('expression')?.default ?? 0
+    const technique = s.technique ?? registries.stats.get('technique')?.default ?? 0
+    const rhythm = s.rhythm ?? registries.stats.get('rhythm')?.default ?? 0
+    const pitch = s.pitch ?? registries.stats.get('pitch')?.default ?? 0
+    const ensemble = s.ensemble ?? registries.stats.get('ensemble')?.default ?? 0
+    const improvisation = s.improvisation ?? registries.stats.get('improvisation')?.default ?? 0
+    const instrument = s[m.instrument] ?? registries.stats.get(m.instrument)?.default ?? 0
+    return ((expression + technique + rhythm + pitch + ensemble + improvisation) / 6) *
+      (1 + instrument / 200) *
+      (1 + (m.role === 'lead' ? (technique + expression) / 400 : (rhythm + ensemble) / 400))
+  })(getMemberStats(m.id)), 0)
   const npcMembers = members.filter(m => m.id !== 'player')
   return totalScore * (1 + (npcMembers.length === 0 ? 0 : npcMembers.reduce((sum, m) => sum + (player.state.relationships[m.id]?.affection ?? 0), 0) / (npcMembers.length * 200)))
 })
