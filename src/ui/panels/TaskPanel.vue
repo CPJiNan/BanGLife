@@ -40,7 +40,7 @@ async function claimReward(id: string) {
 }
 
 function cancelTask(id: string, title: string) {
-  ui.showConfirm({
+  ui.showConfirmModal({
     title: '取消任务',
     description: `确定要取消任务 ${title} 吗？`,
     variant: 'danger',

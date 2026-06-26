@@ -15,20 +15,29 @@ export interface Toast {
   duration?: number
 }
 
-export interface ConfirmState {
+export interface ConfirmModalState {
   title: string
   description?: string
   variant?: 'default' | 'danger'
-  onConfirm: (qty?: number) => void
+  onConfirm: () => void
   onCancel?: () => void
-  input?: {label?: string; value: number; min?: number; max?: number; price?: number}
+}
+
+export interface ShopModalState {
+  title: string
+  description?: string
+  onConfirm: (qty: number) => void
+  onCancel?: () => void
+  mode: 'buy' | 'sell'
+  input: { label?: string; value: number; min?: number; max?: number; price?: number }
 }
 
 export const useUIStore = defineStore('ui', () => {
   const activePassage = ref<ActivePassage | null>(null)
   const activeShopId = ref<string | null>(null)
   const activeToasts = ref<Toast[]>([])
-  const activeConfirm = ref<ConfirmState | null>(null)
+  const activeConfirmModal = ref<ConfirmModalState | null>(null)
+  const activeShopModal = ref<ShopModalState | null>(null)
   const activeWardrobe = ref<boolean>(false)
   const activeMap = ref<boolean>(false)
   const activeNPCId = ref<string | null>(null)
@@ -70,12 +79,20 @@ export const useUIStore = defineStore('ui', () => {
     if (index > -1) activeToasts.value.splice(index, 1)
   }
 
-  function showConfirm(state: ConfirmState): void {
-    activeConfirm.value = state
+  function showConfirmModal(state: ConfirmModalState): void {
+    activeConfirmModal.value = state
   }
 
-  function dismissConfirm(): void {
-    activeConfirm.value = null
+  function dismissConfirmModal(): void {
+    activeConfirmModal.value = null
+  }
+
+  function showShopModal(state: ShopModalState): void {
+    activeShopModal.value = state
+  }
+
+  function dismissShopModal(): void {
+    activeShopModal.value = null
   }
 
   function openWardrobe(): void {
@@ -122,7 +139,8 @@ export const useUIStore = defineStore('ui', () => {
     activePassage,
     activeShopId,
     activeToasts,
-    activeConfirm,
+    activeConfirmModal,
+    activeShopModal,
     activeWardrobe,
     activeMap,
     activeNPCId,
@@ -134,8 +152,10 @@ export const useUIStore = defineStore('ui', () => {
     closeShop,
     showToast,
     dismissToast,
-    showConfirm,
-    dismissConfirm,
+    showConfirmModal,
+    dismissConfirmModal,
+    showShopModal,
+    dismissShopModal,
     openWardrobe,
     closeWardrobe,
     openMap,

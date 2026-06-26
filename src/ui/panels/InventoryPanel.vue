@@ -38,7 +38,7 @@ function handleUse(itemId: string) {
 
   const itemName = entry.item?.name ?? itemId
 
-  ui.showConfirm({
+  ui.showConfirmModal({
     title: '使用物品',
     description: `确定要使用 ${itemName} 吗？`,
     onConfirm: () => {
@@ -53,7 +53,7 @@ function handleDrop(itemId: string) {
 
   const itemName = entry.item?.name ?? itemId
 
-  ui.showConfirm({
+  ui.showConfirmModal({
     title: '丢弃物品',
     description: `确定要丢弃 ${itemName} 吗？`,
     variant: 'danger',

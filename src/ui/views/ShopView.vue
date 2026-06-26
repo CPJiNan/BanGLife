@@ -48,14 +48,19 @@ function buy(itemId: string) {
   const entry = shopItems.value.find(i => i.shopItem.itemId === itemId)
   if (!entry) return
   const price = getShopItemPrice(entry.shopItem, ctx.value, 'buy') ?? 0
-  const maxQty = Math.floor(player.state.money / price)
-  const itemName = entry.item?.name ?? itemId
-  ui.showConfirm({
+  ui.showShopModal({
     title: '购买物品',
-    description: `${itemName}  ·  ¥${price.toLocaleString()}`,
-    input: {label: '个', value: 1, min: 1, max: maxQty, price},
-    onConfirm: (qty = 1) => {
-      for (let i = 0; i < qty; i++) buyFromShop(entry.shopItem, ctx.value)
+    description: `确定要购买 ${entry.item?.name ?? itemId} 吗？`,
+    mode: 'buy',
+    input: {
+      label: '个',
+      value: 1,
+      min: 1,
+      max: Math.floor(player.state.money / price),
+      price: price
+    },
+    onConfirm: (amount) => {
+      for (let i = 0; i < amount; i++) buyFromShop(entry.shopItem, ctx.value)
     },
   })
 }
@@ -63,16 +68,19 @@ function buy(itemId: string) {
 function sell(itemId: string) {
   const entry = shopItems.value.find(i => i.shopItem.itemId === itemId)
   if (!entry) return
-  const price = getShopItemPrice(entry.shopItem, ctx.value, 'sell') ?? 0
-  const inv = player.state.inventory.find(i => i.itemId === entry.shopItem.itemId)
-  const maxQty = inv?.amount ?? 0
-  const itemName = entry.item?.name ?? itemId
-  ui.showConfirm({
+  ui.showShopModal({
     title: '出售物品',
-    description: `${itemName}  ·  ¥${price.toLocaleString()}`,
-    input: {label: '个', value: 1, min: 1, max: maxQty},
-    onConfirm: (qty = 1) => {
-      for (let i = 0; i < qty; i++) sellToShop(entry.shopItem, ctx.value)
+    description: `确定要出售 ${entry.item?.name ?? itemId} 吗？`,
+    mode: 'sell',
+    input: {
+      label: '个',
+      value: 1,
+      min: 1,
+      max: player.state.inventory.find(i => i.itemId === entry.shopItem.itemId)?.amount ?? 0,
+      price: getShopItemPrice(entry.shopItem, ctx.value, 'sell') ?? 0,
+    },
+    onConfirm: (amount) => {
+      for (let i = 0; i < amount; i++) sellToShop(entry.shopItem, ctx.value)
     },
   })
 }

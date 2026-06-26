@@ -92,7 +92,7 @@ const bandScore = computed(() => {
 const bandRank = computed(() => ['G', 'G+', 'F', 'F+', 'E', 'E+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+'][Math.min(19, Math.floor(bandScore.value * 19 / 2000))] ?? 'G')
 
 function handleRemoveMember(npcId: string) {
-  ui.showConfirm({
+  ui.showConfirmModal({
     title: '移除成员',
     description: `确定要将该成员从乐队中移除吗？`,
     variant: 'danger',
