@@ -53,7 +53,6 @@ export interface PlayerState {
 
 export interface Trait {
   id: string
-  name: string
   description: string
   effects?: Effect[]
 }

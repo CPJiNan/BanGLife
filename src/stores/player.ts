@@ -9,7 +9,15 @@ import {applyEffects} from '@/core/effects'
 export const usePlayerStore = defineStore('player', () => {
   const state = ref<PlayerState>({
     name: '',
-    stats: {},
+    stats: {
+      vocal: 20,
+      expression: 20,
+      pitch: 20,
+      technique: 20,
+      ensemble: 20,
+      rhythm: 20,
+      improvisation: 20,
+    },
     school: 'school.haneoka',
     money: 50000,
     inventory: [],
