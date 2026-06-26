@@ -1,12 +1,31 @@
 <script lang="ts" setup>
+import {ref, watch} from 'vue'
+import {computed} from 'vue'
 import {useUIStore} from '@/stores/ui'
+import {usePlayerStore} from '@/stores/player'
 
 const ui = useUIStore()
+const player = usePlayerStore()
+
+const totalPrice = computed(() => {
+  const p = ui.activeConfirm?.input?.price
+  return p ? p * qty.value : null
+})
+
+const remainingMoney = computed(() => {
+  if (totalPrice.value === null) return null
+  return player.state.money - totalPrice.value
+})
+const qty = ref(1)
+
+watch(() => ui.activeConfirm?.input, (input) => {
+  if (input) qty.value = input.value
+})
 
 function onConfirm() {
   const cb = ui.activeConfirm?.onConfirm
   ui.dismissConfirm()
-  cb?.()
+  cb?.(qty.value)
 }
 
 function onCancel() {
@@ -30,6 +49,32 @@ function onCancel() {
         <p v-if="ui.activeConfirm.description" class="text-xs text-muted mt-2 leading-relaxed">
           {{ ui.activeConfirm.description }}
         </p>
+
+        <div v-if="ui.activeConfirm.input" class="mt-4 flex items-center gap-2">
+          <button
+            :disabled="qty <= (ui.activeConfirm.input.min ?? 1)"
+            class="w-7 h-7 rounded-lg flex items-center justify-center text-sm border border-neutral-200 hover:border-neutral-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            @click="qty--"
+          >−</button>
+          <input
+            v-model.number="qty"
+            :max="ui.activeConfirm.input.max"
+            :min="ui.activeConfirm.input.min ?? 1"
+            class="flex-1 text-center text-sm border border-neutral-200 rounded-lg py-1.5 focus:outline-none focus:border-brand-pink"
+            type="number"
+          />
+          <button
+            :disabled="ui.activeConfirm.input.max !== undefined && qty >= ui.activeConfirm.input.max"
+            class="w-7 h-7 rounded-lg flex items-center justify-center text-sm border border-neutral-200 hover:border-neutral-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            @click="qty++"
+          >+</button>
+          <span v-if="ui.activeConfirm.input.label" class="text-xs text-muted shrink-0">{{ ui.activeConfirm.input.label }}</span>
+        </div>
+
+        <div v-if="totalPrice !== null" class="mt-3 flex items-center justify-between text-xs text-muted">
+          <span>总价：¥{{ totalPrice.toLocaleString() }}</span>
+          <span>剩余：¥{{ remainingMoney?.toLocaleString() }}</span>
+        </div>
 
         <div class="flex gap-3 mt-5">
           <button

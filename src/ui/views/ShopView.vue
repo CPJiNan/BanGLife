@@ -3,6 +3,7 @@ import {computed} from 'vue'
 import {useUIStore} from '@/stores/ui'
 import {makeGameContext} from '@/mod/api'
 import {registries} from '@/core/registry'
+import {usePlayerStore} from '@/stores/player'
 import {
   buyFromShop,
   canBuyFromShop,
@@ -14,6 +15,7 @@ import {
 import {ITEM_TAG_LABELS} from '@/core/constants'
 
 const ui = useUIStore()
+const player = usePlayerStore()
 const ctx = computed(() => makeGameContext())
 
 const base = import.meta.env.BASE_URL
@@ -45,26 +47,33 @@ const groupedItems = computed(() => {
 function buy(itemId: string) {
   const entry = shopItems.value.find(i => i.shopItem.itemId === itemId)
   if (!entry) return
+  const price = getShopItemPrice(entry.shopItem, ctx.value, 'buy') ?? 0
+  const maxQty = Math.floor(player.state.money / price)
   const itemName = entry.item?.name ?? itemId
   ui.showConfirm({
     title: '购买物品',
-    description: `确定要购买 ${itemName} 吗？`,
-    onConfirm: () => {
-      buyFromShop(entry.shopItem, ctx.value)
-    }
+    description: `${itemName}  ·  ¥${price.toLocaleString()}`,
+    input: {label: '个', value: 1, min: 1, max: maxQty, price},
+    onConfirm: (qty = 1) => {
+      for (let i = 0; i < qty; i++) buyFromShop(entry.shopItem, ctx.value)
+    },
   })
 }
 
 function sell(itemId: string) {
   const entry = shopItems.value.find(i => i.shopItem.itemId === itemId)
   if (!entry) return
+  const price = getShopItemPrice(entry.shopItem, ctx.value, 'sell') ?? 0
+  const inv = player.state.inventory.find(i => i.itemId === entry.shopItem.itemId)
+  const maxQty = inv?.amount ?? 0
   const itemName = entry.item?.name ?? itemId
   ui.showConfirm({
     title: '出售物品',
-    description: `确定要出售 ${itemName} 吗？`,
-    onConfirm: () => {
-      sellToShop(entry.shopItem, ctx.value)
-    }
+    description: `${itemName}  ·  ¥${price.toLocaleString()}`,
+    input: {label: '个', value: 1, min: 1, max: maxQty},
+    onConfirm: (qty = 1) => {
+      for (let i = 0; i < qty; i++) sellToShop(entry.shopItem, ctx.value)
+    },
   })
 }
 

@@ -19,8 +19,9 @@ export interface ConfirmState {
   title: string
   description?: string
   variant?: 'default' | 'danger'
-  onConfirm: () => void
+  onConfirm: (qty?: number) => void
   onCancel?: () => void
+  input?: {label?: string; value: number; min?: number; max?: number; price?: number}
 }
 
 export const useUIStore = defineStore('ui', () => {
